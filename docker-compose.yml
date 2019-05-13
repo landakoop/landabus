@@ -1,0 +1,42 @@
+version: "2.1"
+
+services:
+  db:
+    image: mysql:8.0.16
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    ports:
+      - 3306:3306
+  rabbitmq:
+    image: rabbitmq:3.7.14-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER
+      - RABBITMQ_DEFAULT_PASS
+    ports:
+      - 5672:5672
+      - 15672:15672
+  main-app:
+    image: maven:3.6.1-jdk-8-alpine
+    command: ["mvn", "spring-boot:run"]
+    environment:
+      - MYSQL_DATABASE
+      - MYSQL_HOST
+      - MYSQL_PORT
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+    working_dir: /usr/src/app
+    volumes:
+      - ${PWD}/main-app:/usr/src/app
+      - ${HOME}/.m2:/root/.m2
+      - ${PWD}/main-app/target:/usr/src/app/target
+    depends_on:
+      db:
+        condition: service_healthy
