@@ -1,20 +1,33 @@
 package landakoop.landabusBot;
 
-import org.telegram.telegrambots.bots.TelegramWebhookBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-public class EchoBot extends TelegramWebhookBot{
+public class EchoBot extends TelegramLongPollingBot{
 	static final String username = "LandabusBot";
-	static final String token = "832360127:AAGbxjRBncq9NSdgOB1q3-t7ZnUaFp1RFSo";
-	
+	static final String token = "839842086:AAGyahyGKbaWyX3tR4KDuQqveyJJ6gPjFUM";
+
 	@Override
-	public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
+	public String getBotUsername() {
+		// TODO Auto-generated method stub
+		return username;
+	}
+
+
+	@Override
+	public String getBotToken() {
+		// TODO Auto-generated method stub
+		return token;
+	}
+
+	@Override
+	public void onUpdateReceived(Update update) {
+		// TODO Auto-generated method stub
 		// Se obtiene el mensaje escrito por el usuario
 		final String messageTextReceived = update.getMessage().getText();
-		
+		System.out.println("mezu bat jaso dut");
 		// Se obtiene el id de chat del usuario
 		final long chatId = update.getMessage().getChatId();
 		
@@ -27,26 +40,6 @@ public class EchoBot extends TelegramWebhookBot{
 		} catch (TelegramApiException e) {
 			e.printStackTrace();
 		}
-		
-		return null;
-	}
-
-	@Override
-	public String getBotUsername() {
-		// TODO Auto-generated method stub
-		return username;
-	}
-
-	@Override
-	public String getBotPath() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getBotToken() {
-		// TODO Auto-generated method stub
-		return token;
 	}
 
 }

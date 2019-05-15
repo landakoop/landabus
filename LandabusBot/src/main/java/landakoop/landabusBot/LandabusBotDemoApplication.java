@@ -11,11 +11,12 @@ public class LandabusBotDemoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LandabusBotDemoApplication.class, args);
-		System.out.println("Kaixo");
+
 		ApiContextInitializer.init();
-		
+		 
+		// Se crea un nuevo Bot API
 		final TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-		
+ 
 		try {
 			// Se registra el bot
 			telegramBotsApi.registerBot(new EchoBot());
