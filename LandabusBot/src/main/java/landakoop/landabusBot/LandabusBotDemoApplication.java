@@ -19,7 +19,7 @@ public class LandabusBotDemoApplication {
  
 		try {
 			// Se registra el bot
-			telegramBotsApi.registerBot(new EchoBot());
+			telegramBotsApi.registerBot(new LandabusBot());
 		} catch (TelegramApiException e) {
 			e.printStackTrace();
 		}
