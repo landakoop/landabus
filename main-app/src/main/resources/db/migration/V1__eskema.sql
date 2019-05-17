@@ -1,5 +1,5 @@
 CREATE TABLE erabiltzailea (
-erabiltzaileaID   INT,
+erabiltzaileaID   INT NOT NULL AUTO_INCREMENT,
 izena             CHAR(100),
 mota              CHAR(10),
 erabiltzailea     CHAR(20),
@@ -8,22 +8,21 @@ CONSTRAINT erabiltzailea_pk PRIMARY KEY (erabiltzaileaID)
 );
 
 CREATE TABLE autobusa (
-autobusaID        SMALLINT,
+autobusaID        SMALLINT NOT NULL AUTO_INCREMENT,
 ahalmena          TINYINT,
 CONSTRAINT autoubsa_pk PRIMARY KEY(autobusaID)
 );
 
 
 CREATE TABLE linea (
- lineaID            INT,
+ lineaID            INT NOT NULL AUTO_INCREMENT,
  izena              CHAR(100),
  CONSTRAINT linea_pk PRIMARY KEY(lineaID)
 );
 
 CREATE TABLE geltokia (
- geltokiaID         TINYINT,
+ geltokiaID         TINYINT NOT NULL AUTO_INCREMENT,
  izena              CHAR(100),
- kokapena           CHAR(100),
  CONSTRAINT geltokia_pk PRIMARY KEY(geltokiaID)
 );
 
@@ -36,7 +35,7 @@ CREATE TABLE distantziak (
 );
 
 CREATE TABLE ibilbidea (
- ibilbideaID        INT,
+ ibilbideaID        INT NOT NULL AUTO_INCREMENT,
  lineaID            INT,
  autobusaID         SMALLINT,
  predikzioa         TINYINT,
@@ -53,17 +52,15 @@ CREATE TABLE linea_geltokiak (
 );
 
 CREATE TABLE eskaera (
- eskaeraID         INT,
+ eskaeraID         INT NOT NULL AUTO_INCREMENT,
  bidaiariaID       INT,
  ibilbideaID       INT,
  geltokiaA         TINYINT,
  geltokiaB         TINYINT,
- data              TIMESTAMP,
- onartua           BOOLEAN,
- irteeraOrdua      TINYINT,
- irteeraMinutuak   TINYINT,
- helmugaOrdua      TINYINT,
- helmugaMinutuak   TINYINT,
+ data              TIMESTAMP DEFAULT now(),
+ onartua           BOOLEAN DEFAULT false,
+ irteeraOrdua      SMALLINT,
+ helmugaOrdua      SMALLINT,
  CONSTRAINT eskaera_pk PRIMARY KEY (eskaeraID),
  CONSTRAINT eskaera_bidaiaria_fk FOREIGN KEY(bidaiariaID) REFERENCES erabiltzailea(erabiltzaileaID),
  CONSTRAINT eskaera_ibilbidea_fk FOREIGN KEY(ibilbideaID) REFERENCES ibilbidea(ibilbideaID),
@@ -72,7 +69,7 @@ CREATE TABLE eskaera (
 );
 
 CREATE TABLE ordutegia (
- ordutegiaID       INT,
+ ordutegiaID       INT NOT NULL AUTO_INCREMENT,
  CONSTRAINT ordutegia_pk PRIMARY KEY(ordutegiaID)
 );
 
