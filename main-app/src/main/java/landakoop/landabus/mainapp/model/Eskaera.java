@@ -11,6 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import landakoop.landabus.mainapp.json.GeltokiaSimpleSerializer;
+
 @Entity
 @Table(name="eskaera")
 public class Eskaera {
@@ -21,10 +25,12 @@ public class Eskaera {
 	
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="geltokiaa")
+	@JsonSerialize(using = GeltokiaSimpleSerializer.class)
 	Geltokia irteera;
 	
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="geltokiab")
+	@JsonSerialize(using = GeltokiaSimpleSerializer.class)
 	Geltokia helmuga;
 	
 	@Column(name="onartua")
