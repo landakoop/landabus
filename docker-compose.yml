@@ -42,13 +42,3 @@ services:
         condition: service_healthy
     ports:
       - "${MAINAPP_PORT}:8080"
-  LandabusBot:
-    image: maven:3.6.1-jdk-8-alpine
-    command: ["mvn", "spring-boot:run"]
-    working_dir: /usr/src/app
-    volumes:
-      - ${PWD}/LandabusBot:/usr/src/app
-      - ${HOME}/.m2:/root/.m2
-      - ${PWD}/LandabusBot/target:/usr/src/app/target
-    depends_on:
-      - main-app
