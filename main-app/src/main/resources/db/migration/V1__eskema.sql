@@ -26,12 +26,14 @@ CREATE TABLE geltokia (
  CONSTRAINT geltokia_pk PRIMARY KEY(geltokiaID)
 );
 
-CREATE TABLE distantziak (
+CREATE TABLE distantzia (
+ distantziaID       INT NOT NULL AUTO_INCREMENT,
  geltokiaA          TINYINT,
  geltokiaB          TINYINT,
  denbora            TINYINT,
- CONSTRAINT distantziak_geltokiaA_fk FOREIGN KEY(geltokiaA) REFERENCES geltokia(geltokiaID),
- CONSTRAINT distantziak_geltokiaB_fk FOREIGN KEY(geltokiaB) REFERENCES geltokia(geltokiaID)
+ CONSTRAINT distantzia_geltokiaA_fk FOREIGN KEY(geltokiaA) REFERENCES geltokia(geltokiaID),
+ CONSTRAINT distantzia_geltokiaB_fk FOREIGN KEY(geltokiaB) REFERENCES geltokia(geltokiaID),
+ CONSTRAINT distantzia_pk PRIMARY KEY(distantziaID)
 );
 
 CREATE TABLE ibilbidea (

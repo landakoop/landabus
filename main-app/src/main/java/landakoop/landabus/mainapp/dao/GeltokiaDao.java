@@ -11,4 +11,5 @@ import landakoop.landabus.mainapp.model.Geltokia;
 @Transactional
 public interface GeltokiaDao extends CrudRepository<Geltokia,Long>{
 	List<Geltokia> findAll();
+	long count();
 }

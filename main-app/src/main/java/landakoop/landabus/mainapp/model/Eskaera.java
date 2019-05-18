@@ -17,7 +17,7 @@ public class Eskaera {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="eskaeraID")
-	int id;
+	long id;
 	
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="geltokiaa")
@@ -36,11 +36,11 @@ public class Eskaera {
 	@Column(name="helmugaordua")
 	int helmugaOrdua;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
