@@ -18,10 +18,11 @@ services:
   rabbitmq:
     image: rabbitmq:3.7.14-management-alpine
     environment:
-      - RABBITMQ_DEFAULT_USER
-      - RABBITMQ_DEFAULT_PASS
+      - RABBITMQ_NODE_PORT=${RABBITMQ_PORT}
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
     ports:
-      - 5672:5672
+      - ${RABBITMQ_PORT}:${RABBITMQ_PORT}
       - 15672:15672
   main-app:
     image: maven:3.6.1-jdk-8-alpine
@@ -48,6 +49,10 @@ services:
     environment:
       - MAINAPP_HOST
       - MAINAPP_PORT
+      - RABBITMQ_HOST
+      - RABBITMQ_PORT
+      - RABBITMQ_USER
+      - RABBITMQ_PASSWORD
     working_dir: /usr/src/app
     volumes:
       - ${PWD}/datu-jasotzailea:/usr/src/app
