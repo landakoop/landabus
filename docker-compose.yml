@@ -42,3 +42,17 @@ services:
         condition: service_healthy
     ports:
       - "${MAINAPP_PORT}:8080"
+  datu-jasotzailea:
+    image: maven:3.6.1-jdk-8-alpine
+    command: ["mvn", "spring-boot:run"]
+    environment:
+      - MAINAPP_HOST
+      - MAINAPP_PORT
+    working_dir: /usr/src/app
+    volumes:
+      - ${PWD}/datu-jasotzailea:/usr/src/app
+      - ${HOME}/.m2:/root/.m2
+      - ${PWD}/datu-jasotzailea/target:/usr/src/app/target
+    depends_on:
+      - main-app
+      - rabbitmq
