@@ -10,3 +10,6 @@ services:
       - ${PWD}/LandabusBot/target:/usr/src/app/target
     depends_on:
       - main-app
+    environment:
+      - TELEGRAM_TOKEN
+      - TELEGRAM_USERNAME
