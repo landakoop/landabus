@@ -1,0 +1,20 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          cognito-client-1:
+            client-id: ${OIDC_CLIENT_ID}
+            client-secret: ${OIDC_CLIENT_SECRET}
+            client-name: landabus
+            provider: cognito
+            scope: openid
+            redirect-uri-template: http://localhost:8081/login/oauth2/code/cognito
+            authorization-grant-type: authorization_code
+        provider:
+          cognito:
+            authorization-uri: https://landabus.auth.eu-west-1.amazoncognito.com/oauth2/authorize
+            token-uri: https://landabus.auth.eu-west-1.amazoncognito.com/oauth2/token
+            user-info-uri: https://landabus.auth.eu-west-1.amazoncognito.com/oauth2/userInfo
+            jwk-set-uri: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_ihbuC9hqF/.well-known/jwks.json
+            user-name-attribute: cognito:username

@@ -33,6 +33,7 @@ services:
       - MYSQL_PORT
       - MYSQL_USER
       - MYSQL_PASSWORD
+      - MAINAPP_PORT
     working_dir: /usr/src/app
     volumes:
       - ${PWD}/main-app:/usr/src/app
@@ -42,7 +43,7 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "${MAINAPP_PORT}:8080"
+      - "${MAINAPP_PORT}:${MAINAPP_PORT}"
   datu-jasotzailea:
     image: maven:3.6.1-jdk-8-alpine
     command: ["mvn", "spring-boot:run"]
@@ -61,3 +62,21 @@ services:
     depends_on:
       - main-app
       - rabbitmq
+  web-app:
+    image: maven:3.6.1-jdk-8-alpine
+    command: ["mvn", "spring-boot:run"]
+    environment:
+      - MAINAPP_HOST
+      - MAINAPP_PORT
+      - WEB_PORT
+      - OIDC_CLIENT_ID
+      - OIDC_CLIENT_SECRET
+    working_dir: /usr/src/app
+    volumes:
+      - ${PWD}/web-app:/usr/src/app
+      - ${HOME}/.m2:/root/.m2
+      - ${PWD}/web-app/target:/usr/src/app/target
+    depends_on:
+      - main-app
+    ports:
+      - "${WEB_PORT}:${WEB_PORT}"
