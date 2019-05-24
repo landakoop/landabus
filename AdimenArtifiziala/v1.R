@@ -11,7 +11,15 @@ f<-function(ruta){
     dist<-dist+dis[[aurrekoa]][[ruta[[parada]]]]
     aurrekoa<-ruta[[parada]]
   }
-  return(dist)
+  for(i in datos){
+    irt<-match(i$irteera,ruta)
+    print(irt)
+    hel<-match(i$helmuga,ruta)
+    print(hel)
+    if(irt>hel) dist<-dist+100
+  }
+  print(1/dist)
+  return(1/dist)
 }
 
 datos <- fromJSON(getURL("http://localhost:8080/api/eskaera/list"))
@@ -25,4 +33,6 @@ for(i in datos){
 }
 lista<-unique(lista)
 
-result <- ga(type="permutation", fitness=f, lower=c(1,1,1), upper=c(3,3,3))
+
+result <- ga(type="permutation",  fitness=f, lower=1, upper=length(lista), popSize = 50, maxiter = 500,
+             run = 500, pmutation = 0.2)
