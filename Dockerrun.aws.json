@@ -1,0 +1,54 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "volumes": [
+        {
+            "name": "main-app",
+            "host": {
+                "sourcePath": "/var/app/current/main-app"
+            }
+        },
+        {
+            "name": "web-app",
+            "host": {
+                "sourcePath": "/var/app/current/web-app"
+            }
+        }
+    ],
+    "containerDefinitions": [
+        {
+            "name": "main-app",
+            "memory": 412,
+            "image": "maven:3.6.1-jdk-8-alpine",
+            "command": ["mvn","-f","/usr/src/app", "org.springframework.boot:spring-boot-maven-plugin:run"],
+            "essential": true,
+            "mountPoints": [
+                {
+                    "sourceVolume": "main-app",
+                    "containerPath": "/usr/src/app"
+                }
+            ]
+        },
+        {
+            "name": "web-app",
+            "memory": 412,
+            "image": "maven:3.6.1-jdk-8-alpine",
+            "command": ["mvn","-f","/usr/src/app","org.springframework.boot:spring-boot-maven-plugin:run"],
+            "essential": false,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 8081
+                }
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "web-app",
+                    "containerPath": "/usr/src/app"
+                }
+            ],
+            "links": [
+                "main-app"
+            ]
+        }
+    ]
+}

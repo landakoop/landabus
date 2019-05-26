@@ -71,6 +71,7 @@ services:
       - WEB_PORT
       - OIDC_CLIENT_ID
       - OIDC_CLIENT_SECRET
+      - OIDC_REDIRECT
     working_dir: /usr/src/app
     volumes:
       - ${PWD}/web-app:/usr/src/app

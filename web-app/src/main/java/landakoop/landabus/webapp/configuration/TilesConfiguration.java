@@ -12,7 +12,7 @@ public class TilesConfiguration {
     @Bean
     public TilesConfigurer tilesConfigurer() {
         final TilesConfigurer configurer = new TilesConfigurer();
-        configurer.setDefinitions(new String[] { "/WEB-INF/tiles/tiles.xml" });
+        configurer.setDefinitions(new String[] { "classpath:tiles.xml" });
         configurer.setCheckRefresh(true);
         configurer.setDefinitionsFactoryClass(CustomLocaleDefinitionsFactory.class);
         return configurer;

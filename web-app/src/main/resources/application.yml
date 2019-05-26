@@ -9,7 +9,7 @@ spring:
             client-name: landabus
             provider: cognito
             scope: openid
-            redirect-uri-template: http://localhost:8081/login/oauth2/code/cognito
+            redirect-uri-template: ${OIDC_REDIRECT}
             authorization-grant-type: authorization_code
         provider:
           cognito:

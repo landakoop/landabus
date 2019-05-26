@@ -11,13 +11,24 @@
     <groupId>landakoop.landabus</groupId>
     <artifactId>main-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     <name>main-app</name>
     <description>Main app</description>
-
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
     <properties>
 	<java.version>1.8</java.version>
     </properties>
-
     <dependencies>
 	<dependency>
 	    <groupId>org.springframework.boot</groupId>

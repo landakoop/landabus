@@ -1,0 +1,17 @@
+cache:
+  directories:
+    - /main-app/target/dependency
+    - /web-app/target/dependency
+script:
+ - mvn -f "main-app" dependency:copy-dependencies
+ - mvn -f "web-app" dependency:copy-dependencies
+deploy:
+  provider: elasticbeanstalk
+  access_key_id:
+    secure: ${AWS_ACCESS_KEY_ID}
+  secret_access_key:
+    secure: ${AWS_SECRET_ACCESS_KEY}
+  region: ${AWS_REGION}
+  app: "landabus"
+  env: "landabus-test"
+  bucket_name: "elasticbeanstalk-eu-west-1-6974272844966"
