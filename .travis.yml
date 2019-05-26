@@ -2,6 +2,7 @@ cache:
   directories:
     - /main-app/target/dependency
     - /web-app/target/dependency
+skip_cleanup: true
 script:
  - mvn -f "main-app" dependency:copy-dependencies
  - mvn -f "web-app" dependency:copy-dependencies
