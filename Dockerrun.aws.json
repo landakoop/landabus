@@ -19,7 +19,6 @@
             "name": "main-app",
             "memory": 412,
             "image": "openjdk:8-jre-slim",
-            "command": ["java","-jar","/usr/src/app/main-app.jar"],
             "essential": true,
             "mountPoints": [
                 {
@@ -32,7 +31,6 @@
             "name": "web-app",
             "memory": 412,
             "image": "openjdk:8-jre-slim",
-            "command": ["java","-jar","/usr/src/app/web-app.jar"],
             "essential": false,
             "portMappings": [
                 {
