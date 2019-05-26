@@ -1,15 +1,16 @@
+dist: xenial
 cache:
   directories:
     - /main-app/target/dependency
     - /web-app/target/dependency
 script:
- - mkdir -p "main-app/target/dependency"
- - mkdir -p "web-app/target/dependency"
  - mvn -f "main-app" dependency:copy-dependencies
  - mvn -f "web-app" dependency:copy-dependencies
+ - zip -r landabus.zip .
 deploy:
   provider: elasticbeanstalk
   skip_cleanup: true
+  zip_file: "landabus.zip"
   access_key_id:
     secure: ${AWS_ACCESS_KEY_ID}
   secret_access_key:
