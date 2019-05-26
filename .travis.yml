@@ -2,7 +2,6 @@ cache:
   directories:
     - /main-app/target/dependency
     - /web-app/target/dependency
-skip_cleanup: true
 script:
  - mkdir -p "main-app/target/dependency"
  - mkdir -p "web-app/target/dependency"
@@ -10,6 +9,7 @@ script:
  - mvn -f "web-app" dependency:copy-dependencies
 deploy:
   provider: elasticbeanstalk
+  skip_cleanup: true
   access_key_id:
     secure: ${AWS_ACCESS_KEY_ID}
   secret_access_key:
