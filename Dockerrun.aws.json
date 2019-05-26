@@ -19,7 +19,7 @@
             "name": "main-app",
             "memory": 412,
             "image": "openjdk:8-jre-slim",
-            "command": ["java","-jar","web-app.jar"],
+            "command": ["java","-jar","main-app.jar"],
             "essential": true,
             "mountPoints": [
                 {
