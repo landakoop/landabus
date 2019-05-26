@@ -1,12 +1,11 @@
 dist: xenial
 cache:
   directories:
-    - /main-app/target/dependency
-    - /web-app/target/dependency
+    - $HOME/.m2
 script:
- - mvn -f "main-app" dependency:copy-dependencies
- - mvn -f "web-app" dependency:copy-dependencies
- - zip -r landabus.zip .
+  - mvn -f "main-app" -DskipTests clean install
+  - mvn -f "web-app" -DskipTests clean install
+  - zip landabus.zip "Dockerrun.aws.json" "main-app/target/main-app.jar" "web-app/target/web-app.jar"
 deploy:
   provider: elasticbeanstalk
   skip_cleanup: true
@@ -18,4 +17,4 @@ deploy:
   region: ${AWS_REGION}
   app: "landabus"
   env: "landabus-test"
-  bucket_name: "elasticbeanstalk-eu-west-1-6974272844966"
+  bucket_name: "elasticbeanstalk-eu-west-1-697427844966"

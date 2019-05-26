@@ -11,7 +11,7 @@
     <groupId>landakoop.landabus</groupId>
     <artifactId>main-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>main-app</name>
     <description>Main app</description>
     <repositories>
@@ -73,6 +73,7 @@
     </dependencies>
 
     <build>
+        <finalName>main-app</finalName>
 	<plugins>
 	    <plugin>
 		<groupId>org.springframework.boot</groupId>
