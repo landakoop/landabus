@@ -13,7 +13,9 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -81,6 +83,11 @@ public class LandabusBot extends TelegramLongPollingBot{
 				} catch (TelegramApiException e1) {
 					logger.error("Failed to send message to {} due to error: {}", message.getChatId(), e1.getMessage());
 				}
+				try {
+					execute(inlineBidali(message,"Atzera"));
+				} catch (TelegramApiException e2) {
+					e2.printStackTrace();
+				}
 				break;
 			case 2: kontsulta = new Kontsulta();
 				kontsulta.setIrteera(message.getText());
@@ -127,7 +134,6 @@ public class LandabusBot extends TelegramLongPollingBot{
 				try {
 					execute(fin);
 				} catch (TelegramApiException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				break;
@@ -155,6 +161,27 @@ public class LandabusBot extends TelegramLongPollingBot{
 		msg.setText(str);
 		msg.setReplyMarkup(kontsultaGaldetegia(stage));
 		return msg;
+	}
+	
+	private SendMessage inlineBidali(Message message, String str) {
+		SendMessage msg = new SendMessage();
+		msg.setChatId(message.getChatId());
+		msg.setReplyMarkup(atzeraBotoia());
+		return msg;
+	}
+	
+	
+	private InlineKeyboardMarkup atzeraBotoia() {
+		InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+		List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+		List<InlineKeyboardButton> arg0 = new ArrayList<>();
+		InlineKeyboardButton button = new InlineKeyboardButton("Atzera");
+		button.setCallbackData("Atzera");
+		arg0.add(button);
+		keyboard.add(arg0);
+		inlineKeyboardMarkup.setKeyboard(keyboard);
+		
+		return inlineKeyboardMarkup;		
 	}
 	
 	private ReplyKeyboardMarkup kontsultaGaldetegia(int aukeraLista) {
