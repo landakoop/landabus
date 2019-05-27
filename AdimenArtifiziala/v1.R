@@ -16,7 +16,7 @@ f<-function(ruta){
     print(irt)
     hel<-match(i$helmuga,ruta)
     print(hel)
-    if(irt>hel) dist<-dist+100
+    if(irt>hel) dist<-dist+10
   }
   print(1/dist)
   return(1/dist)
@@ -25,7 +25,6 @@ f<-function(ruta){
 datos <- fromJSON(getURL("http://localhost:8080/api/eskaera/list"))
 dis <- fromJSON(getURL("http://localhost:8080/api/geltokia/distantziak"))
 head(datos)
-datos[0].list()
 lista<-NULL
 for(i in datos){
   lista<-c(lista, i$irteera)
@@ -34,5 +33,5 @@ for(i in datos){
 lista<-unique(lista)
 
 
-result <- ga(type="permutation",  fitness=f, lower=1, upper=length(lista), popSize = 50, maxiter = 500,
+result <- ga(type="permutation",  fitness=f, lower=1, upper=length(dis), popSize = 50, maxiter = 500,
              run = 500, pmutation = 0.2)
