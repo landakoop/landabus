@@ -2,23 +2,29 @@ library(GA)
 library(rjson)
 library(RCurl)
 
-f<-function(ruta){
+f<-function(ruta, gelt){
   from <- 2
   to <- length(ruta)
-  aurrekoa<-ruta[[1]]
+  aurrekoa<-gelt[ruta[[1]]]
   dist<-0
   for(parada in from:to){
-    dist<-dist+dis[[aurrekoa]][[ruta[[parada]]]]
-    aurrekoa<-ruta[[parada]]
+    par<-gelt[ruta[[parada]]]
+    par<-par[[1]]
+    aurrekoa<-aurrekoa[[1]]
+    dist<-dist+ dis[[aurrekoa]][[par]]
+    aurrekoa<-gelt[ruta[[parada]]]
   }
-  for(i in datos){
-    irt<-match(i$irteera,ruta)
-    print(irt)
-    hel<-match(i$helmuga,ruta)
-    print(hel)
+  for(i in 1:nrow(cluster)){
+
+    irt<-match(cluster[i,]$irteera,geltokiak)
+
+    irt<-match(irt,ruta)
+    hel<-match(cluster[i,]$helmuga,geltokiak)
+   
+    hel<-match(hel,ruta)
     if(irt>hel) dist<-dist+10
   }
-  print(1/dist)
+  
   return(1/dist)
 }
 
@@ -33,26 +39,29 @@ for(i in datos){
 lista<-unique(lista)
 
 
-result <- ga(type="permutation",  fitness=f, lower=1, upper=length(dis), popSize = 50, maxiter = 500,
-             run = 500, pmutation = 0.2)
+result <- ga(type="permutation",  fitness=f, gelt=geltokiak, lower=1, upper=length(geltokiak), popSize = 50, maxiter = 500,
+             run = 50, pmutation = 0.2)
 
 datos <- fromJSON(getURL("http://localhost:8080/api/eskaera/list"))
 dis <- fromJSON(getURL("http://localhost:8080/api/geltokia/distantziak"))
 dataset<-data.frame(do.call("rbind",datos))
 
 num<-2
-indice<-c(2,6)
+indice<-c(5,6)
 datasetHorarios<-dataset[indice]
 kmeans.fit<-kmeans(datasetHorarios,num)
 list<-kmeans.fit$cluster
 dataset<-cbind(dataset,list)
 geltokiak<-NULL
-for(i in num){
+for(i in 1:num){
   cluster<-dataset[dataset$list==i,]
-  for(i in length(cluster)){
+  for(i in 1:nrow(cluster)){
     geltokiak<-c(geltokiak, cluster$irteera[i])
     geltokiak<-c(geltokiak, cluster$helmuga[i])
   }
   geltokiak<-unique(c(cluster$irteera,cluster$helmuga))
   geltokiak<-unique(geltokiak)
+  result <- ga(type="permutation",  fitness=f, gelt=geltokiak, lower=1, upper=length(geltokiak), popSize = 50, maxiter = 500,
+               run = 50, pmutation = 0.2)
+  summary(result)
 }
