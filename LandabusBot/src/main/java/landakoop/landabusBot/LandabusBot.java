@@ -34,9 +34,14 @@ public class LandabusBot extends TelegramLongPollingBot{
 	static final String helmugaGaldera = "Nora heldu nahi duzu autobusean?";
 	static final String irteeraOrduGaldera = "Ze ordutatik aurrera irten zaitezke?";
 	static final String helmugaOrduGaldera = "Ze ordutarako egon behar zara helmugan?";
+	static final String[] atzera = {"ZUZENDU","HASIERA"};
 	
-	Kontsulta kontsulta;
+	List<Kontsulta> kontsultak;
 	int stage;
+	
+	public LandabusBot() {
+		kontsultak = new ArrayList<>();
+	}
 	
 	@Value("${bot.token}")
 	private String token;
@@ -66,6 +71,9 @@ public class LandabusBot extends TelegramLongPollingBot{
 			
 			if(message.getText().equals("/start")) stage = 0;
 			else if(message.getText().equals("KONTSULTATU")) stage = 1;
+			else if(message.getText().equals("ZUZENDU")) stage = stage - 2;
+			else if(message.getText().equals("HASIERA")) stage = 0;
+			
 			
 			switch(stage) {
 			case 0: try {
@@ -83,14 +91,15 @@ public class LandabusBot extends TelegramLongPollingBot{
 				} catch (TelegramApiException e1) {
 					logger.error("Failed to send message to {} due to error: {}", message.getChatId(), e1.getMessage());
 				}
-				try {
-					execute(inlineBidali(message,"Atzera"));
-				} catch (TelegramApiException e2) {
-					e2.printStackTrace();
-				}
+
 				break;
-			case 2: kontsulta = new Kontsulta();
-				kontsulta.setIrteera(message.getText());
+			case 2: 
+				if(!message.getText().equals(atzera[0])) {
+					Kontsulta kontsulta = new Kontsulta();
+					kontsulta.setIrteera(message.getText());
+					kontsulta.setChatId(message.getChatId());
+					kontsultak.add(kontsulta);
+				}
 				
 				try {
 					execute(mezuaBidali(message,helmugaGaldera));
@@ -100,8 +109,10 @@ public class LandabusBot extends TelegramLongPollingBot{
 					logger.error("Failed to send message to {} due to error: {}", message.getChatId(), e1.getMessage());
 				}
 				break;
-			case 3: kontsulta = new Kontsulta();
-				kontsulta.setHelmuga(message.getText());
+			case 3: 
+					for(Kontsulta k: kontsultak) {
+						if(k.getChatId().equals(message.getChatId()) && !message.getText().equals(atzera[0])) k.setHelmuga(message.getText());
+					}
 				
 				try {
 					execute(mezuaBidali(message,irteeraOrduGaldera));
@@ -111,10 +122,10 @@ public class LandabusBot extends TelegramLongPollingBot{
 					logger.error("Failed to send message to {} due to error: {}", message.getChatId(), e1.getMessage());
 				}
 				break;
-			case 4: System.out.println(message.getText());
-				kontsulta = new Kontsulta();
-				kontsulta.setIrteeraOrduaMin(message.getText());
-				
+			case 4: 
+				for(Kontsulta k: kontsultak) {
+					if(k.getChatId().equals(message.getChatId()) && !message.getText().equals(atzera[0])) k.setIrteeraOrduaMin(message.getText());
+				}
 				try {
 					execute(mezuaBidali(message,helmugaOrduGaldera));
 					logger.info("Kontsultako laugarren galdetegia bidalita \"{}\" erabiltzaileari", message.getChatId());
@@ -123,13 +134,17 @@ public class LandabusBot extends TelegramLongPollingBot{
 					logger.error("Failed to send message to {} due to error: {}", message.getChatId(), e1.getMessage());
 				}
 				break;
-			case 5: System.out.println(message.getText());
-				kontsulta = new Kontsulta();
-				kontsulta.setHelmugaOrduaMax(message.getText());
+			case 5:
 				SendMessage fin = new SendMessage();
 				Long Id = message.getChatId();
 				fin.setChatId(Id);
-				fin.setText(kontsulta.toString());
+				
+				for(Kontsulta k: kontsultak) {
+					if(k.getChatId().equals(message.getChatId()) && !message.getText().equals(atzera[0])) {
+						k.setHelmugaOrduaMax(message.getText());
+						fin.setText(k.toString());
+					}
+				}
 				
 				try {
 					execute(fin);
@@ -163,14 +178,16 @@ public class LandabusBot extends TelegramLongPollingBot{
 		return msg;
 	}
 	
+	@SuppressWarnings("unused")
 	private SendMessage inlineBidali(Message message, String str) {
 		SendMessage msg = new SendMessage();
+		msg.setText("");
 		msg.setChatId(message.getChatId());
 		msg.setReplyMarkup(atzeraBotoia());
 		return msg;
 	}
 	
-	
+	@SuppressWarnings("unused")
 	private InlineKeyboardMarkup atzeraBotoia() {
 		InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 		List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
@@ -196,14 +213,17 @@ public class LandabusBot extends TelegramLongPollingBot{
         case 0: str = hasiera;
          	break;
         case 1: str = arrayGeltokiak;
+        keyboard.add(erramintaBotoiak());
         	break;
         case 2:str = arrayGeltokiak;
+        keyboard.add(erramintaBotoiak());
     		break;
         case 3: 
         case 4: str = arrayOrduak;
         	return ordutegiPanela(str);
         }
-  
+        
+
 		for(String geltokia: str) {
 			KeyboardRow keyboardRow = new KeyboardRow();
 			keyboardRow.add(geltokia);
@@ -219,15 +239,22 @@ public class LandabusBot extends TelegramLongPollingBot{
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(false);		
         List<KeyboardRow> keyboard = new ArrayList<>();
+        keyboard.add(erramintaBotoiak());
         
         for(int i = 0; i < str.length; i+=2){
         	KeyboardRow keyboardRow = new KeyboardRow();
         	keyboardRow.add(str[i]);
         	keyboardRow.add(str[1+i]);
-
         	keyboard.add(keyboardRow);
         }
         replyKeyboardMarkup.setKeyboard(keyboard);
 		return replyKeyboardMarkup;
+	}
+	
+	private KeyboardRow erramintaBotoiak() {
+        KeyboardRow keyboardRow = new KeyboardRow();
+        keyboardRow.add(atzera[0]);
+        keyboardRow.add(atzera[1]);
+		return keyboardRow;
 	}
 }

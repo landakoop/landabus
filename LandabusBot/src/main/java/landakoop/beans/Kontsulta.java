@@ -1,6 +1,7 @@
 package landakoop.beans;
 
 public class Kontsulta {
+	Long chatId;
 	String irteera;
 	String helmuga;
 	String irtOrduaMin;
@@ -8,7 +9,7 @@ public class Kontsulta {
 	
 	public Kontsulta() {}
 	
-	public Kontsulta(String irteera, String helmuga, String irtOrduaMin, String helOrduaMax) {
+	public Kontsulta(String irteera, String helmuga, String irtOrduaMin, String helOrduaMax, Long chatId) {
 		this.irteera = irteera;
 		this.helmuga = helmuga;
 		this.irtOrduaMin = irtOrduaMin;
@@ -39,6 +40,21 @@ public class Kontsulta {
 	public void setHelmugaOrduaMax(String helOrduaMax) {
 		this.helOrduaMax = helOrduaMax;
 	}
-	
+	public Long getChatId() {
+		return chatId;
+	}
+	public void setChatId(Long chatId) {
+		this.chatId = chatId;
+	}
+
+	@Override
+	public String toString() {
+		String kontsulta;
+		kontsulta = "Irteera: "+getIrteera()+" ------> "
+				+"Irtetzeko ordu minimoa: "+getIrteeraOrduaMin()+"\n"
+				+"Helmuga: "+getHelmuga()+" ------> "
+				+"Heltzeko ordu maximoa: "+getHelmugaOrduaMax();
+		return kontsulta;
+	}
 	
 }
