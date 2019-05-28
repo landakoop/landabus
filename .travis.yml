@@ -8,6 +8,7 @@ script:
   - mvn -f "main-app" -DskipTests clean install
   - mvn -f "web-app" -DskipTests clean install
   - mvn -f "LandabusBot" -DskipTests clean install
+  - mvn -f "datu-jasotzailea" -DskipTests clean install
   - sonar-scanner -D sonar.host.url=$SONAR_HOST_URL -D sonar.login=$SONAR_TOKEN -X
   - zip landabus.zip "Dockerrun.aws.json" "main-app/target/main-app.jar" "web-app/target/web-app.jar"
 deploy:
