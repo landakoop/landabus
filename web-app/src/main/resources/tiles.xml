@@ -6,7 +6,6 @@
 	<!-- Templates -->
 
 	<definition name="layout.basic" template="/WEB-INF/tiles/layout/basic.jsp">
-	    <put-attribute name="title" value="Nozama" />
 	    <put-attribute name="header" value="/WEB-INF/tiles/layout/header.jsp" />
 	    <put-attribute name="aside" value="/WEB-INF/tiles/layout/aside.jsp" />
 	    <put-attribute name="body" value="" />
@@ -15,8 +14,10 @@
 
 	<!-- Pages -->  
 
-	<definition name="site.welcome" extends="layout.basic">
-	    <put-attribute name="body" value="/WEB-INF/tiles/view/hasiera.jsp" />
+	<definition name="site.hasiera" extends="layout.basic">
+	    <put-attribute name="content" value="/WEB-INF/tiles/view/hasiera.jsp" />
 	</definition>
-
+	<definition name="site.malguak" extends="layout.basic">
+	    <put-attribute name="content" value="/WEB-INF/tiles/view/malguak.jsp" />
+	</definition>
 </tiles-definitions>

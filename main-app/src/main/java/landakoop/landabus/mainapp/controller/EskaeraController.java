@@ -3,6 +3,7 @@ package landakoop.landabus.mainapp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +18,9 @@ public class EskaeraController {
 	@Autowired
 	EskaeraDao eskaeraDao;
 	
+	 @CrossOrigin(origins = "http://localhost:8081") //workaround
 	@GetMapping("list")
-	public List<Eskaera> getOrderList(){
+	public  List<Eskaera> getOrderList(){
 		return (List<Eskaera>) eskaeraDao.findAll();
 	}
 	

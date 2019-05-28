@@ -1,4 +1,4 @@
-<content>
-<h3>Iep!</h3>
-<p>Garatzen hasteko prest</p>
-</content>
+<div class="content hasiera">
+<h3 class="hasiera__title">Ongi etorri!</h3>
+<p class="hasiera__subtitle">Egiteke</p>
+</div>

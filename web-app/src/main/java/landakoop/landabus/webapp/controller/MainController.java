@@ -10,9 +10,15 @@ import org.springframework.web.servlet.ModelAndView;
 public class MainController {
 
     @RequestMapping("/")
-    public ModelAndView tiles() {
+    public ModelAndView hasiera() {
     	
-    	return new ModelAndView("site.welcome");
+    	return new ModelAndView("site.hasiera");
+    }
+    
+    @RequestMapping("/malguak")
+    public ModelAndView eskaerak() {
+    	
+    	return new ModelAndView("site.malguak");
     }
     
     @RequestMapping("/kaixo")
