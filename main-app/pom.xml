@@ -6,6 +6,7 @@
         <groupId>landakoop</groupId>
         <artifactId>landabus</artifactId>
         <version>1.0.0</version>
+        <relativePath>../../landabus</relativePath>
     </parent>
     <groupId>landakoop.landabus</groupId>
     <artifactId>main-app</artifactId>

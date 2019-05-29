@@ -26,7 +26,7 @@ services:
       - 15672:15672
   main-app:
     image: maven:3.6.1-jdk-8-alpine
-    command: ["mvn", "spring-boot:run"]
+    command: ["mvn","-f", "main-app", "spring-boot:run"]
     environment:
       - MYSQL_DATABASE
       - MYSQL_HOST
@@ -34,11 +34,10 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MAINAPP_PORT
-    working_dir: /usr/src/app
+    working_dir: /usr/src/landabus
     volumes:
-      - ${PWD}/main-app:/usr/src/app
+      - ${PWD}:/usr/src/landabus
       - ${HOME}/.m2:/root/.m2
-      - ${PWD}/main-app/target:/usr/src/app/target
     depends_on:
       db:
         condition: service_healthy
@@ -46,7 +45,7 @@ services:
       - "${MAINAPP_PORT}:${MAINAPP_PORT}"
   datu-jasotzailea:
     image: maven:3.6.1-jdk-8-alpine
-    command: ["mvn", "spring-boot:run"]
+    command: ["mvn","-f", "datu-jasotzailea","spring-boot:run"]
     environment:
       - MAINAPP_HOST
       - MAINAPP_PORT
@@ -54,17 +53,16 @@ services:
       - RABBITMQ_PORT
       - RABBITMQ_USER
       - RABBITMQ_PASSWORD
-    working_dir: /usr/src/app
+    working_dir: /usr/src/landabus
     volumes:
-      - ${PWD}/datu-jasotzailea:/usr/src/app
+      - ${PWD}:/usr/src/landabus
       - ${HOME}/.m2:/root/.m2
-      - ${PWD}/datu-jasotzailea/target:/usr/src/app/target
     depends_on:
       - main-app
       - rabbitmq
   web-app:
     image: maven:3.6.1-jdk-8-alpine
-    command: ["mvn", "spring-boot:run"]
+    command: ["mvn", "-f", "web-app", "spring-boot:run"]
     environment:
       - MAINAPP_HOST
       - MAINAPP_PORT
@@ -72,11 +70,10 @@ services:
       - OIDC_CLIENT_ID
       - OIDC_CLIENT_SECRET
       - OIDC_REDIRECT
-    working_dir: /usr/src/app
+    working_dir: /usr/src/landabus
     volumes:
-      - ${PWD}/web-app:/usr/src/app
+      - ${PWD}:/usr/src/landabus
       - ${HOME}/.m2:/root/.m2
-      - ${PWD}/web-app/target:/usr/src/app/target
     depends_on:
       - main-app
     ports:

@@ -4,4 +4,6 @@
 target/dependency-check-report.html
 target
 target/classes
+target/classes/static/css
+target/classes/static/js
 target/*

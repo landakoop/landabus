@@ -28,3 +28,4 @@ HELP.md
 ### VS Code ###
 .vscode/
 target/dependency-check-report.html
+target/classes

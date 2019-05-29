@@ -2,12 +2,11 @@ version: "2.1"
 services:
   telegram-bot:
     image: maven:3.6.1-jdk-8-alpine
-    command: ["mvn", "spring-boot:run"]
-    working_dir: /usr/src/app
+    command: ["mvn", "-f", "LandaBusBot","spring-boot:run"]
+    working_dir: /usr/src/landabus
     volumes:
-      - ${PWD}/LandabusBot:/usr/src/app
+      - ${PWD}:/usr/src/landabus
       - ${HOME}/.m2:/root/.m2
-      - ${PWD}/LandabusBot/target:/usr/src/app/target
     depends_on:
       - main-app
     environment:
