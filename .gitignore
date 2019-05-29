@@ -3,3 +3,5 @@
 .env
 target/dependency-check-report.html
 target
+target/classes
+target/*
