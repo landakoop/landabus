@@ -1,3 +1,4 @@
 /.metadata/
 .Rhistory
 .env
+target/dependency-check-report.html
