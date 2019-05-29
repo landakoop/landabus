@@ -2,3 +2,4 @@
 .Rhistory
 .env
 target/dependency-check-report.html
+target
