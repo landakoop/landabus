@@ -119,3 +119,8 @@ INSERT INTO distantzia(geltokiaA, geltokiaB, denbora) VALUES(10,7,1);
 INSERT INTO distantzia(geltokiaA, geltokiaB, denbora) VALUES(10,8,12);
 INSERT INTO distantzia(geltokiaA, geltokiaB, denbora) VALUES(10,9,4);
 */
+
+-- json probak
+INSERT INTO erabiltzailea(izena, mota) VALUES ('Hodei','Proba');
+INSERT INTO linea(lineaID, izena) VALUES (1, 'Onena');
+INSERT INTO ibilbidea(lineaID, autobusaID) VALUES (1,1);
