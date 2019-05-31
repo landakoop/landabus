@@ -18,6 +18,14 @@ public class AutobusGeldialdia{
 		this.ekintza = ekintza?"igo":"jaitsi";
 	}
 
+	public AutobusGeldialdia(int erabiltzailea, int ibilbidea, int geltokia, long noiz, String ekintza) {
+		this.erabiltzailea = erabiltzailea;
+		this.ibilbidea = ibilbidea;
+		this.geltokia = geltokia;
+		this.noiz = noiz;
+		this.ekintza = ekintza;
+	}
+
 	public int getErabiltzailea() {
 		return erabiltzailea;
 	}

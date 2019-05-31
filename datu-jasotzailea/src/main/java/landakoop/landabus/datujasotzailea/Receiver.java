@@ -29,7 +29,7 @@ public class Receiver {
 		String[] datuak = proba.split("[$]");		
 		
 		AutobusGeldialdia autobusGeldialdia = new AutobusGeldialdia(Integer.parseInt(datuak[0]),
-					Integer.parseInt(datuak[1]), Integer.parseInt(datuak[2]), Long.parseLong(datuak[3]), true);
+					Integer.parseInt(datuak[1]), Integer.parseInt(datuak[2]), Long.parseLong(datuak[3]), datuak[4]);
 		
 		//listaAutobusGeldialdia.add(autobusGeldialdia);
 		
@@ -38,7 +38,7 @@ public class Receiver {
 	
 	public void sendPost(AutobusGeldialdia autobusGeldialdia) throws Exception {
 		RestTemplate restTemplate = new RestTemplate();
-		URI uri = new URI(url+"/api/datujasotzailea/postFromJson");		
+		URI uri = new URI(url+"/api/datujasotzailea/postFromJson");	
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);			
