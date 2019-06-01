@@ -63,7 +63,7 @@ services:
       - rabbitmq
   web-app:
     image: maven:3.6.1-jdk-8-alpine
-    command: ["mvn", "-f", "web-app", "spring-boot:run"]
+    command: ["mvn", "spring-boot:run"]
     environment:
       - MAINAPP_HOST
       - MAINAPP_PORT
@@ -71,7 +71,7 @@ services:
       - OIDC_CLIENT_ID
       - OIDC_CLIENT_SECRET
       - OIDC_REDIRECT
-    working_dir: /usr/src/landabus
+    working_dir: /usr/src/landabus/web-app
     volumes:
       - ${PWD}:/usr/src/landabus
       - ${HOME}/.m2:/root/.m2
