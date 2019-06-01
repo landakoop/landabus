@@ -120,7 +120,18 @@ INSERT INTO distantzia(geltokiaA, geltokiaB, denbora) VALUES(10,8,12);
 INSERT INTO distantzia(geltokiaA, geltokiaB, denbora) VALUES(10,9,4);
 */
 
--- json probak
-INSERT INTO erabiltzailea(izena, mota) VALUES ('Hodei','Proba');
-INSERT INTO linea(lineaID, izena) VALUES (1, 'Onena');
-INSERT INTO ibilbidea(lineaID, autobusaID) VALUES (1,1);
+INSERT INTO erabiltzailea(izena) VALUES ('Hodei');
+INSERT INTO erabiltzailea(izena) VALUES ('Bingen');
+INSERT INTO erabiltzailea(izena) VALUES ('Kepa');
+INSERT INTO erabiltzailea(izena) VALUES ('Iñigo');
+
+INSERT INTO linea(izena) VALUES ('1');
+INSERT INTO linea(izena) VALUES ('2');
+INSERT INTO linea(izena) VALUES ('3');
+INSERT INTO linea(izena) VALUES ('4');
+
+INSERT INTO ibilbidea(lineaID) VALUES (1);
+INSERT INTO ibilbidea(lineaID) VALUES (2);
+INSERT INTO ibilbidea(lineaID) VALUES (3);
+INSERT INTO ibilbidea(lineaID) VALUES (4);
+
