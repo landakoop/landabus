@@ -7,7 +7,7 @@ cache:
 script:
   - mvn clean install dependency-check:aggregate -DskipTests
   - sonar-scanner -D sonar.host.url=$SONAR_HOST_URL -D sonar.login=$SONAR_TOKEN -X
-  - zip landabus.zip "Dockerrun.aws.json" "main-app/target/main-app.jar" "web-app/target/web-app.jar"
+  - zip landabus.zip "Dockerrun.aws.json" "main-app/target/main-app.jar" "web-app/target/web-app.war"
 deploy:
   provider: elasticbeanstalk
   skip_cleanup: true
@@ -17,6 +17,6 @@ deploy:
   secret_access_key:
     secure: ${AWS_SECRET_ACCESS_KEY}
   region: ${AWS_REGION}
-  app: "landabus"
-  env: "landabus-test"
-  bucket_name: "elasticbeanstalk-eu-west-1-697427844966"
+  app: ${AWS_EB_APP}
+  env: ${AWS_EB_ENV}
+  bucket_name: ${AWS_S3_BUCKET}
