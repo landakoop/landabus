@@ -23,6 +23,8 @@ CREATE TABLE linea (
 CREATE TABLE geltokia (
  geltokiaID         TINYINT NOT NULL AUTO_INCREMENT,
  izena              CHAR(100),
+ x                  FLOAT,
+ y                  FLOAT,
  CONSTRAINT geltokia_pk PRIMARY KEY(geltokiaID)
 );
 
@@ -41,6 +43,7 @@ CREATE TABLE ibilbidea (
  lineaID            INT,
  autobusaID         SMALLINT,
  predikzioa         TINYINT,
+ eguraldia          CHAR(100),
  CONSTRAINT ibilbidea_pk PRIMARY KEY(ibilbideaID),
  CONSTRAINT ibilbidea_linea_fk FOREIGN KEY(lineaID) REFERENCES linea(lineaID)
 );
@@ -72,7 +75,10 @@ CREATE TABLE eskaera (
 
 CREATE TABLE ordutegia (
  ordutegiaID       INT NOT NULL AUTO_INCREMENT,
- CONSTRAINT ordutegia_pk PRIMARY KEY(ordutegiaID)
+ lineaID           INT,
+ irteeraOrdua      INT,
+ CONSTRAINT ordutegia_pk PRIMARY KEY(ordutegiaID),
+ CONSTRAINT ordutegia_linea_fk FOREIGN KEY(lineaID) REFERENCES linea(lineaID)
 );
 
 CREATE TABLE ibilbidea_geltokia_bidaiaria (
