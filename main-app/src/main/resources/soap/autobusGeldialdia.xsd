@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://mainapp.landabus.landakoop/soap"
+           targetNamespace="http://mainapp.landabus.landakoop/soap" elementFormDefault="qualified">
+
+
+	<xs:element name="autobusGeldialdiaRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="erabiltzailea" type="xs:int"></xs:element>
+				<xs:element name="ibilbidea" type="xs:int"></xs:element>
+				<xs:element name="geltokia" type="xs:int"></xs:element>
+				<xs:element name="ekintza" type="xs:string"></xs:element>
+				<xs:element name="noiz" type="xs:long"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="autobusGeldialdiaResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="autobusGeldialdiaSoap" type="tns:autobusGeldialdiaSoap"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+    <xs:complexType name="autobusGeldialdiaSoap">
+		<xs:sequence>
+			<xs:element name="erabiltzailea" type="xs:int"></xs:element>
+			<xs:element name="ibilbidea" type="xs:int"></xs:element>
+			<xs:element name="geltokia" type="xs:int"></xs:element>
+			<xs:element name="ekintza" type="xs:string"></xs:element>
+			<xs:element name="noiz" type="xs:long"></xs:element>
+		</xs:sequence>
+    </xs:complexType>
+
+
+</xs:schema>
