@@ -1,6 +1,7 @@
 library(GA)
 library(rjson)
 library(RCurl)
+library(profvis)
 
 fit<-function(ruta, gelt){
   from <- 2
@@ -54,18 +55,19 @@ ordutegiOnenaKalkulatu<-function(eskaerak, pasatzeOrduErlatiboak,ruta){
   hoberena<-0
   kontHoberena<-0
   onartuListaHoberena<-NULL
-  for(irteeraOrdua in seq(0,1440,30)){
+  for(irteeraOrdua in seq(min(unlist(eskaerak$irteeraOrdua)),max(unlist(eskaerak$irteeraOrdua)),60)){
     kont<-0
     onartuLista<-NULL
     for(i in 1:nrow(eskaerak)){
+      hasieraPos<-match(eskaerak[i,]$irteera,ruta)
       helmugaPos<-match(eskaerak[i,]$helmuga,ruta)
-      irteeraPasatzeOrdua<-pasatzeOrduErlatiboak[i]+irteeraOrdua
+      irteeraPasatzeOrdua<-pasatzeOrduErlatiboak[hasieraPos]+irteeraOrdua
       helmugaPasatzeOrdua<-pasatzeOrduErlatiboak[helmugaPos]+ irteeraOrdua
       #print(ruta)
       #print(pasatzeOrduErlatiboak)
-      if((irteeraPasatzeOrdua>eskaerak[i,]$irteeraOrdua)&&(helmugaPasatzeOrdua<eskaerak[i,]$helmugaOrdua)&&i<helmugaPos){
+      if((irteeraPasatzeOrdua>eskaerak[i,]$irteeraOrdua)&&(helmugaPasatzeOrdua<eskaerak[i,]$helmugaOrdua)&&hasieraPos<helmugaPos){
         kont<-kont+1
-        onartuLista<-c(onartuLista,eskaerak[i,])
+        onartuLista<-c(onartuLista,eskaerak[i,]$id)
       }
     }
     if(kont>kontHoberena){
@@ -74,7 +76,7 @@ ordutegiOnenaKalkulatu<-function(eskaerak, pasatzeOrduErlatiboak,ruta){
       onartuListaHoberena<-onartuLista
     }
   }
-  return(c(hoberena,kontHoberena,onartuListaHoberena))
+  return(list(hoberena,kontHoberena,onartuListaHoberena))
 }
 
 fitnessRuta<-function(permutazioa, geltokiak,eskaerak){
@@ -94,46 +96,42 @@ fitnessRuta<-function(permutazioa, geltokiak,eskaerak){
   return(1/distantzia)
 }
 
-
+main<-function(){
 eskaerak <- fromJSON(getURL("http://localhost:8080/api/eskaera/list"))
 distantziak <- fromJSON(getURL("http://localhost:8080/api/geltokia/distantziak"))
 dataset<-data.frame(do.call("rbind",eskaerak))
-
-num<-2
-indice<-c(5,6)
-datasetHorarios<-dataset[indice]
-kmeans.fit<-kmeans(datasetHorarios,num)
-list<-kmeans.fit$cluster
-dataset<-cbind(dataset,list)
-for(i in 1:num){
+dataset<-head(dataset,15)
+#while(nrow(dataset)>0){
   geltokiak<-NULL
-  cluster<-dataset[dataset$list==i,]
-  for(i in 1:nrow(cluster)){
-    geltokiak<-c(geltokiak, cluster$irteera[i])
-    geltokiak<-c(geltokiak, cluster$helmuga[i])
+  for(i in 1:nrow(dataset)){
+    geltokiak<-c(geltokiak, dataset$irteera[i])
+    geltokiak<-c(geltokiak, dataset$helmuga[i])
   }
-  geltokiak<-unique(c(cluster$irteera,cluster$helmuga))
-  geltokiak<-unique(geltokiak)
-  result <- ga(type="permutation",  fitness=fitnessRuta, gelt=geltokiak, eskaerak=cluster, lower=1, upper=length(geltokiak), popSize = 50, maxiter = 500,
+  geltokiak<-unique(c(dataset$irteera,dataset$helmuga))
+  result <- ga(type="permutation",  fitness=fitnessRuta, gelt=geltokiak, eskaerak=dataset, lower=1, upper=length(geltokiak), popSize = 50, maxiter = 500,
                run = 50, pmutation = 0.2)
-  resultDef<-geltokiak[order(summary(result)$solution)]
+  resultDef<-geltokiak[order(summary(result)$solution[1,])]
   print(resultDef)
-  print(ordutegiOnenaKalkulatu(cluster,pasatzeOrduakKalkulatu(resultDef,distantziak),resultDef))
+  ordutegiak<-ordutegiOnenaKalkulatu(dataset,pasatzeOrduakKalkulatu(resultDef,distantziak),resultDef)
+  print(ordutegiOnenaKalkulatu(dataset,pasatzeOrduakKalkulatu(resultDef,distantziak),resultDef))
+  onartuak<- ordutegiak[[3]]
+  dataset<-dataset[!(c(dataset$id %in% onartuak)),]
 }
 
+#}
 
-library(mlbench)
-library(caret)
+#library(mlbench)
+#library(caret)
 # load the data
-data(PimaIndiansDiabetes)
+#data(PimaIndiansDiabetes)
 # define the control using a random forest selection function
-control <- rfeControl(functions=rfFuncs, method="cv", number=10)
+#control <- rfeControl(functions=rfFuncs, method="cv", number=10)
 # run the RFE algorithm Recursive Feature Elimination 
-results <- rfe(PimaIndiansDiabetes[,1:8], PimaIndiansDiabetes[,9], sizes=c(1:8), rfeControl=control)
-trainControl <- trainControl(method="repeatedcv", number=10, repeats=3)
-fit.rf <- train(diabetes~., data=PimaIndiansDiabetes, method="rf", trControl=trainControl)
+#results <- rfe(PimaIndiansDiabetes[,1:8], PimaIndiansDiabetes[,9], sizes=c(1:8), rfeControl=control)
+#trainControl <- trainControl(method="repeatedcv", number=10, repeats=3)
+#fit.rf <- train(diabetes~., data=PimaIndiansDiabetes, method="rf", trControl=trainControl)
 
-aldaketa(summary(result)$solution, geltokiak)
+#aldaketa(summary(result)$solution, geltokiak)
 
-print(summary(result)$solution)
-print(geltokiak)
+#print(summary(result)$solution)
+#print(geltokiak)
