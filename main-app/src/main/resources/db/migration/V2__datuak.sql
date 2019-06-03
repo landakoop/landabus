@@ -329,6 +329,7 @@ INSERT INTO erabiltzailea(izena) VALUES ('Kepa');
 INSERT INTO erabiltzailea(izena) VALUES ('Iñigo');
 
 
+
 INSERT INTO linea(izena) VALUES ('1');
 
 INSERT INTO linea(izena) VALUES ('2');
@@ -338,12 +339,28 @@ INSERT INTO linea(izena) VALUES ('3');
 INSERT INTO linea(izena) VALUES ('4');
 
 
-INSERT INTO ibilbidea(lineaID,eguraldia) VALUES (1,"eguzkia");
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (1,"eguzkia",1);
 
-INSERT INTO ibilbidea(lineaID,eguraldia) VALUES (2,"euria");
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (2,"euria",1);
 
-INSERT INTO ibilbidea(lineaID,eguraldia) VALUES (3,"lainoa");
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (3,"lainoa",1);
 
-INSERT INTO ibilbidea(lineaID,eguraldia) VALUES (4,"euria");
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (4,"euria",1);
+
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (1,"eguzkia",1);
+
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (2,"euria",1);
+
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (3,"lainoa",1);
+
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (4,"euria",1);
+
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (1,"eguzkia",1);
+
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (2,"euria",1);
+
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (3,"lainoa",1);
+
+INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (4,"euria",1);
 
 
