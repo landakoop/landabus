@@ -1,4 +1,4 @@
-package landakoop.landabusBot;
+package landakoop.landabus.landabusBot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +19,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import landakoop.beans.Kontsulta;
+import landakoop.landabus.beans.Geltokia;
+import landakoop.landabus.beans.Kontsulta;
 
 @Component
 public class LandabusBot extends TelegramLongPollingBot{
 	private static final Logger logger = LoggerFactory.getLogger(LandabusBot.class);
+	
 	static final String[] hasiera = {"KONTSULTATU"};
-	static final String[] arrayGeltokiak = {"AMAIUR","BERA","ZIGA","DONEZTEBE","ELIZONDO","ZUGARRAMURDI","GARTZAIN"};
 	static final String[] arrayOrduak = {"05:00","05:30","06:00","06:30","07:00","07:30","08:00","08:30","09:00","09:30","10:00",
 			"10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30",
 			"18:00","18:30","19:00","19:30","20:00","20:30","21:00","21:30","22:00","22:30","23:00","23:30","00:00","00:30"};
@@ -36,11 +37,22 @@ public class LandabusBot extends TelegramLongPollingBot{
 	static final String helmugaOrduGaldera = "Ze ordutarako egon behar zara helmugan?";
 	static final String[] atzera = {"ZUZENDU","HASIERA"};
 	
+	String[] arrayGeltokiak;
+	GeltokiakJaso geltokiakJaso;
 	List<Kontsulta> kontsultak;
+	List<Geltokia> geltokiak;
 	int stage;
 	
 	public LandabusBot() {
 		kontsultak = new ArrayList<>();
+		geltokiak = new ArrayList<>();
+		geltokiakJaso = new GeltokiakJaso();
+		geltokiak = geltokiakJaso.geltokiakJaso();
+		arrayGeltokiak = new String[geltokiak.size()];
+		
+		for(int i = 0; i < geltokiak.size(); i++) {
+			arrayGeltokiak[i] = geltokiak.get(i).getIzena();
+		}
 	}
 	
 	@Value("${bot.token}")
@@ -62,6 +74,7 @@ public class LandabusBot extends TelegramLongPollingBot{
 	@PostConstruct
 	public void start() {
 		logger.info("username: {}, token: {}", username, token);
+		
 	}
 
 	@Override
@@ -96,7 +109,7 @@ public class LandabusBot extends TelegramLongPollingBot{
 			case 2: 
 				if(!message.getText().equals(atzera[0])) {
 					Kontsulta kontsulta = new Kontsulta();
-					kontsulta.setIrteera(message.getText());
+					kontsulta.setIrteera(strToGeltokia(message.getText()));
 					kontsulta.setChatId(message.getChatId());
 					kontsultak.add(kontsulta);
 				}
@@ -111,7 +124,7 @@ public class LandabusBot extends TelegramLongPollingBot{
 				break;
 			case 3: 
 					for(Kontsulta k: kontsultak) {
-						if(k.getChatId().equals(message.getChatId()) && !message.getText().equals(atzera[0])) k.setHelmuga(message.getText());
+						if(k.getChatId().equals(message.getChatId()) && !message.getText().equals(atzera[0])) k.setHelmuga(strToGeltokia(message.getText()));
 					}
 				
 				try {
@@ -124,7 +137,7 @@ public class LandabusBot extends TelegramLongPollingBot{
 				break;
 			case 4: 
 				for(Kontsulta k: kontsultak) {
-					if(k.getChatId().equals(message.getChatId()) && !message.getText().equals(atzera[0])) k.setIrteeraOrduaMin(message.getText());
+					if(k.getChatId().equals(message.getChatId()) && !message.getText().equals(atzera[0])) k.setIrteeraOrdua(message.getText());
 				}
 				try {
 					execute(mezuaBidali(message,helmugaOrduGaldera));
@@ -141,8 +154,11 @@ public class LandabusBot extends TelegramLongPollingBot{
 				
 				for(Kontsulta k: kontsultak) {
 					if(k.getChatId().equals(message.getChatId()) && !message.getText().equals(atzera[0])) {
-						k.setHelmugaOrduaMax(message.getText());
+						k.setHelmugaOrdua(message.getText());
 						fin.setText(k.toString());
+						KontsultaIgorlea igorle = new KontsultaIgorlea();
+						igorle.receiveMessage(k);
+						//kontsultak.remove(k);
 					}
 				}
 				
@@ -170,6 +186,13 @@ public class LandabusBot extends TelegramLongPollingBot{
 		}
 	}
 	
+	private Geltokia strToGeltokia(String str) {
+		for(int i = 0; i < geltokiakJaso.getLista().size(); i++) {
+			if(geltokiakJaso.getLista().get(i).getIzena().equals(str)) return geltokiakJaso.getLista().get(i);
+		}
+		return null;
+	}
+	
 	private SendMessage mezuaBidali(Message message, String str) {
 		SendMessage msg = new SendMessage();
 		msg.setChatId(message.getChatId());
@@ -187,7 +210,6 @@ public class LandabusBot extends TelegramLongPollingBot{
 		return msg;
 	}
 	
-	@SuppressWarnings("unused")
 	private InlineKeyboardMarkup atzeraBotoia() {
 		InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 		List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();

@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import landakoop.landabus.mainapp.json.ErabiltzaileaSimpleSerializer;
 import landakoop.landabus.mainapp.json.GeltokiaSimpleSerializer;
 
 @Entity
@@ -23,6 +24,21 @@ public class Eskaera {
 	@Column(name="eskaeraID")
 	long id;
 	
+	long chatId;
+	
+	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@JoinColumn(name="erabiltzaileaID")
+	@JsonSerialize(using = ErabiltzaileaSimpleSerializer.class)
+	Erabiltzailea erabiltzailea;	
+	
+	public Erabiltzailea getErabiltzailea() {
+		return erabiltzailea;
+	}
+
+	public void setErabiltzailea(Erabiltzailea erabiltzailea) {
+		this.erabiltzailea = erabiltzailea;
+	}
+
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="geltokiaa")
 	@JsonSerialize(using = GeltokiaSimpleSerializer.class)
@@ -50,6 +66,14 @@ public class Eskaera {
 		this.id = id;
 	}
 
+	public void setChatId(long chatId) {
+		this.chatId = chatId;
+	}
+	
+	public long getChatId() {
+		return chatId;
+	}
+	
 	public Geltokia getIrteera() {
 		return irteera;
 	}

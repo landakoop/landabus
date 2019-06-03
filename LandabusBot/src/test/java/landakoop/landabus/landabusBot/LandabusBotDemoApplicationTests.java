@@ -1,4 +1,4 @@
-package landakoop.landabusBot;
+package landakoop.landabus.landabusBot;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
