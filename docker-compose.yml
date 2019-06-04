@@ -38,6 +38,11 @@ services:
     volumes:
       - ${PWD}:/usr/src/landabus
       - ${HOME}/.m2:/root/.m2
+    healthcheck:
+      test: curl --fail -s http://localhost:${MAINAPP_PORT}/ || exit 1
+      interval: 20s
+      timeout: 10s
+      retries: 4
     depends_on:
       db:
         condition: service_healthy
@@ -59,8 +64,10 @@ services:
       - ${PWD}:/usr/src/landabus
       - ${HOME}/.m2:/root/.m2
     depends_on:
-      - main-app
-      - rabbitmq
+      main-app:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
   web-app:
     image: maven:3.6.1-jdk-8-alpine
     command: ["mvn", "spring-boot:run"]
@@ -76,6 +83,7 @@ services:
       - ${PWD}:/usr/src/landabus
       - ${HOME}/.m2:/root/.m2
     depends_on:
-      - main-app
+      main-app:
+        condition: service_started
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
