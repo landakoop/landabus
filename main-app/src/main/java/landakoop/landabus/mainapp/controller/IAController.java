@@ -1,12 +1,15 @@
 package landakoop.landabus.mainapp.controller;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,15 +18,21 @@ import landakoop.landabus.mainapp.dao.AutobusGeldialdiaDao;
 import landakoop.landabus.mainapp.dao.GeltokiaDao;
 import landakoop.landabus.mainapp.dao.IbilbideaDao;
 import landakoop.landabus.mainapp.model.AurrekoGeltokia;
-import landakoop.landabus.mainapp.model.AutobusGeldialdia;
-import landakoop.landabus.mainapp.model.Dataset;
 import landakoop.landabus.mainapp.model.GeldialdiEkintza;
 import landakoop.landabus.mainapp.model.Geltokia;
-import landakoop.landabus.mainapp.model.Ibilbidea;
 
 @RestController
-@RequestMapping("/api/geldialdia")
-public class AutobusGeldialdiaController {
+@RequestMapping("/api/ia")
+public class IAController {
+	@Value("${ia.path}")
+	private String IApath;
+	
+	@Autowired
+	private Logger logger;
+	
+    @Autowired
+    private TaskExecutor taskExecutor;
+    
 	@Autowired
 	AutobusGeldialdiaDao autobusGeldialdiaDao;
 	@Autowired
@@ -31,39 +40,63 @@ public class AutobusGeldialdiaController {
 	@Autowired
 	GeltokiaDao geltokiaDao;
 	
-	/*@GetMapping("proba")
-	public List<GeldialdiEkintza> getProba() {
-		return autobusGeldialdiaDao.foo("jaitsi",3);
+	@GetMapping("sortuCSV")
+	public int sortuCSV() {	
+		List<Geltokia> geltokiak = geltokiaDao.findAll();
+		for(Geltokia g:geltokiak) {
+			taskExecutor.execute(new CSVsortzailea(g.getId(),"igo"));
+			taskExecutor.execute(new CSVsortzailea(g.getId(),"jaitsi"));
+		}
+		return geltokiak.size();
 	}
 	
-	@GetMapping("proba2")
-	public List<AurrekoGeltokia> getProba2(){
-		return autobusGeldialdiaDao.foo2(2,2);
-	}*/
-	
-	@GetMapping("sortuCSV")
-	public void sortuCSV() {
-		List<Geltokia> geltokiak=geltokiaDao.findAll();
-		for(Geltokia g:geltokiak) {
-			try(PrintWriter out=new PrintWriter(new FileWriter(g.getId()+".csv"))){
-				out.print("kopurua");
-				for(int i = 1; i < geltokiak.size()+1;i++) {
-					if(i!=g.getId()) out.print(","+i);
+	public class CSVsortzailea implements Runnable {
+		long geltokiaID;
+		String ekintza;
+		
+		public CSVsortzailea(long geltokiaID,String ekintza) {
+			this.geltokiaID = geltokiaID;
+			this.ekintza = ekintza;
+		}
+		
+		@Override
+		public void run() {
+			String fitxategia = IApath + geltokiaID + "_" + ekintza + ".csv";
+			logger.info("csv SORTUKO da: {}",fitxategia);
+			Optional<Geltokia> geltokiaOpt = geltokiaDao.findById(geltokiaID);
+			if(geltokiaOpt.isPresent()) {
+				try(PrintWriter out=new PrintWriter(new FileWriter(fitxategia))){
+					idatziBurua(out);
+					idatziGorputza(out);
+					logger.info("csv SORTU da: geltokiaID={} ekintza={}",geltokiaID,ekintza);
+				} catch (IOException e) {
+					logger.error("csv IDAZTE ERROREA: exception={} geltokiaID={} ekintza={}",e.getClass(),geltokiaID,ekintza);
 				}
-				List<GeldialdiEkintza> ekintzak=autobusGeldialdiaDao.getGeldialdiaEkintzak("igo", g.getId());
-				for(GeldialdiEkintza e:ekintzak) {
-					List<AurrekoGeltokia> aurrekoak=autobusGeldialdiaDao.getAurrekoGeltokiak(e.getLinea(), g.getId());
-					out.println();
-					out.print(e.getKopurua());
-					for(AurrekoGeltokia a:aurrekoak) {
-						out.print(","+a.getPasatu());
-					}
+			}
+		}
+		
+		public void idatziGorputza(PrintWriter out) {
+			List<GeldialdiEkintza> ekintzak = autobusGeldialdiaDao.getGeldialdiaEkintzak(ekintza,geltokiaID);
+			for(GeldialdiEkintza ekintza : ekintzak) {
+				out.print(ekintza.getKopurua());
+				List<AurrekoGeltokia> geltokiak = autobusGeldialdiaDao.getAurrekoGeltokiak(ekintza.getLinea(), geltokiaID);
+				for(AurrekoGeltokia geltokia:geltokiak) {
+					out.print(","+ geltokia.getPasatu());
 				}
-			}catch(Exception e){}
+				out.println();
+			}
+		}
+		
+		public void idatziBurua(PrintWriter out) {
+			out.print("kopurua");
+			for(int i = 1; i <= geltokiaDao.count();i++) {
+				if(i!=geltokiaID) out.print(","+i);
+			}
+			out.println();
 		}
 	}
 	
-	@GetMapping("dataset")
+	/*@GetMapping("dataset")
 	public List<Dataset> getDataset(){
 		List<Dataset> dataset=new ArrayList<>();
 		List<Ibilbidea> ibilbideak=(List<Ibilbidea>) ibilbideaDao.findAll();
@@ -107,8 +140,7 @@ public class AutobusGeldialdiaController {
 		case "7": d.setGeltokia7(true); break; 
 		case "8": d.setGeltokia8(true); break; 
 		}
-		
-	}
+	}*/
 
 
 }

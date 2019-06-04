@@ -1,4 +1,4 @@
-package landakoop.landabus.mainapp.soap.config;
+package landakoop.landabus.mainapp.config;
 
 import java.util.List;
 
