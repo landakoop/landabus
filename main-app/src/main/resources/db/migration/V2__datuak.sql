@@ -232,7 +232,7 @@ INSERT INTO eskaera(geltokiaA,geltokiaB,irteeraOrdua,helmugaOrdua) VALUES(6,6,24
 INSERT INTO eskaera(geltokiaA,geltokiaB,irteeraOrdua,helmugaOrdua) VALUES(1,7,831,1078);
                                                                                                                                                                                                                                                                                                                                                                          
 INSERT INTO eskaera(geltokiaA,geltokiaB,irteeraOrdua,helmugaOrdua) VALUES(5,6,780,1370);
-          
+
 
 /*INSERT INTO eskaera(geltokiaA,geltokiaB,irteeraOrdua,helmugaOrdua)  VALUES(4,1,3,8);
 
@@ -363,4 +363,26 @@ INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (3,"lainoa",1);
 
 INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (4,"euria",1);
 
+
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(1,1,1);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(1,2,2);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(1,3,3);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(1,4,4);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(1,5,5);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(1,6,6);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(1,7,7);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(1,8,8);
+
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(2,8,3);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(2,2,2);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(2,7,1);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(2,4,4);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(2,5,5);
+
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(3,1,4);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(3,6,1);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(3,3,2);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(3,4,3);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(3,5,5);
+INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(3,7,6);
 

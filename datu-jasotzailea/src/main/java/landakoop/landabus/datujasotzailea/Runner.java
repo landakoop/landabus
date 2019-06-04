@@ -27,7 +27,7 @@ public class Runner implements CommandLineRunner {
     	Thread.sleep(10000);
     	for (int i=0;i<10;i++) {
     		int ibilbide = 0;
-    		for (int j=0;j<20;j++) {    			
+    		for (int j=0;j<60;j++) {    			
     			if ((j%5)==0) ibilbide++;
         		Date data = new Date(2019-1900, 4, i+1,
         				random.nextInt(12), random.nextInt(60));

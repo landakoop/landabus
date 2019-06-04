@@ -1,5 +1,7 @@
 package landakoop.landabus.mainapp.controller;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -10,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import landakoop.landabus.mainapp.dao.AutobusGeldialdiaDao;
+import landakoop.landabus.mainapp.dao.GeltokiaDao;
 import landakoop.landabus.mainapp.dao.IbilbideaDao;
+import landakoop.landabus.mainapp.model.AurrekoGeltokia;
 import landakoop.landabus.mainapp.model.AutobusGeldialdia;
 import landakoop.landabus.mainapp.model.Dataset;
+import landakoop.landabus.mainapp.model.GeldialdiEkintza;
 import landakoop.landabus.mainapp.model.Geltokia;
 import landakoop.landabus.mainapp.model.Ibilbidea;
 
@@ -23,6 +28,40 @@ public class AutobusGeldialdiaController {
 	AutobusGeldialdiaDao autobusGeldialdiaDao;
 	@Autowired
 	IbilbideaDao ibilbideaDao;
+	@Autowired
+	GeltokiaDao geltokiaDao;
+	
+	/*@GetMapping("proba")
+	public List<GeldialdiEkintza> getProba() {
+		return autobusGeldialdiaDao.foo("jaitsi",3);
+	}
+	
+	@GetMapping("proba2")
+	public List<AurrekoGeltokia> getProba2(){
+		return autobusGeldialdiaDao.foo2(2,2);
+	}*/
+	
+	@GetMapping("sortuCSV")
+	public void sortuCSV() {
+		List<Geltokia> geltokiak=geltokiaDao.findAll();
+		for(Geltokia g:geltokiak) {
+			try(PrintWriter out=new PrintWriter(new FileWriter(g.getId()+".csv"))){
+				out.print("kopurua");
+				for(int i = 1; i < geltokiak.size()+1;i++) {
+					if(i!=g.getId()) out.print(","+i);
+				}
+				List<GeldialdiEkintza> ekintzak=autobusGeldialdiaDao.getGeldialdiaEkintzak("igo", g.getId());
+				for(GeldialdiEkintza e:ekintzak) {
+					List<AurrekoGeltokia> aurrekoak=autobusGeldialdiaDao.getAurrekoGeltokiak(e.getLinea(), g.getId());
+					out.println();
+					out.print(e.getKopurua());
+					for(AurrekoGeltokia a:aurrekoak) {
+						out.print(","+a.getPasatu());
+					}
+				}
+			}catch(Exception e){}
+		}
+	}
 	
 	@GetMapping("dataset")
 	public List<Dataset> getDataset(){

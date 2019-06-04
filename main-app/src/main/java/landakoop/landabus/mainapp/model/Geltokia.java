@@ -51,4 +51,20 @@ public class Geltokia {
 	public void setAutobusGeldialdia(Set<AutobusGeldialdia> autobusGeldialdia) {
 		this.autobusGeldialdia = autobusGeldialdia;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) return false;
+		if(!(obj instanceof Geltokia)) return false;
+		Geltokia g = (Geltokia) obj;
+		
+		return (g.getId() == id);
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return Long.valueOf(id).hashCode();
+	}
+	
 }

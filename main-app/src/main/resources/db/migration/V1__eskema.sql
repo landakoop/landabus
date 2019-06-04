@@ -77,6 +77,8 @@ CREATE TABLE ordutegia (
  ordutegiaID       INT NOT NULL AUTO_INCREMENT,
  lineaID           INT,
  irteeraOrdua      INT,
+ data              DATE,
+ finkoa            BOOLEAN,
  CONSTRAINT ordutegia_pk PRIMARY KEY(ordutegiaID),
  CONSTRAINT ordutegia_linea_fk FOREIGN KEY(lineaID) REFERENCES linea(lineaID)
 );
