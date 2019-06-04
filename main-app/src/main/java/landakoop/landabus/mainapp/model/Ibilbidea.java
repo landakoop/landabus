@@ -29,7 +29,10 @@ public class Ibilbidea {
 	int autobusaID;
 	
 	@Column(name="predikzioa")
-	int predikzioa;
+	Integer predikzioa;
+	
+	@Column(name="eguraldia")
+	String eguraldia;
 	
 	@OneToMany(mappedBy = "ibilbidea", cascade=CascadeType.ALL)
 	Set<AutobusGeldialdia> autobusGeldialdia;
@@ -73,4 +76,14 @@ public class Ibilbidea {
 	public void setAutobusGeldialdia(Set<AutobusGeldialdia> autobusGeldialdia) {
 		this.autobusGeldialdia = autobusGeldialdia;
 	}
+
+	public String getEguraldia() {
+		return eguraldia;
+	}
+
+	public void setEguraldia(String eguraldia) {
+		this.eguraldia = eguraldia;
+	}
+	
+	
 }

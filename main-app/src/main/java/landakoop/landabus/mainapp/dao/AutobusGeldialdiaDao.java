@@ -7,5 +7,5 @@ import landakoop.landabus.mainapp.model.AutobusGeldialdia;
 
 @Service
 public interface AutobusGeldialdiaDao extends CrudRepository<AutobusGeldialdia,Long> {
-	 
+	Iterable<AutobusGeldialdia> findAll();
 }

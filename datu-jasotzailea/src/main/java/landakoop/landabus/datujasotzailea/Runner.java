@@ -23,7 +23,8 @@ public class Runner implements CommandLineRunner {
         random = new Random();
     }
     
-    public void createRandom() {
+    public void createRandom() throws InterruptedException {
+    	Thread.sleep(10000);
     	for (int i=0;i<10;i++) {
     		int ibilbide = 0;
     		for (int j=0;j<20;j++) {    			
