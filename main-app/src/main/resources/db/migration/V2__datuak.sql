@@ -233,15 +233,15 @@ INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(2,1300,13
 INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(3,1100,1193,true);
 INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(4,1410,1480,true);
 
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (1,"eguzkia",1);
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (2,"euria",1);
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (3,"lainoa",1);
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (4,"euria",1);
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (1,"eguzkia",1);
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (2,"euria",1);
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (3,"lainoa",1);
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (4,"euria",1);
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (1,"eguzkia",1);
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (2,"euria",1);
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (3,"lainoa",1);
-INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (4,"euria",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (1,"eguzkia",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (2,"euria",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (3,"lainoa",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (11,"euria",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (5,"eguzkia",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (6,"euria",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (4,"lainoa",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (11,"euria",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (8,"eguzkia",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (9,"euria",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (10,"lainoa",1);
+INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (11,"euria",1);

@@ -22,8 +22,8 @@ public class Ibilbidea {
 	int id;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="lineaID")
-	Linea linea;
+	@JoinColumn(name="ordutegiaID")
+	Ordutegia ordutegia;
 	
 	@Column(name="autobusaID")
 	int autobusaID;
@@ -45,12 +45,12 @@ public class Ibilbidea {
 		this.id = id;
 	}
 
-	public Linea getLinea() {
-		return linea;
+	public Ordutegia getOrdutegia() {
+		return ordutegia;
 	}
 
-	public void setLinea(Linea linea) {
-		this.linea = linea;
+	public void setOrdutegia(Ordutegia ordutegia) {
+		this.ordutegia = ordutegia;
 	}
 
 	public int getAutobusaID() {
