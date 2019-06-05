@@ -1,10 +1,13 @@
 package landakoop.landabus.mainapp.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import landakoop.landabus.mainapp.model.Ibilbidea;
+import landakoop.landabus.mainapp.model.rest.ErabileraRest;
 import landakoop.landabus.mainapp.model.rest.IbilbideaRest;
 
 @Service
@@ -17,4 +20,11 @@ public interface IbilbideaDao extends CrudRepository<Ibilbidea,Long> {
 			+ "join geltokia as g on g.geltokiaId = lg.geltokiaID)"
 			+ "group by i.ibilbideaID",nativeQuery=true)	
 	Iterable<IbilbideaRest> getIbilbideak();
+	
+	@Query(value="SELECT count(igb.ekintza) as bidaiariak, count(CASE WHEN o.finkoa THEN 1 END) as finkoak,count(CASE WHEN NOT o.finkoa THEN 1 END) as malguak, DATE(igb.timestamp) as data "
+			+ "from ((ibilbidea_geltokia_bidaiaria as igb "
+			+ " join ibilbidea as i on i.ibilbideaID = igb.ibilbideaID) "
+			+ " join ordutegia as o on i.ordutegiaID = o.ordutegiaID) "
+			+ "group by DATE(igb.timestamp)",nativeQuery=true)	
+	List<ErabileraRest> getErabilera();
 }

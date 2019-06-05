@@ -21,6 +21,12 @@ public class MainController {
     	return new ModelAndView("site.ibilbideak");
     }
     
+    @RequestMapping("/historikoak")
+    public ModelAndView historikoak() {
+    	
+    	return new ModelAndView("site.historikoak");
+    }
+    
     @RequestMapping("/kaixo")
     public String email(Principal principal) {
     	

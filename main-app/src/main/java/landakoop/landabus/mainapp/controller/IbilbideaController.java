@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import landakoop.landabus.mainapp.dao.IbilbideaDao;
+import landakoop.landabus.mainapp.model.rest.ErabileraRest;
 import landakoop.landabus.mainapp.model.rest.IbilbideaRest;
 
 @CrossOrigin(origins="http://localhost:8081")
@@ -21,6 +22,12 @@ public class IbilbideaController {
 	@GetMapping("list")
 	public List<IbilbideaRest> getOrderList(){
 		List<IbilbideaRest> ibilbideak =  (List<IbilbideaRest>) ibilbideaDao.getIbilbideak();
+		return ibilbideak;
+	}
+	
+	@GetMapping("historikoa")
+	public List<ErabileraRest> getHistorikoa(){
+		List<ErabileraRest> ibilbideak =  ibilbideaDao.getErabilera();
 		return ibilbideak;
 	}
 	

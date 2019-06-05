@@ -61,5 +61,13 @@ public class EskaeraController {
 		//eskaeraDao.save(eskaera);	
 	}
 	
+	@GetMapping("malgutasuna")
+	public int getMalgutasuna() {
+		Integer malgutasuna = eskaeraDao.getMalgutasuna();
+		if(malgutasuna == null)
+			malgutasuna = 0;
+		return malgutasuna;
+	}
+	
 	
 }
