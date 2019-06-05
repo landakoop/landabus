@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="ibilbidea")
 public class Ibilbidea {
@@ -28,12 +30,14 @@ public class Ibilbidea {
 	@Column(name="autobusaID")
 	int autobusaID;
 	
+	@JsonIgnore
 	@Column(name="predikzioa")
 	Integer predikzioa;
 	
 	@Column(name="eguraldia")
 	String eguraldia;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "ibilbidea", cascade=CascadeType.ALL)
 	Set<AutobusGeldialdia> autobusGeldialdia;
 

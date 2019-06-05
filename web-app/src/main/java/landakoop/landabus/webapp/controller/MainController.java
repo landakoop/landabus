@@ -15,10 +15,10 @@ public class MainController {
     	return new ModelAndView("site.hasiera");
     }
     
-    @RequestMapping("/malguak")
+    @RequestMapping("/ibilbideak")
     public ModelAndView eskaerak() {
     	
-    	return new ModelAndView("site.malguak");
+    	return new ModelAndView("site.ibilbideak");
     }
     
     @RequestMapping("/kaixo")
