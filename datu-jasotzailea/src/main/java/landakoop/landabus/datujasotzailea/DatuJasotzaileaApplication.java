@@ -1,5 +1,6 @@
 package landakoop.landabus.datujasotzailea;
 
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
@@ -13,17 +14,17 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class DatuJasotzaileaApplication {
-    static final String fanoutExchangeName = "spring-boot-exchange";
-    static final String queueName = "spring-boot";
+	private static final String EXCHANGE_NAME = "spring-boot-exchange";
+	private static final String QUEUE_NAME = "spring-boot";
 
     @Bean
     Queue queue() {
-        return new Queue(queueName, false);
+        return new Queue(QUEUE_NAME, false);
     }
     
     @Bean
     FanoutExchange fanaoutExchange() {
-    	return new FanoutExchange(fanoutExchangeName);
+    	return new FanoutExchange(EXCHANGE_NAME);
     }
     @Bean
     Binding bindingFanout(Queue queue, FanoutExchange exchange) {
@@ -35,14 +36,16 @@ public class DatuJasotzaileaApplication {
             MessageListenerAdapter listenerAdapter, MessageListenerAdapter listenerAdapterProba) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(queueName);
+        container.setQueueNames(QUEUE_NAME);
         container.setMessageListener(listenerAdapter);
+        container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        container.setPrefetchCount(1);
         return container;
     }
 
     @Bean
     MessageListenerAdapter listenerAdapter(Receiver receiver) {
-        return new MessageListenerAdapter(receiver, "receiveMessage");
+        return new MessageListenerAdapter(receiver, "onMessage");
     }
 
 	public static void main(String[] args) {
