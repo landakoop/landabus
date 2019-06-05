@@ -24,7 +24,6 @@ public class GeltokiakJaso {
 	public List<Geltokia> geltokiakJaso() {
 		try {
 			lista = eskaeraEgin();
-			for(Geltokia g: lista) System.out.println(g.getIzena());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -35,7 +34,7 @@ public class GeltokiakJaso {
 		RestTemplate restTemplate = new RestTemplate();
 		URI uri = new URI("http://main-app:8080/api/geltokia/list");
 		//URI uri = new URI(url+"/api/geltokia/list");
-		System.out.println(uri.toString());		
+		//System.out.println(uri.toString());		
 		return Arrays.asList(restTemplate.getForObject(uri, Geltokia[].class));
 	}
 

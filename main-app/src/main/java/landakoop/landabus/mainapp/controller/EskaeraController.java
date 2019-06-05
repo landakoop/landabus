@@ -38,6 +38,7 @@ public class EskaeraController {
 		eskaera.setHelmugaOrdua(jasotakoEskaerak.getHelmugaOrdua());
 		eskaera.setIrteeraOrdua(jasotakoEskaerak.getIrteeraOrdua());
 		eskaera.setChatId(jasotakoEskaerak.getChatId());
+		eskaera.setData(jasotakoEskaerak.getData());
 		
 		Erabiltzailea erabiltzailea = new Erabiltzailea();
 		try {
@@ -50,7 +51,7 @@ public class EskaeraController {
 			System.out.println("ERABILTZAILE BERRIA SORTUA: "+erabiltzailea.getTelegramID());
 		}
 	
-		//eskaeraDao.save(eskaera);
+		eskaeraDao.save(eskaera);
 		
 	}
 	

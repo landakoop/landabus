@@ -1,5 +1,7 @@
 package landakoop.landabus.mainapp.model;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -24,20 +27,13 @@ public class Eskaera {
 	@Column(name="eskaeraID")
 	long id;
 	
+	@Transient
 	long chatId;
 	
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-	@JoinColumn(name="erabiltzaileaID")
+	@JoinColumn(name="bidaiariaID")
 	@JsonSerialize(using = ErabiltzaileaSimpleSerializer.class)
 	Erabiltzailea erabiltzailea;	
-	
-	public Erabiltzailea getErabiltzailea() {
-		return erabiltzailea;
-	}
-
-	public void setErabiltzailea(Erabiltzailea erabiltzailea) {
-		this.erabiltzailea = erabiltzailea;
-	}
 
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="geltokiaa")
@@ -55,9 +51,28 @@ public class Eskaera {
 	@Column(name="irteeraordua")
 	int irteeraOrdua;
 	
+	@Column(name="data")
+	Date data;
+	
 	@Column(name="helmugaordua")
 	int helmugaOrdua;
+	
+	public Date getData() {
+		return data;
+	}
 
+	public void setData(Date data) {
+		this.data = data;
+	}
+
+	public Erabiltzailea getErabiltzailea() {
+		return erabiltzailea;
+	}
+
+	public void setErabiltzailea(Erabiltzailea erabiltzailea) {
+		this.erabiltzailea = erabiltzailea;
+	}
+	
 	public long getId() {
 		return id;
 	}

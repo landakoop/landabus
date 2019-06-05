@@ -16,11 +16,13 @@ public class KontsultaIgorlea {
 	@Value("${COM_PROTOCOL}://${MAINAPP_HOST}:${MAINAPP_PORT}") 
 	String url;
 	
-	public void receiveMessage(Kontsulta kontsulta) {
+	public boolean receiveMessage(Kontsulta kontsulta) {
 		try {
 			sendPost(kontsulta);
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
