@@ -230,8 +230,8 @@ INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(3,1000,10
 
 INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(1,1200,1281,true);
 INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(2,1300,1370,true);
-INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(3,1100,1093,true);
-INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(4,1310,1380,true);
+INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(3,1100,1193,true);
+INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(4,1410,1480,true);
 
 INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (1,"eguzkia",1);
 INSERT INTO ibilbidea(lineaID,eguraldia, autobusaID) VALUES (2,"euria",1);

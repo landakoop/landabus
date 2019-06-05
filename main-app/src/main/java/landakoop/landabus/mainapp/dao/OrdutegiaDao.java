@@ -8,6 +8,9 @@ import landakoop.landabus.mainapp.model.Ordutegia;
 public interface OrdutegiaDao extends CrudRepository<Ordutegia,Long> {
 	@Query(value="select count(*)"
 			+ "from ordutegia "
-			+ "where (irteeraOrdua <= ?1) and (helmugaOrdua <= ?2) ",nativeQuery=true)	
+			+ "where (((irteeraOrdua >= ?1) and (irteeraOrdua <= ?2)) or "
+			+ "((helmugaOrdua >= ?1) and (helmugaOrdua <= ?2)) or "
+			+ "((irteeraOrdua <= ?1) and (helmugaOrdua >= ?2)) or "
+			+ "((irteeraOrdua >= ?1) and (helmugaOrdua <= ?2)))",nativeQuery=true)	
 	int autobusOkupatuak(int irteeraOrdua, int helmugaOrdua);
 }
