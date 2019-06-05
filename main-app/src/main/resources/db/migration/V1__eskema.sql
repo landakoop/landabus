@@ -10,7 +10,7 @@ CONSTRAINT erabiltzailea_pk PRIMARY KEY (erabiltzaileaID)
 CREATE TABLE autobusa (
 autobusaID        SMALLINT NOT NULL AUTO_INCREMENT,
 ahalmena          TINYINT,
-CONSTRAINT autoubsa_pk PRIMARY KEY(autobusaID)
+CONSTRAINT autobusa_pk PRIMARY KEY(autobusaID)
 );
 
 
@@ -77,6 +77,7 @@ CREATE TABLE ordutegia (
  ordutegiaID       INT NOT NULL AUTO_INCREMENT,
  lineaID           INT,
  irteeraOrdua      INT,
+ helmugaOrdua      INT,
  data              DATE,
  finkoa            BOOLEAN,
  CONSTRAINT ordutegia_pk PRIMARY KEY(ordutegiaID),
