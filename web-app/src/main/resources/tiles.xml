@@ -17,7 +17,10 @@
 	<definition name="site.hasiera" extends="layout.basic">
 	    <put-attribute name="content" value="/WEB-INF/tiles/view/hasiera.jsp" />
 	</definition>
-	<definition name="site.malguak" extends="layout.basic">
-	    <put-attribute name="content" value="/WEB-INF/tiles/view/malguak.jsp" />
+	<definition name="site.ibilbideak" extends="layout.basic">
+	    <put-attribute name="content" value="/WEB-INF/tiles/view/ibilbideak.jsp" />
+	</definition>
+	<definition name="site.historikoak" extends="layout.basic">
+	    <put-attribute name="content" value="/WEB-INF/tiles/view/historikoak.jsp" />
 	</definition>
 </tiles-definitions>

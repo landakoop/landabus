@@ -1,21 +1,18 @@
-package landakoop.landabus.datujasotzailea;
+package landakoop.landabus.datusimuladorea;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class AutobusGeldialdia{
 	private int erabiltzailea;
 	private int ibilbidea;
 	private int geltokia;
 	private long noiz;
 	private String ekintza;
-
-	public AutobusGeldialdia(int erabiltzailea, int ibilbidea, int geltokia, long noiz, String ekintza) {
+	
+	public AutobusGeldialdia(int erabiltzailea, int ibilbidea, int geltokia, long noiz, boolean ekintza) {
 		this.erabiltzailea = erabiltzailea;
 		this.ibilbidea = ibilbidea;
 		this.geltokia = geltokia;
 		this.noiz = noiz;
-		this.ekintza = ekintza;
+		this.ekintza = ekintza?"igo":"jaitsi";
 	}
 
 	public int getErabiltzailea() {

@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="ibilbidea")
 public class Ibilbidea {
@@ -22,18 +24,20 @@ public class Ibilbidea {
 	int id;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="lineaID")
-	Linea linea;
+	@JoinColumn(name="ordutegiaID")
+	Ordutegia ordutegia;
 	
 	@Column(name="autobusaID")
 	int autobusaID;
 	
+	@JsonIgnore
 	@Column(name="predikzioa")
 	Integer predikzioa;
 	
 	@Column(name="eguraldia")
 	String eguraldia;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "ibilbidea", cascade=CascadeType.ALL)
 	Set<AutobusGeldialdia> autobusGeldialdia;
 
@@ -45,12 +49,12 @@ public class Ibilbidea {
 		this.id = id;
 	}
 
-	public Linea getLinea() {
-		return linea;
+	public Ordutegia getOrdutegia() {
+		return ordutegia;
 	}
 
-	public void setLinea(Linea linea) {
-		this.linea = linea;
+	public void setOrdutegia(Ordutegia ordutegia) {
+		this.ordutegia = ordutegia;
 	}
 
 	public int getAutobusaID() {

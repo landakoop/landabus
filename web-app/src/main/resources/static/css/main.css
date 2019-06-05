@@ -59,3 +59,17 @@ header {
 	justify-content: center;
 	align-items: center;
 }
+
+
+.blokea {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	text-align:center;
+	margin: .5rem;
+	grid-gap: .5rem;
+}
+
+.blokea__titulua {
+	background-color: var(--main-bg-color);
+	color: var(--secondary-text-color);
+}
