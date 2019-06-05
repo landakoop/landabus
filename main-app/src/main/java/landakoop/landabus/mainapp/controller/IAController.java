@@ -77,9 +77,13 @@ public class IAController {
 		
 		public void idatziGorputza(PrintWriter out) {
 			List<GeldialdiEkintza> ekintzak = autobusGeldialdiaDao.getGeldialdiaEkintzak(ekintza,geltokiaID);
-			for(GeldialdiEkintza ekintza : ekintzak) {
-				out.print(ekintza.getKopurua());
-				List<AurrekoGeltokia> geltokiak = autobusGeldialdiaDao.getAurrekoGeltokiak(ekintza.getLinea(), geltokiaID);
+			for(GeldialdiEkintza ek : ekintzak) {
+				out.print(ek.getKopurua());
+				List<AurrekoGeltokia> geltokiak;
+				if(ekintza == "igo")
+					geltokiak = autobusGeldialdiaDao.getAurrekoGeltokiakIgo(ek.getLinea(), geltokiaID);
+				else
+					geltokiak = autobusGeldialdiaDao.getAurrekoGeltokiakJaitsi(ek.getLinea(), geltokiaID);
 				for(AurrekoGeltokia geltokia:geltokiak) {
 					out.print(","+ geltokia.getPasatu());
 				}

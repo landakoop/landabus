@@ -24,5 +24,11 @@ public interface AutobusGeldialdiaDao extends CrudRepository<AutobusGeldialdia,L
 			+ "from (geltokia as g left join (select * from linea_geltokiak where lineaId=?1) as lg on g.geltokiaID=lg.geltokiaID) " 
 			+ "where g.geltokiaID <> ?2 "
 			+ "order by g.geltokiaID", nativeQuery=true)
-	List<AurrekoGeltokia> getAurrekoGeltokiak(long lineaID,long geltokiaID);
+	List<AurrekoGeltokia> getAurrekoGeltokiakJaitsi(long lineaID,long geltokiaID);
+	
+	@Query(value="select g.geltokiaID as geltokia, if(((lg.geltokiaID is null) or (lg.posizioa < (select posizioa from linea_geltokiak where geltokiaID=?2 and lineaID=?1))),'false','true') as pasatu "
+			+ "from (geltokia as g left join (select * from linea_geltokiak where lineaId=?1) as lg on g.geltokiaID=lg.geltokiaID) " 
+			+ "where g.geltokiaID <> ?2 "
+			+ "order by g.geltokiaID", nativeQuery=true)
+	List<AurrekoGeltokia> getAurrekoGeltokiakIgo(long lineaID,long geltokiaID);
 }
