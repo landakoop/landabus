@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -31,23 +32,28 @@ public class AutobusGeldialdia {
 	@ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(name = "bidaiariaid")
 	@JsonSerialize(using = ErabiltzaileaSimpleSerializer.class)
+	@NotNull
     Erabiltzailea erabiltzailea = new Erabiltzailea();
 	
 	@ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(name = "ibilbideaid")
 	@JsonSerialize(using = IbilbideaSimpleSerializer.class)
+	@NotNull
     Ibilbidea ibilbidea = new Ibilbidea();
 	
 	@ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(name = "geltokiaid")
 	@JsonSerialize(using = GeltokiaSimpleSerializer.class)
+	@NotNull
     Geltokia geltokia = new Geltokia();
 	
 	@Column(name="ekintza")
+	@NotNull
 	String ekintza;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="timestamp")
+	@NotNull
 	Date noiz;
 
 	public long getId() {

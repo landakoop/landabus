@@ -1,5 +1,8 @@
 package landakoop.landabus.mainapp.controller;
 
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,17 +16,14 @@ import landakoop.landabus.mainapp.model.AutobusGeldialdia;
 @RequestMapping("/api/datujasotzailea")
 public class DatuJasotzaileaController {
 	@Autowired
+	Logger logger;
+	
+	@Autowired
 	AutobusGeldialdiaDao autobusGeldialdiaDao;	
 	
 	@PostMapping(path = "postFromJson", consumes = "application/json")
-	public void postFromJson(@RequestBody AutobusGeldialdia autobusGeldialdia) {
-		System.out.println(autobusGeldialdia);
+	public void postFromJson(@Valid @RequestBody AutobusGeldialdia autobusGeldialdia) {
+		logger.info(autobusGeldialdia.toString());
 		autobusGeldialdiaDao.save(autobusGeldialdia);	
-	}
-	
-	@PostMapping(path = "postFromXml", consumes = "application/xml")
-	public void postFromXml(@RequestBody AutobusGeldialdia autobusGeldialdia) {
-		System.out.println(autobusGeldialdia);
-		//autobusGeldialdiaDao.save(autobusGeldialdia);	
 	}
 }
