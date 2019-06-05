@@ -29,8 +29,8 @@ public class Ordutegia {
 	@Column(name="irteeraOrdua")
 	int irteeraOrdua;
 	
-	@Column(name="amaieraOrdua")
-	int amaieraOrdua;
+	@Column(name="helmugaOrdua")
+	int helmugaOrdua;
 	
 	@Column(name="finkoa")
 	boolean finkoa;
@@ -63,12 +63,12 @@ public class Ordutegia {
 		this.irteeraOrdua = irteeraOrdua;
 	}
 
-	public int getAmaieraOrdua() {
-		return amaieraOrdua;
+	public int getHelmugaOrdua() {
+		return helmugaOrdua;
 	}
 
-	public void setAmaieraOrdua(int amaieraOrdua) {
-		this.amaieraOrdua = amaieraOrdua;
+	public void setHelmugaOrdua(int helmugaOrdua) {
+		this.helmugaOrdua = helmugaOrdua;
 	}
 
 	public boolean isFinkoa() {
