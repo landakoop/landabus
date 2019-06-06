@@ -45,13 +45,24 @@ public class Publisher {
 	
 	public void createRandom() {
     	for (int i=0;i<10;i++) {
-    		int ibilbide = 0;
-    		for (int j=0;j<60;j++) {    			
+    		int ibilbide = 2;
+    		Date d=new Date();
+    		for(int k=0;k<8;k++) {
+    			listaAutobusGeldialdia.add(new AutobusGeldialdia(random.nextInt(4)+1, 1,
+        				k+1, d.getTime(), true));
+    			listaAutobusGeldialdia.add(new AutobusGeldialdia(random.nextInt(4)+1, 1,
+        				k+1, d.getTime(), false));
+    			listaAutobusGeldialdia.add(new AutobusGeldialdia(random.nextInt(4)+1, 2,
+        				8-k, d.getTime(), true));
+    			listaAutobusGeldialdia.add(new AutobusGeldialdia(random.nextInt(4)+1, 2,
+        				8-k, d.getTime(), false));
+    		}
+    		for (int j=10;j<60;j++) {    			
     			if ((j%5)==0) ibilbide++;
         		Date data = new Date(2019-1900, 4, i+1,
         				random.nextInt(12), random.nextInt(60));
         		AutobusGeldialdia autobusGeldialdia = new AutobusGeldialdia(random.nextInt(4)+1, ibilbide,
-        				random.nextInt(5)+1, data.getTime(), random.nextBoolean());
+        				random.nextInt(7)+1, data.getTime(), random.nextBoolean());
         		listaAutobusGeldialdia.add(autobusGeldialdia);
         	}
     	}
@@ -65,11 +76,11 @@ public class Publisher {
 			boolean durable = true;
 			channel.exchangeDeclare(EXCHANGE_NAME, "fanout", durable);			
 			
-			/*for (AutobusGeldialdia a : listaAutobusGeldialdia) {
+			for (AutobusGeldialdia a : listaAutobusGeldialdia) {
 				String message = a.toString() + "$" + i++;
 				channel.basicPublish(EXCHANGE_NAME,"", null, message.getBytes());
 				logger.info(" [x] Sent '" + message + "'");
-			}*/
+			}
 				
 			String message = "1$1$1$123456789456$igoo";			
 			channel.basicPublish(EXCHANGE_NAME,"", null, message.getBytes());

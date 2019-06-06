@@ -39,14 +39,15 @@ public class EskaeraController {
 		eskaera.setIrteeraOrdua(jasotakoEskaerak.getIrteeraOrdua());
 		eskaera.setChatId(jasotakoEskaerak.getChatId());
 		eskaera.setData(jasotakoEskaerak.getData());
+
 		
 		Erabiltzailea erabiltzailea = new Erabiltzailea();
 		try {
-			erabiltzailea = erabiltzaileaDao.findByTelegramID(String.valueOf(eskaera.getChatId()));
+			//erabiltzailea = erabiltzaileaDao.findByTelegramID(String.valueOf(eskaera.getChatId()));
 			eskaera.setErabiltzailea(erabiltzailea);
 			System.out.println("ERABILTZAILEA EXISTITZEN ZEN");
 		}catch(NullPointerException e) {
-			erabiltzailea.setTelegramID(String.valueOf(jasotakoEskaerak.getChatId()));
+			//erabiltzailea.setTelegramID(String.valueOf(jasotakoEskaerak.getChatId()));
 			eskaera.setErabiltzailea(erabiltzailea);
 			System.out.println("ERABILTZAILE BERRIA SORTUA: "+erabiltzailea.getTelegramID());
 		}

@@ -56,6 +56,10 @@ ordutegiOnenaKalkulatu<-function(eskaerak, pasatzeOrduErlatiboak,ruta){
   kontHoberena<-0
   onartuListaHoberena<-NULL
   for(irteeraOrdua in seq(min(unlist(eskaerak$irteeraOrdua)),max(unlist(eskaerak$irteeraOrdua)),60)){
+    helmugaOrdua<-irteeraOrdua+pasatzeOrduErlatiboak[length(pasatzeOrduErlatiboak)]
+    url<-paste('http://localhost:8080/api/autobusa/eskuragarritasuna?irteeraOrdua=',irteeraOrdua,'&helmugaOrdua=',helmugaOrdua,sep="")
+    #print(getURL(url))
+    if(getURL(url)=='false') next()
     kont<-0
     onartuLista<-NULL
     for(i in 1:nrow(eskaerak)){
@@ -97,17 +101,21 @@ fitnessRuta<-function(permutazioa, geltokiak,eskaerak){
 }
 
 main<-function(){
+library(GA)
+library(rjson)
+library(RCurl)
 eskaerak <- fromJSON(getURL("http://localhost:8080/api/eskaera/list"))
 distantziak <- fromJSON(getURL("http://localhost:8080/api/geltokia/distantziak"))
 dataset<-data.frame(do.call("rbind",eskaerak))
 dataset<-head(dataset,15)
-#while(nrow(dataset)>0){
+while(nrow(dataset)>1){
   geltokiak<-NULL
   for(i in 1:nrow(dataset)){
     geltokiak<-c(geltokiak, dataset$irteera[i])
     geltokiak<-c(geltokiak, dataset$helmuga[i])
   }
   geltokiak<-unique(c(dataset$irteera,dataset$helmuga))
+  print(length(geltokiak))
   result <- ga(type="permutation",  fitness=fitnessRuta, gelt=geltokiak, eskaerak=dataset, lower=1, upper=length(geltokiak), popSize = 50, maxiter = 500,
                run = 50, pmutation = 0.2)
   resultDef<-geltokiak[order(summary(result)$solution[1,])]
@@ -118,7 +126,7 @@ dataset<-head(dataset,15)
   dataset<-dataset[!(c(dataset$id %in% onartuak)),]
 }
 
-#}
+}
 
 #library(mlbench)
 #library(caret)

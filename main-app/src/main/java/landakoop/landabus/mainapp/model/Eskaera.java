@@ -29,6 +29,7 @@ public class Eskaera {
 	
 	@Transient
 	long chatId;
+
 	
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="bidaiariaID")
