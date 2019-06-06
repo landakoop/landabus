@@ -104,10 +104,11 @@ main<-function(){
 library(GA)
 library(rjson)
 library(RCurl)
+library(httr)
 eskaerak <- fromJSON(getURL("http://localhost:8080/api/eskaera/list"))
 distantziak <- fromJSON(getURL("http://localhost:8080/api/geltokia/distantziak"))
 dataset<-data.frame(do.call("rbind",eskaerak))
-dataset<-head(dataset,15)
+dataset<-head(dataset,2)
 while(nrow(dataset)>1){
   geltokiak<-NULL
   for(i in 1:nrow(dataset)){
@@ -124,6 +125,11 @@ while(nrow(dataset)>1){
   print(ordutegiOnenaKalkulatu(dataset,pasatzeOrduakKalkulatu(resultDef,distantziak),resultDef))
   onartuak<- ordutegiak[[3]]
   dataset<-dataset[!(c(dataset$id %in% onartuak)),]
+  irtOrdua<-ordutegiak[[1]]
+  POST("http://localhost:8080/api/ia/bilaketaEmaitza", 
+       body=list(linea=resultDef, eskaerak=onartuak,irteeraOrdua=irtOrdua),
+       encode="json")
+  
 }
 
 }

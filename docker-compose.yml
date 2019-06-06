@@ -108,11 +108,11 @@ services:
       - "${WEB_PORT}:${WEB_PORT}"
   ml:
     image: trestletech/plumber
-    command: ["v1.R"]
+    command: ["Plumber.R"]
     environment:
       - MAINAPP_HOST
       - MAINAPP_PORT
-    working_dir: /usr/src/landabus/AdimenArtifiziala
+    working_dir: /usr/src/landabus/AdimenArtifizialaApi
     volumes:
       - ${PWD}:/usr/src/landabus
       - ${HOME}/.m2:/root/.m2

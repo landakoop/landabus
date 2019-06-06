@@ -18,6 +18,8 @@ public class Sender {
 			restTemplate.getForObject(url, Integer.class,params);
 			logger.info("Eskaera egin da, url={} params = {}",url,params);
 		}catch(RestClientException e) {
+			logger.info(url);
+			logger.info(params.toString());
 			logger.error("Ezin izan da get eskaera egin, url={} params = {} except = {}",url,params,e.getClass());
 		}
 	}

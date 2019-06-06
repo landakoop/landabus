@@ -32,4 +32,5 @@ public interface AutobusGeldialdiaDao extends CrudRepository<AutobusGeldialdia,L
 			+ "where g.geltokiaID <> ?2 "
 			+ "order by g.geltokiaID", nativeQuery=true)
 	List<AurrekoGeltokia> getAurrekoGeltokiakIgo(long lineaID,long geltokiaID);
+	
 }

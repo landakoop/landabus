@@ -16,15 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import landakoop.landabus.mainapp.dao.AutobusGeldialdiaDao;
+import landakoop.landabus.mainapp.dao.EskaeraDao;
 import landakoop.landabus.mainapp.dao.GeltokiaDao;
 import landakoop.landabus.mainapp.dao.IbilbideaDao;
 import landakoop.landabus.mainapp.logic.Sender;
 import landakoop.landabus.mainapp.model.AurrekoGeltokia;
+import landakoop.landabus.mainapp.model.BilaketaEmaitza;
 import landakoop.landabus.mainapp.model.GeldialdiEkintza;
 import landakoop.landabus.mainapp.model.Geltokia;
 import landakoop.landabus.mainapp.model.Ibilbidea;
@@ -47,6 +51,8 @@ public class IAController {
 	IbilbideaDao ibilbideaDao;
 	@Autowired
 	GeltokiaDao geltokiaDao;
+	@Autowired
+	EskaeraDao eskaeraDao;
 	
 	@GetMapping("run")
 	public void runIA(){
@@ -64,10 +70,19 @@ public class IAController {
 				params.put("hilabete",String.valueOf(date.getMonth()));
 				params.put("eguraldia",ibilbidea.getEguraldia());
 				params.putAll(geltokiak);
-				//sender.makeGet("http://172.17.21.79:8082/predict", params);
+				sender.makeGet("http://ml:8000/predict", params);
 				geltokiak.put("x" + ++nGeltokiak, "true");
 			}
 		}
+	}
+	
+	@PostMapping(path = "bilaketaEmaitza", consumes = "application/json")
+	public void postFromJson(@RequestBody BilaketaEmaitza linea) {
+		System.out.println(linea.getIrteeraOrdua());
+		for(Integer i:linea.getEskaerak()) {
+			eskaeraDao.onartuEskaera(i);
+		}
+
 	}
 	
 	public Map<String,String> mapaHutsa(){
