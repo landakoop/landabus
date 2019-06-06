@@ -87,3 +87,36 @@ services:
         condition: service_started
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
+  web-app:
+    image: maven:3.6.1-jdk-8-alpine
+    command: ["mvn", "spring-boot:run"]
+    environment:
+      - MAINAPP_HOST
+      - MAINAPP_PORT
+      - WEB_PORT
+      - OIDC_CLIENT_ID
+      - OIDC_CLIENT_SECRET
+      - OIDC_REDIRECT
+    working_dir: /usr/src/landabus/web-app
+    volumes:
+      - ${PWD}:/usr/src/landabus
+      - ${HOME}/.m2:/root/.m2
+    depends_on:
+      main-app:
+        condition: service_started
+    ports:
+      - "${WEB_PORT}:${WEB_PORT}"
+  ml:
+    image: trestletech/plumber
+    command: ["v1.R"]
+    environment:
+      - MAINAPP_HOST
+      - MAINAPP_PORT
+    working_dir: /usr/src/landabus/AdimenArtifiziala
+    volumes:
+      - ${PWD}:/usr/src/landabus
+      - ${HOME}/.m2:/root/.m2
+    depends_on:
+      - main-app
+    ports:
+      - "${ML_PORT}:${ML_PORT}"
