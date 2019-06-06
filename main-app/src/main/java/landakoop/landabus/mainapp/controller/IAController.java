@@ -3,6 +3,9 @@ package landakoop.landabus.mainapp.controller;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,24 +81,30 @@ public class IAController {
 		public void idatziGorputza(PrintWriter out) {
 			List<GeldialdiEkintza> ekintzak = autobusGeldialdiaDao.getGeldialdiaEkintzak(ekintza,geltokiaID);
 			for(GeldialdiEkintza ek : ekintzak) {
-				out.print(ek.getKopurua());
 				List<AurrekoGeltokia> geltokiak;
 				if(ekintza == "igo")
 					geltokiak = autobusGeldialdiaDao.getAurrekoGeltokiakIgo(ek.getLinea(), geltokiaID);
 				else
 					geltokiak = autobusGeldialdiaDao.getAurrekoGeltokiakJaitsi(ek.getLinea(), geltokiaID);
 				for(AurrekoGeltokia geltokia:geltokiak) {
-					out.print(","+ geltokia.getPasatu());
+					out.print(geltokia.getPasatu()+",");
 				}
+				Date d=ek.getData();
+				out.print(d.getHours()+",");
+				DateFormat format=new SimpleDateFormat("EEEE"); 
+				out.print(format.format(d)+",");
+				out.print(d.getMonth()+",");
+				out.print(ek.getEguraldia()+",");
+				out.print(ek.getKopurua());
 				out.println();
 			}
 		}
 		
 		public void idatziBurua(PrintWriter out) {
-			out.print("kopurua");
 			for(int i = 1; i <= geltokiaDao.count();i++) {
-				if(i!=geltokiaID) out.print(","+i);
+				if(i!=geltokiaID) out.print(i+",");
 			}
+			out.print("ordua,eguna,hilabetea,eguraldia,kopurua");
 			out.println();
 		}
 	}

@@ -6,5 +6,6 @@ public interface GeldialdiEkintza {
 	Date getData();
 	long getLinea();
 	long getKopurua();
+	String getEguraldia();
 
 }
