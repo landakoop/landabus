@@ -26,17 +26,17 @@ public class Ordutegia {
 	@JoinColumn(name="lineaID")
 	Linea linea;
 	
-	@Column(name="irteeraOrdua")
+	@Column(name="irteeraordua")
 	int irteeraOrdua;
 	
-	@Column(name="helmugaOrdua")
+	@Column(name="helmugaordua")
 	int helmugaOrdua;
 	
 	@Column(name="finkoa")
 	boolean finkoa;
 	
 	@Temporal(TemporalType.DATE)
-	@Column(name="timestamp")
+	@Column(name="data")
 	Date data;
 
 	public int getId() {

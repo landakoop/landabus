@@ -6,7 +6,9 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -15,14 +17,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import landakoop.landabus.mainapp.dao.AutobusGeldialdiaDao;
 import landakoop.landabus.mainapp.dao.GeltokiaDao;
 import landakoop.landabus.mainapp.dao.IbilbideaDao;
+import landakoop.landabus.mainapp.logic.Sender;
 import landakoop.landabus.mainapp.model.AurrekoGeltokia;
 import landakoop.landabus.mainapp.model.GeldialdiEkintza;
 import landakoop.landabus.mainapp.model.Geltokia;
+import landakoop.landabus.mainapp.model.Ibilbidea;
 
 @RestController
 @RequestMapping("/api/ia")
@@ -43,6 +48,46 @@ public class IAController {
 	@Autowired
 	GeltokiaDao geltokiaDao;
 	
+	@GetMapping("run")
+	public void runIA(){
+		Sender sender = new Sender();
+		Date date = new Date();
+		for(Ibilbidea ibilbidea : ibilbideaDao.findAll()) {
+			Map<String,String> geltokiak = mapaHutsa();
+			int nGeltokiak = 0;
+			for(Geltokia g : ibilbidea.getOrdutegia().getLinea().getGeltokiak()) {
+				Map<String,String> params = new HashMap<>();
+				params.put("geltokia",String.valueOf(g.getId()));
+				params.put("ekintza","igo");
+				params.put("ordua", String.valueOf(ibilbidea.getOrdutegia().getIrteeraOrdua()));
+				params.put("eguna",String.valueOf(date.getDay()));
+				params.put("hilabete",String.valueOf(date.getMonth()));
+				params.put("eguraldia",ibilbidea.getEguraldia());
+				params.putAll(geltokiak);
+				//sender.makeGet("http://172.17.21.79:8082/predict", params);
+				geltokiak.put("x" + ++nGeltokiak, "true");
+			}
+		}
+	}
+	
+	public Map<String,String> mapaHutsa(){
+		Map<String,String> params = new HashMap<>();
+		for(int i = 1; i < geltokiaDao.count();i++) {
+			params.put("x"+i, "false");
+		}
+		return params;
+	}
+	
+	
+	@GetMapping("ibilbidea")
+	public void sortuIbilbidea(@RequestParam(name="geltokiak", required=true) List<Long> geltokiak,
+			                   @RequestParam(name="eskaerak", required=true) List<Long> eskaerak,
+			                   @RequestParam(name="hasieraOrdua", required=true) int hasieraOrdua) {
+		for(Long geltokiaID : geltokiak) {
+			
+		}
+		
+	}
 	@GetMapping("sortuCSV")
 	public int sortuCSV() {	
 		List<Geltokia> geltokiak = geltokiaDao.findAll();
@@ -109,50 +154,17 @@ public class IAController {
 		}
 	}
 	
-	/*@GetMapping("dataset")
-	public List<Dataset> getDataset(){
-		List<Dataset> dataset=new ArrayList<>();
-		List<Ibilbidea> ibilbideak=(List<Ibilbidea>) ibilbideaDao.findAll();
+	
+	
+	/*public void sendPost(AutobusGeldialdia autobusGeldialdia) throws Exception {
+		RestTemplate restTemplate = new RestTemplate();
+		URI uri = new URI(url+"/api/datujasotzailea/postFromJson");		
 		
-		
-		for(int i=0;i<ibilbideak.size();i++) {
-			Set<AutobusGeldialdia> lista=ibilbideak.get(i).getAutobusGeldialdia();
-			Dataset d=new Dataset();
-			List<Geltokia> pasatutakoGeltokiak=new ArrayList<>();
-			int pertsonaKop=0, maxPertsona=0;
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);			
 			
-			d.setEguraldia(ibilbideak.get(i).getEguraldia());
-			System.out.println(lista.size());
-			for(AutobusGeldialdia l:lista) {
-				if(l.getEkintza().equals("igo")) pertsonaKop++;
-				else pertsonaKop--;
-				if(pertsonaKop>maxPertsona) maxPertsona=pertsonaKop;
-				if(!pasatutakoGeltokiak.contains(l.getGeltokia())) pasatutakoGeltokiak.add(l.getGeltokia());
-			}
-			d.setPertsonaKopurua(maxPertsona);
-			System.out.println("*****************");
-			System.out.println(pasatutakoGeltokiak.size()+"*********");
-			for(Geltokia g:pasatutakoGeltokiak) {
-				konprobatuGeltokiak(d,g);
-			}
-			dataset.add(d);
-		}
-		
-		return dataset;
-	}
-
-	private void konprobatuGeltokiak(Dataset d, Geltokia g) {
-		System.out.println(String.valueOf(g.getId()));
-		switch(String.valueOf(g.getId())) {
-		case "1": d.setGeltokia1(true); break; 
-		case "2": d.setGeltokia2(true); break; 
-		case "3": d.setGeltokia3(true); break; 
-		case "4": d.setGeltokia4(true); break; 
-		case "5": d.setGeltokia5(true); break; 
-		case "6": d.setGeltokia6(true); break; 
-		case "7": d.setGeltokia7(true); break; 
-		case "8": d.setGeltokia8(true); break; 
-		}
+		HttpEntity<AutobusGeldialdia> requestBody = new HttpEntity<>(autobusGeldialdia, headers);
+		restTemplate.postForEntity(uri, requestBody, AutobusGeldialdia.class);		
 	}*/
 
 
