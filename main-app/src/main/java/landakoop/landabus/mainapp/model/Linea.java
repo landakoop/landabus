@@ -1,6 +1,7 @@
 package landakoop.landabus.mainapp.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -35,7 +36,7 @@ public class Linea {
 				joinColumns={@JoinColumn(name="lineaID")}, 
 				inverseJoinColumns={@JoinColumn(name="geltokiaID")})
 	@JsonIgnore
-    private Set<Geltokia> geltokiak = new HashSet<>();
+    private List<Geltokia> geltokiak = new ArrayList<>();
 
 	public long getId() {
 		return id;
@@ -53,11 +54,11 @@ public class Linea {
 		this.izena = izena;
 	}
 
-	public Set<Geltokia> getGeltokiak() {
+	public List<Geltokia> getGeltokiak() {
 		return geltokiak;
 	}
 
-	public void setGeltokiak(Set<Geltokia> geltokiak) {
+	public void setGeltokiak(List<Geltokia> geltokiak) {
 		this.geltokiak = geltokiak;
 	}	
 	

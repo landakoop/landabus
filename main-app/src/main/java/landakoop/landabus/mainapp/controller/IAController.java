@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import landakoop.landabus.mainapp.dao.AutobusGeldialdiaDao;
@@ -27,6 +26,7 @@ import landakoop.landabus.mainapp.dao.EskaeraDao;
 import landakoop.landabus.mainapp.dao.GeltokiaDao;
 import landakoop.landabus.mainapp.dao.IbilbideaDao;
 import landakoop.landabus.mainapp.logic.Sender;
+import landakoop.landabus.mainapp.logic.Util;
 import landakoop.landabus.mainapp.model.AurrekoGeltokia;
 import landakoop.landabus.mainapp.model.BilaketaEmaitza;
 import landakoop.landabus.mainapp.model.Eskaera;
@@ -59,6 +59,9 @@ public class IAController {
 	
 	@Autowired
 	Sender sender;
+	
+	@Autowired
+	Util util;
 	
 	private static String[] ekintzak = {"igo","jaitsi"};
 	
@@ -109,12 +112,13 @@ public class IAController {
 		// Ibilbideak sortu
 		Ibilbidea ibilbidea = new Ibilbidea();
 		ibilbidea.setOrdutegia(ordutegia);
-		
+		logger.info("Malgua sortu da: linea = {}, ibilbidea= {}, ordutegia = {}",linea.getId(),ibilbidea.getId(),ordutegia.getId());
 		//Eskaerak onartu
 		for(Eskaera e : eskaerak) {
 			e.setOnartua(true);
 			e.setIbilbidea(ibilbidea);
 			eskaeraDao.save(e);
+			logger.info("Eskaera onartu da: id={}",e.getId());
 		}
 	}
 	
@@ -125,17 +129,7 @@ public class IAController {
 		}
 		return params;
 	}
-	
-	
-	@GetMapping("ibilbidea")
-	public void sortuIbilbidea(@RequestParam(name="geltokiak", required=true) List<Long> geltokiak,
-			                   @RequestParam(name="eskaerak", required=true) List<Long> eskaerak,
-			                   @RequestParam(name="hasieraOrdua", required=true) int hasieraOrdua) {
-		for(Long geltokiaID : geltokiak) {
-			
-		}
-		
-	}
+
 	@GetMapping("sortuCSV")
 	public int sortuCSV() {	
 		List<Geltokia> geltokiak = geltokiaDao.findAll();
