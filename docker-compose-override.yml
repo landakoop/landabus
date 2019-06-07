@@ -8,11 +8,11 @@ services:
       - ${PWD}:/usr/src/landabus
       - ${HOME}/.m2:/root/.m2
     depends_on:
-      - main-app
+      main-app:
+        condition: service_started
     environment:
       - COM_PROTOCOL
       - MAINAPP_HOST
       - MAINAPP_PORT
       - TELEGRAM_TOKEN
       - TELEGRAM_USERNAME
-

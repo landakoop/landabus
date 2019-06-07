@@ -25,12 +25,12 @@ public class GeltokiakJaso {
 		try {
 			lista = eskaeraEgin();
 		} catch (URISyntaxException e) {
-			e.printStackTrace();
+			//logger.error("Ezin izan da main-app etik geltoki zerrenda eskuratu. Excep= {} ", e.getClass());
 		}
 		return lista;
 	}
 	
-	private List<Geltokia>  eskaeraEgin() throws URISyntaxException {
+	private static List<Geltokia>  eskaeraEgin() throws URISyntaxException {
 		RestTemplate restTemplate = new RestTemplate();
 		URI uri = new URI("http://main-app:8080/api/geltokia/list");
 		//URI uri = new URI(url+"/api/geltokia/list");

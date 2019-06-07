@@ -5,9 +5,10 @@ import java.util.Date;
 import org.apache.commons.collections4.BidiMap;
 
 import landakoop.landabus.landabusBot.LandabusBot;
+import landakoop.landabus.landabusBot.Stage;
 
 public class Kontsulta {
-	int stage;
+	Stage stage;
 	Long chatId;
 	Geltokia irteera;
 	Geltokia helmuga;
@@ -15,7 +16,9 @@ public class Kontsulta {
 	int helmugaOrdua;
 	Date data;
 	
-	public Kontsulta() {}
+	public Kontsulta() {
+		stage = Stage.HASIERA;
+	}
 	
 	public Date getData() {
 		return data;
@@ -23,10 +26,10 @@ public class Kontsulta {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	public int getStage() {
+	public Stage getStage() {
 		return stage;
 	}
-	public void setStage(int stage) {
+	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
 	public Geltokia getIrteera() {
@@ -60,12 +63,27 @@ public class Kontsulta {
 		this.chatId = chatId;
 	}
 	
+	public void nextStage() {
+		stage = stage.hurrengoa();
+	}
+	
+	public void previousStage() {
+		System.out.println("Cur" + stage);
+		stage = stage.aurrekoa();
+		System.out.println("Now" + stage);
+	}
+
+	/*@Override
+	public String toString() {
+		return "Kontsulta [stage=" + stage + ", chatId=" + chatId + ", irteera=" + irteera + ", helmuga=" + helmuga
+				+ ", irteeraOrdua=" + irteeraOrdua + ", helmugaOrdua=" + helmugaOrdua + ", data=" + data + "]";
+	}*/
+	
 	@Override
 	@SuppressWarnings("deprecation")
 	public String toString() {
 		LandabusBot bot = new LandabusBot();
 		BidiMap<String,Integer> map = bot.getOrduakMap();
-		
 		String kontsulta;
 		kontsulta = "EGUNA: "+"<b>"+(getData().getYear()+1900)+"/"+getData().getMonth()+"/"+getData().getDate()+"</b>"+"\n"+"IRTEERA: "+"<b>"+getIrteera().getIzena()
 				+"</b>"+" ------> "
