@@ -10,21 +10,23 @@ import org.springframework.web.servlet.ModelAndView;
 public class MainController {
 
     @RequestMapping("/")
-    public ModelAndView hasiera() {
-    	
+    public ModelAndView hasiera() {    	
     	return new ModelAndView("site.hasiera");
     }
     
     @RequestMapping("/ibilbideak")
-    public ModelAndView eskaerak() {
-    	
+    public ModelAndView eskaerak() {    	
     	return new ModelAndView("site.ibilbideak");
     }
     
     @RequestMapping("/historikoak")
-    public ModelAndView historikoak() {
-    	
+    public ModelAndView historikoak() {    	
     	return new ModelAndView("site.historikoak");
+    }
+    
+    @RequestMapping("/administrazioa")
+    public ModelAndView administrazioa(){
+    	return new ModelAndView("site.administrazioa");
     }
     
     @RequestMapping("/kaixo")

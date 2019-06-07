@@ -4,6 +4,7 @@
   margin: 0;
   --main-bg-color: #4d79ff;
   --secondary-bg-color: #668cff;
+  --selected-bg-color: #023c88;
   --secondary-text-color: #fff;
 }
 
@@ -25,11 +26,16 @@ body {
 }
 
 .aside__element {
+	background-color: var(--secondary-bg-color);
 	color: var(--secondary-text-color);
 	padding: 1rem;
 	text-decoration: none;
 	font-weight: bold;
 	text-align: center;
+}
+
+.aside__element--selected {
+	background-color: var(--selected-bg-color);
 }
 
 header {

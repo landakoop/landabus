@@ -11,6 +11,7 @@
 	grid-area: toolbar;
 	display: flex;
 	justify-content: flex-end;
+	margin: 0 .5rem;
 }
 
 .ibilbideak-toolbar__element {
@@ -22,7 +23,7 @@
 }
 
 .ibilbideak-toolbar__element--selected {
-	background-color: var(--main-bg-color);
+	background-color: var(--selected-bg-color);
 }
 
 .ibilbideak-zerrenda {
@@ -35,5 +36,48 @@
 
 .ibilbideak-mapa {
 	grid-area: mapa;
+}
+
+.ibilbideak-mapa__element {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 1em;
+	margin: 1em;
+}
+
+.workstation {
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+    position: relative;
+    height: 2.25em;
+    border: 1px solid var(--secondary-bg-color);
+    flex-grow: 1;
+}
+
+.workstations {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-grow: 1;
+}
+
+.dot {
+    width: 20px;
+    height: 20px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    transition: margin-left .1s;
+    display: inline-block;
+    position: absolute;
+    right: -.75rem;
+    bottom: -.8rem;
+}
+
+#l-rb0,
+#rb0 {
+    background-color: var(--secondary-bg-color);
 }
 

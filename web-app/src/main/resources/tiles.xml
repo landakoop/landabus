@@ -23,4 +23,7 @@
 	<definition name="site.historikoak" extends="layout.basic">
 	    <put-attribute name="content" value="/WEB-INF/tiles/view/historikoak.jsp" />
 	</definition>
+	<definition name="site.administrazioa" extends="layout.basic">
+	    <put-attribute name="content" value="/WEB-INF/tiles/view/administrazioa.jsp" />
+	</definition>
 </tiles-definitions>

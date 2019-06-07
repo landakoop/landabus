@@ -1,0 +1,72 @@
+.administrazioa {
+	display: grid;
+	grid-template-areas: "lineak toolbar toolbar" "lineak aukeratutakoak geltokiak" "lineak ordutegiak none";
+	grid-template-columns: 1fr 25% 25%;
+	grid-template-rows: auto 1fr 1fr;
+	padding: 1rem;
+	height: 100%;
+}
+
+.administrazioa-toolbar {
+	grid-area: toolbar;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.administrazioa-toolbar__form {
+	margin: 0 .5rem;
+}
+
+.administrazioa-toolbar__buttons {
+	display: flex;
+	margin: .5rem;
+}
+
+.administrazioa-toolbar__element {
+	background-color: var(--secondary-bg-color);
+	color: var(--secondary-text-color);
+	padding: .8rem 1rem;
+	margin: 0 .1rem;
+	cursor: pointer;
+}
+
+.administrazioa-toolbar__element--selected {
+	background-color: var(--selected-bg-color);
+}
+
+.administrazioa-lineak {
+	grid-area: lineak;
+}
+
+.administrazioa-geltokiak {
+	grid-area: geltokiak;
+}
+
+.administrazioa-aukeratutakoak {
+	grid-area: aukeratutakoak;
+}
+
+.administrazioa-ordutegiak {
+	grid-area: ordutegiak;
+}
+
+.administrazioa-ordutegia__form {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+.administrazioa-ordutegia__form-form div{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 1.5rem .5rem;
+	width: 50%;
+}
+
+.administrazioa-ordutegia__form-buttons {
+	display: flex;
+	justify-content: flex-end;
+	margin: .5rem;
+}
