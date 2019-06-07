@@ -57,27 +57,31 @@ public class IAController {
 	@Autowired
 	Sender sender;
 	
+	private static String[] ekintzak = {"igo","jaitsi"};
+	
 	@GetMapping("run")
 	public void runIA(){
-		//Sender sender = new Sender();
 		Date date = new Date();
 		for(Ibilbidea ibilbidea : ibilbideaDao.findAll()) {
 			Map<String,String> geltokiak = mapaHutsa();
 			int nGeltokiak = 0;
 			for(Geltokia g : ibilbidea.getOrdutegia().getLinea().getGeltokiak()) {
-				Map<String,String> params = new HashMap<>();
-				params.put("geltokia",String.valueOf(g.getId()));
-				params.put("ekintza","igo");
-				params.put("ordua", String.valueOf(ibilbidea.getOrdutegia().getIrteeraOrdua()));
-				params.put("eguna",String.valueOf(date.getDay()));
-				params.put("hilabete",String.valueOf(date.getMonth()));
-				params.put("eguraldia",ibilbidea.getEguraldia());
-				params.putAll(geltokiak);
-				Object obj = sender.makeGet("http://ml:8000/predict", params);
-				if(obj != null) {
-					System.out.println(obj.getClass());
-					geltokiak.put("x" + ++nGeltokiak, "true");
-					logger.error("Rek erantzuna NULL. params={}",params);
+				for(String ekintza : ekintzak) {
+					Map<String,String> params = new HashMap<>();
+					params.put("geltokia",String.valueOf(g.getId()));
+					params.put("ekintza",ekintza);
+					params.put("ordua", String.valueOf(ibilbidea.getOrdutegia().getIrteeraOrdua()));
+					DateFormat format=new SimpleDateFormat("EEEE"); 
+					params.put("eguna",String.valueOf(format.format(date)));
+					params.put("hilabetea",String.valueOf(date.getMonth()));
+					params.put("eguraldia",ibilbidea.getEguraldia());
+					params.putAll(geltokiak);
+					Object obj = sender.makeGet("http://ml:8000/predict", params);
+					if(obj != null) {
+						System.out.println(obj.getClass());
+						geltokiak.put("x" + ++nGeltokiak, "true");
+						logger.error("Rek erantzuna NULL. params={}",params);
+					}
 				}
 
 			}
@@ -176,19 +180,5 @@ public class IAController {
 			out.println();
 		}
 	}
-	
-	
-	
-	/*public void sendPost(AutobusGeldialdia autobusGeldialdia) throws Exception {
-		RestTemplate restTemplate = new RestTemplate();
-		URI uri = new URI(url+"/api/datujasotzailea/postFromJson");		
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);			
-			
-		HttpEntity<AutobusGeldialdia> requestBody = new HttpEntity<>(autobusGeldialdia, headers);
-		restTemplate.postForEntity(uri, requestBody, AutobusGeldialdia.class);		
-	}*/
-
 
 }

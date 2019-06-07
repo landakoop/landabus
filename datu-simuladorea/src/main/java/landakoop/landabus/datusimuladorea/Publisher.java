@@ -82,13 +82,13 @@ public class Publisher {
 				logger.info(" [x] Sent '" + message + "'");
 			}
 				
-			String message = "1$1$1$123456789456$igoo";			
+			/*String message = "1$1$1$123456789456$igoo";			
 			channel.basicPublish(EXCHANGE_NAME,"", null, message.getBytes());
 			logger.info(" [x] Sent '" + message + "'");
 			
 			message = "1$1$1$499";			
 			channel.basicPublish(EXCHANGE_NAME,"", null, message.getBytes());
-			logger.info(" [x] Sent '" + message + "'");
+			logger.info(" [x] Sent '" + message + "'");*/
 			
 			logger.info(" [*] Channel closed");			
 			

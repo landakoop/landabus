@@ -1,6 +1,7 @@
 package landakoop.landabus.mainapp.logic;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,12 @@ public class Sender {
 	public Object makeGet(String url,Map<String,?> params) {
 		Object obj = null;
 		try {
+			url = url.concat("?");
+			for(String s : params.keySet()) {
+				if(!url.endsWith("?")) url = url.concat("&");
+				url = url.concat(s + "={"+ s + "}");
+			}
+			
 			RestTemplate restTemplate = new RestTemplate();
 			obj = restTemplate.getForObject(url, Object.class,params);
 			logger.info("Eskaera egin da, url={} params = {}",url,params);
