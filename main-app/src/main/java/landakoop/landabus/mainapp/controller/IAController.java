@@ -120,6 +120,7 @@ public class IAController {
 			eskaeraDao.save(e);
 			logger.info("Eskaera onartu da: id={}",e.getId());
 		}
+			
 	}
 	
 	public Map<String,String> mapaHutsa(){
