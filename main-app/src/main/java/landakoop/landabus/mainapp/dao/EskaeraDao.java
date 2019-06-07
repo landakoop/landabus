@@ -23,4 +23,6 @@ public interface EskaeraDao extends CrudRepository<Eskaera,Long>{
 	@Modifying
 	@Query(value="update eskaera set onartua=1 where eskaeraID=?1", nativeQuery=true)
 	void onartuEskaera(long eskaeraID);
+	
+	
 }
