@@ -68,9 +68,7 @@ public class Kontsulta {
 	}
 	
 	public void previousStage() {
-		System.out.println("Cur" + stage);
 		stage = stage.aurrekoa();
-		System.out.println("Now" + stage);
 	}
 
 	/*@Override

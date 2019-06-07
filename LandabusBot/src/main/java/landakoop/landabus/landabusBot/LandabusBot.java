@@ -155,11 +155,9 @@ public class LandabusBot extends TelegramLongPollingBot{
 						logger.info("Hasiera orria. id={}",chatID);
 						break;
 					case KONTSULTATU:
-						if(mezuaTxt.equals("KONTSULTATU")){
-							kontsulta.nextStage();
-							execute(mezuaBidali(mezua,egunaGaldera, kontsulta.getStage()));
-							logger.info("Kontsultako lehenengo galdetegia (egutegia) bidalita \"{}\" erabiltzaileari", mezua.getChatId());	
-						}
+						kontsulta.nextStage();
+						execute(mezuaBidali(mezua,egunaGaldera, kontsulta.getStage()));
+						logger.info("Kontsultako lehenengo galdetegia (egutegia) bidalita \"{}\" erabiltzaileari", mezua.getChatId());	
 						break;
 					case EGUTEGIA: 
 						if(!mezuaTxt.equals(atzera[0]))
@@ -197,12 +195,10 @@ public class LandabusBot extends TelegramLongPollingBot{
 						logger.info("Kontsultaren konfirmazioa bidalita \"{}\" erabiltzaileari", mezua.getChatId());
 						break;
 					case KONFIRMAZIOA:
-						if(mezuaTxt.equals("ESKAERA BIDALI")) {
-							KontsultaIgorlea igorle = new KontsultaIgorlea();
-							igorle.receiveMessage(kontsulta);
-							kontsulta.nextStage();
-							execute(mezuaBidali(mezua,amaieraMezua,kontsulta.getStage()));
-						}
+						KontsultaIgorlea igorle = new KontsultaIgorlea();
+						igorle.receiveMessage(kontsulta);
+						kontsulta.nextStage();
+						execute(mezuaBidali(mezua,amaieraMezua,kontsulta.getStage()));
 						break;
 					default: 
 						SendMessage response = new SendMessage();
