@@ -54,9 +54,12 @@ public class IAController {
 	@Autowired
 	EskaeraDao eskaeraDao;
 	
+	@Autowired
+	Sender sender;
+	
 	@GetMapping("run")
 	public void runIA(){
-		Sender sender = new Sender();
+		//Sender sender = new Sender();
 		Date date = new Date();
 		for(Ibilbidea ibilbidea : ibilbideaDao.findAll()) {
 			Map<String,String> geltokiak = mapaHutsa();
@@ -70,8 +73,13 @@ public class IAController {
 				params.put("hilabete",String.valueOf(date.getMonth()));
 				params.put("eguraldia",ibilbidea.getEguraldia());
 				params.putAll(geltokiak);
-				sender.makeGet("http://ml:8000/predict", params);
-				geltokiak.put("x" + ++nGeltokiak, "true");
+				Object obj = sender.makeGet("http://ml:8000/predict", params);
+				if(obj != null) {
+					System.out.println(obj.getClass());
+					geltokiak.put("x" + ++nGeltokiak, "true");
+					logger.error("Rek erantzuna NULL. params={}",params);
+				}
+
 			}
 		}
 	}

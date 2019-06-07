@@ -107,7 +107,7 @@ services:
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
   ml:
-    image: trestletech/plumber
+    image: devallday/teacheck-ml-service
     command: ["Plumber.R"]
     environment:
       - MAINAPP_HOST
@@ -115,7 +115,6 @@ services:
     working_dir: /usr/src/landabus/AdimenArtifizialaApi
     volumes:
       - ${PWD}:/usr/src/landabus
-      - ${HOME}/.m2:/root/.m2
     depends_on:
       - main-app
     ports:
