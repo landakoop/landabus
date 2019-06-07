@@ -122,8 +122,9 @@ while(nrow(dataset)>1){
   resultDef<-geltokiak[order(summary(result)$solution[1,])]
   print(resultDef)
   ordutegiak<-ordutegiOnenaKalkulatu(dataset,pasatzeOrduakKalkulatu(resultDef,distantziak),resultDef)
-  print(ordutegiOnenaKalkulatu(dataset,pasatzeOrduakKalkulatu(resultDef,distantziak),resultDef))
+  print(ordutegiak)
   onartuak<- ordutegiak[[3]]
+  if(nrow(onartuak)=0) break
   dataset<-dataset[!(c(dataset$id %in% onartuak)),]
   irtOrdua<-ordutegiak[[1]]
   POST("http://localhost:8080/api/ia/bilaketaEmaitza", 
@@ -134,18 +135,3 @@ while(nrow(dataset)>1){
 
 }
 
-#library(mlbench)
-#library(caret)
-# load the data
-#data(PimaIndiansDiabetes)
-# define the control using a random forest selection function
-#control <- rfeControl(functions=rfFuncs, method="cv", number=10)
-# run the RFE algorithm Recursive Feature Elimination 
-#results <- rfe(PimaIndiansDiabetes[,1:8], PimaIndiansDiabetes[,9], sizes=c(1:8), rfeControl=control)
-#trainControl <- trainControl(method="repeatedcv", number=10, repeats=3)
-#fit.rf <- train(diabetes~., data=PimaIndiansDiabetes, method="rf", trControl=trainControl)
-
-#aldaketa(summary(result)$solution, geltokiak)
-
-#print(summary(result)$solution)
-#print(geltokiak)
