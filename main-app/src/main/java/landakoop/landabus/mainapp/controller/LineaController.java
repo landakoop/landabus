@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import landakoop.landabus.mainapp.dao.GeltokiaDao;
 import landakoop.landabus.mainapp.dao.LineaDao;
+import landakoop.landabus.mainapp.dao.OrdutegiaDao;
 import landakoop.landabus.mainapp.model.Geltokia;
 import landakoop.landabus.mainapp.model.Linea;
+import landakoop.landabus.mainapp.model.rest.OrdutegiaRest;
 
 @CrossOrigin()
 @RestController
@@ -32,11 +34,18 @@ public class LineaController {
 	LineaDao lineaDao;
 	@Autowired
 	GeltokiaDao geltokiaDao;
+	@Autowired
+	OrdutegiaDao ordutegiaDao;
 	
 	@GetMapping("/")
 	public List<Linea> getLineak(){
 		List<Linea> lineak = (List<Linea>) lineaDao.findAll();
 		return lineak;
+	}
+	
+	@GetMapping("ordutegiak")
+	public List<OrdutegiaRest> getOrdutegiak(@RequestParam long lineaID) {
+		return ordutegiaDao.getOrdutegiak(lineaID);
 	}
 	
 	@PutMapping("/")
@@ -53,7 +62,7 @@ public class LineaController {
 		}
 	}
 	
-	@PostMapping("/gehituGeltokiak")
+	@PostMapping("gehituGeltokiak")
 	public void gehituGeltokiak(@RequestParam(name="lineaID", required=true) Long lineaID,
 			                       @RequestParam(name="geltokiak", required=true) List<Long> geltokiak,
 			                       HttpServletResponse response) {
@@ -69,6 +78,7 @@ public class LineaController {
 					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				}
 			}
+			lineaDao.save(linea);
 		}else {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}

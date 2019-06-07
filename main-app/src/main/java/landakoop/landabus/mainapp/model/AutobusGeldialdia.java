@@ -33,19 +33,19 @@ public class AutobusGeldialdia {
     @JoinColumn(name = "bidaiariaid")
 	@JsonSerialize(using = ErabiltzaileaSimpleSerializer.class)
 	@NotNull
-    Erabiltzailea erabiltzailea = new Erabiltzailea();
+    Erabiltzailea erabiltzailea;
 	
 	@ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(name = "ibilbideaid")
 	@JsonSerialize(using = IbilbideaSimpleSerializer.class)
 	@NotNull
-    Ibilbidea ibilbidea = new Ibilbidea();
+    Ibilbidea ibilbidea;
 	
 	@ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(name = "geltokiaid")
 	@JsonSerialize(using = GeltokiaSimpleSerializer.class)
 	@NotNull
-    Geltokia geltokia = new Geltokia();
+    Geltokia geltokia;
 	
 	@Column(name="ekintza")
 	@NotNull
@@ -85,6 +85,7 @@ public class AutobusGeldialdia {
 	}
 
 	public void setErabiltzailea(int erabiltzailea) {
+		this.erabiltzailea = new Erabiltzailea();
 		this.erabiltzailea.setId(erabiltzailea);
 	}
 
@@ -93,6 +94,7 @@ public class AutobusGeldialdia {
 	}
 
 	public void setIbilbidea(int ibilbidea) {
+		this.ibilbidea = new Ibilbidea();
 		this.ibilbidea.setId(ibilbidea);
 	}
 
@@ -101,6 +103,7 @@ public class AutobusGeldialdia {
 	}
 
 	public void setGeltokia(int geltokia) {
+		this.geltokia = new Geltokia();
 		this.geltokia.setId(geltokia);
 	}
 

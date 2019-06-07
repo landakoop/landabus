@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -28,8 +29,8 @@ public class Eskaera {
 	long id;
 	
 	@Transient
+	@NotNull
 	long chatId;
-
 	
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="bidaiariaID")
@@ -39,23 +40,28 @@ public class Eskaera {
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="geltokiaa")
 	@JsonSerialize(using = GeltokiaSimpleSerializer.class)
+	@NotNull
 	Geltokia irteera;
 	
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="geltokiab")
 	@JsonSerialize(using = GeltokiaSimpleSerializer.class)
+	@NotNull
 	Geltokia helmuga;
 	
 	@Column(name="onartua")
 	boolean onartua;
 	
 	@Column(name="irteeraordua")
+	@NotNull
 	int irteeraOrdua;
 	
 	@Column(name="data")
+	@NotNull
 	Date data;
 	
 	@Column(name="helmugaordua")
+	@NotNull
 	int helmugaOrdua;
 	
 	public Date getData() {

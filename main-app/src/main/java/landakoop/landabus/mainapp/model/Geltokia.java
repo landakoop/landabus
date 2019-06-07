@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -25,7 +26,14 @@ public class Geltokia {
 	@Column(name="izena")
 	String izena;
 	
+	@Column(name="x")
+	float x;
+	
+	@Column(name="y")
+	float y;
+	
 	@OneToMany(mappedBy = "geltokia", cascade=CascadeType.ALL)
+	@JsonIgnore
 	Set<AutobusGeldialdia> autobusGeldialdia;
 
 	public long getId() {
@@ -50,6 +58,22 @@ public class Geltokia {
 
 	public void setAutobusGeldialdia(Set<AutobusGeldialdia> autobusGeldialdia) {
 		this.autobusGeldialdia = autobusGeldialdia;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(float y) {
+		this.y = y;
 	}
 
 	@Override

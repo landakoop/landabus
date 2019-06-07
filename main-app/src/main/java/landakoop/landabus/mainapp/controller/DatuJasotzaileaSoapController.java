@@ -1,10 +1,22 @@
 package landakoop.landabus.mainapp.controller;
 
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+
+import landakoop.landabus.mainapp.dao.AutobusGeldialdiaDao;
+import landakoop.landabus.mainapp.model.AutobusGeldialdia;
+import landakoop.landabus.mainapp.soap.AutobusGeldialdiaRequest;
+import landakoop.landabus.mainapp.soap.AutobusGeldialdiaResponse;
+import landakoop.landabus.mainapp.soap.AutobusGeldialdiaSoap;
 
 @Endpoint
 public class DatuJasotzaileaSoapController {	
-	/*@Autowired
+	@Autowired
 	AutobusGeldialdiaDao autobusGeldialdiaDao;
 	
 	@PayloadRoot(namespace = "http://mainapp.landabus.landakoop/soap", localPart = "autobusGeldialdiaRequest")
@@ -31,5 +43,5 @@ public class DatuJasotzaileaSoapController {
 		response.setAutobusGeldialdiaSoap(autobusGeldialdiaSoap);
 		
 		return response;
-	}*/
+	}
 }

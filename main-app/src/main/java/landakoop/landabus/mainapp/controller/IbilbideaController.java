@@ -25,10 +25,22 @@ public class IbilbideaController {
 		return ibilbideak;
 	}
 	
-	@GetMapping("historikoa")
-	public List<ErabileraRest> getHistorikoa(){
-		List<ErabileraRest> ibilbideak =  ibilbideaDao.getErabilera();
+	@GetMapping("list-gaur")
+	public List<IbilbideaRest> getOrderListGaur(){
+		List<IbilbideaRest> ibilbideak =  (List<IbilbideaRest>) ibilbideaDao.getIbilbideakGaur();
 		return ibilbideak;
 	}
 	
+	@GetMapping("list-bihar")
+	public List<IbilbideaRest> getOrderListBihar(){
+		List<IbilbideaRest> ibilbideak =  (List<IbilbideaRest>) ibilbideaDao.getIbilbideakBihar();
+		return ibilbideak;
+	}
+	
+	@GetMapping("historikoa")
+	public List<ErabileraRest> getHistorikoa(){
+		List<ErabileraRest> ibilbideak =  ibilbideaDao.getErabilera();		
+		return ibilbideak;
+
+	}
 }

@@ -14,16 +14,21 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import landakoop.landabus.mainapp.json.OrdutegiaSimpleSerializer;
+
 @Entity
 @Table(name="ordutegia")
 public class Ordutegia {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ordutegiaID")	
-	int id;
+	long id;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="lineaID")
+	@JsonSerialize(using = OrdutegiaSimpleSerializer.class)
 	Linea linea;
 	
 	@Column(name="irteeraordua")
@@ -39,11 +44,11 @@ public class Ordutegia {
 	@Column(name="data")
 	Date data;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

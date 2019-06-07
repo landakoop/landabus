@@ -13,9 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin
 @Entity
@@ -27,13 +28,14 @@ public class Linea {
 	long id;
 	
 	@Column(name="izena")
-	@NotNull
 	String izena;
 	
 	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(name="linea_geltokiak", 
 				joinColumns={@JoinColumn(name="lineaID")}, 
 				inverseJoinColumns={@JoinColumn(name="geltokiaID")})
+	
+	@JsonIgnore
     private Set<Geltokia> geltokiak = new HashSet<>();
 
 	public long getId() {

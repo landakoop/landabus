@@ -34,6 +34,16 @@ public class GeltokiaController {
 		return (List<GeltokiaRest>) geltokiaDao.getGeltokiak(ibilbideaID);
 	}
 	
+	@GetMapping("list3")
+	public List<Geltokia> getGeltokiakLinea(@RequestParam long lineaID){
+		return (List<Geltokia>) geltokiaDao.getGeltokiakLinea(lineaID);
+	}
+	
+	@GetMapping("list4")
+	public List<Geltokia> getGeltokiakEzLinea(@RequestParam long lineaID){
+		return (List<Geltokia>) geltokiaDao.getGeltokiakEzLinea(lineaID);
+	}
+	
 	@GetMapping("distantziak")
 	public Integer[][] getDistantziak(){
 		List<Distantzia> distantziak = (List<Distantzia>) distantziaDao.findAll();

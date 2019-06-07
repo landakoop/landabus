@@ -23,4 +23,15 @@ public interface GeltokiaDao extends CrudRepository<Geltokia,Long>{
 			+ "where i.ibilbideaID=?1 "
 			+ "group by g.geltokiaID" ,nativeQuery=true)	
 	List<GeltokiaRest> getGeltokiak(long ibilbideaID);
+	
+	@Query(value="SELECT g.geltokiaID, g.izena "
+			+ "from geltokia as g left join linea_geltokiak as lg on lg.geltokiaID = g.geltokiaID "
+			+ "where lg.lineaID=?1", nativeQuery=true)
+	List<Geltokia> getGeltokiakLinea(long lineaID);
+	
+	@Query(value="SELECT g.geltokiaID, g.izena " 
+			+ "from (SELECT * from linea_geltokiak where lineaID=?1) "
+			+ "as lg right join geltokia as g on lg.geltokiaID = g.geltokiaID "
+			+ "where lg.lineaID is null", nativeQuery=true)
+	List<Geltokia> getGeltokiakEzLinea(long lineaID);
 }
