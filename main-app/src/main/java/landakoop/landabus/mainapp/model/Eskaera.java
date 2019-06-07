@@ -36,6 +36,10 @@ public class Eskaera {
 	@JoinColumn(name="bidaiariaID")
 	@JsonSerialize(using = ErabiltzaileaSimpleSerializer.class)
 	Erabiltzailea erabiltzailea;	
+	
+	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@JoinColumn(name="ibilbideaID")
+	Ibilbidea ibilbidea;	
 
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="geltokiaa")
@@ -135,5 +139,12 @@ public class Eskaera {
 	public void setHelmugaOrdua(int helmugaOrdua) {
 		this.helmugaOrdua = helmugaOrdua;
 	}
-	
+
+	public Ibilbidea getIbilbidea() {
+		return ibilbidea;
+	}
+
+	public void setIbilbidea(Ibilbidea ibilbidea) {
+		this.ibilbidea = ibilbidea;
+	}	
 }

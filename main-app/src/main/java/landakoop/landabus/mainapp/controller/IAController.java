@@ -29,9 +29,12 @@ import landakoop.landabus.mainapp.dao.IbilbideaDao;
 import landakoop.landabus.mainapp.logic.Sender;
 import landakoop.landabus.mainapp.model.AurrekoGeltokia;
 import landakoop.landabus.mainapp.model.BilaketaEmaitza;
+import landakoop.landabus.mainapp.model.Eskaera;
 import landakoop.landabus.mainapp.model.GeldialdiEkintza;
 import landakoop.landabus.mainapp.model.Geltokia;
 import landakoop.landabus.mainapp.model.Ibilbidea;
+import landakoop.landabus.mainapp.model.Linea;
+import landakoop.landabus.mainapp.model.Ordutegia;
 
 @RestController
 @RequestMapping("/api/ia")
@@ -83,18 +86,36 @@ public class IAController {
 						//logger.error("Rek erantzuna NULL. params={}",params);
 					}
 				}
-
 			}
 		}
 	}
 	
 	@PostMapping(path = "bilaketaEmaitza", consumes = "application/json")
-	public void postFromJson(@RequestBody BilaketaEmaitza linea) {
-		System.out.println(linea.getIrteeraOrdua());
-		for(Integer i:linea.getEskaerak()) {
-			eskaeraDao.onartuEskaera(i);
+	public void postFromJson(@RequestBody BilaketaEmaitza emaitza) {
+		//Eskaerak lortu
+		List<Eskaera> eskaerak = (List<Eskaera>) eskaeraDao.findAllById(emaitza.getEskaerak());
+		//Linea sortu
+		Linea linea = new Linea();
+		linea.setIzena("Malgua- ");
+		for(Geltokia gel : geltokiaDao.findAllById(emaitza.getLinea())) {
+			linea.addGeltokia(gel);
 		}
-
+		// Ordutegia sortu
+		Ordutegia ordutegia = new Ordutegia();
+		ordutegia.setLinea(linea);
+		ordutegia.setData(eskaerak.get(0).getData());
+		ordutegia.setIrteeraOrdua(emaitza.getIrteeraOrdua());
+		ordutegia.setFinkoa(false);
+		// Ibilbideak sortu
+		Ibilbidea ibilbidea = new Ibilbidea();
+		ibilbidea.setOrdutegia(ordutegia);
+		
+		//Eskaerak onartu
+		for(Eskaera e : eskaerak) {
+			e.setOnartua(true);
+			e.setIbilbidea(ibilbidea);
+			eskaeraDao.save(e);
+		}
 	}
 	
 	public Map<String,String> mapaHutsa(){

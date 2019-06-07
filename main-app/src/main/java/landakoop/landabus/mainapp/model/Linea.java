@@ -34,7 +34,6 @@ public class Linea {
 	@JoinTable(name="linea_geltokiak", 
 				joinColumns={@JoinColumn(name="lineaID")}, 
 				inverseJoinColumns={@JoinColumn(name="geltokiaID")})
-	
 	@JsonIgnore
     private Set<Geltokia> geltokiak = new HashSet<>();
 

@@ -2,12 +2,16 @@ package landakoop.landabus.mainapp.model;
 
 import java.util.List;
 
-public class BilaketaEmaitza {
-	List<Integer> linea;
+public interface BilaketaEmaitza {
+	/*List<Integer> linea;
 	List<Integer> eskaerak;
-	Integer irteeraOrdua;
+	Integer irteeraOrdua;*/
 	
-	public List<Integer> getLinea() {
+	List<Long> getLinea();
+	List<Long> getEskaerak();
+	Integer getIrteeraOrdua();
+	
+	/*public List<Integer> getLinea() {
 		return linea;
 	}
 	public void setLinea(List<Integer> linea) {
@@ -25,6 +29,6 @@ public class BilaketaEmaitza {
 	public void setIrteeraOrdua(Integer irteeraOrdua) {
 		this.irteeraOrdua = irteeraOrdua;
 	}
-	
+	*/
 	
 }
