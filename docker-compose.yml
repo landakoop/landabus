@@ -107,7 +107,7 @@ services:
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
   ml:
-    image: devallday/teacheck-ml-service
+    image: landakoop/landabus:ml
     command: ["Plumber.R"]
     environment:
       - MAINAPP_HOST

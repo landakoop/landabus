@@ -14,8 +14,8 @@ public class Sender {
 	@Autowired
 	Logger logger;
 	
-	public Object makeGet(String url,Map<String,?> params) {
-		Object obj = null;
+	public String makeGet(String url,Map<String,?> params) {
+		String obj = null;
 		try {
 			url = url.concat("?");
 			for(String s : params.keySet()) {
@@ -24,8 +24,9 @@ public class Sender {
 			}
 			
 			RestTemplate restTemplate = new RestTemplate();
-			obj = restTemplate.getForObject(url, Object.class,params);
-			logger.info("Eskaera egin da, url={} params = {}",url,params);
+			obj = restTemplate.getForObject(url, String.class,params);
+			
+			//logger.info("Eskaera egin da, url={} params = {}",url,params);
 		}catch(RestClientException e) {
 			logger.error("Ezin izan da get eskaera egin, url={} params = {} except = {}",url,params,e.getClass());
 		}

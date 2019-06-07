@@ -76,11 +76,11 @@ public class IAController {
 					params.put("hilabetea",String.valueOf(date.getMonth()));
 					params.put("eguraldia",ibilbidea.getEguraldia());
 					params.putAll(geltokiak);
-					Object obj = sender.makeGet("http://ml:8000/predict", params);
+					String obj =  sender.makeGet("http://ml:8000/predict", params);
 					if(obj != null) {
-						System.out.println(obj.getClass());
+						logger.error(obj+"********************************");
 						geltokiak.put("x" + ++nGeltokiak, "true");
-						logger.error("Rek erantzuna NULL. params={}",params);
+						//logger.error("Rek erantzuna NULL. params={}",params);
 					}
 				}
 
