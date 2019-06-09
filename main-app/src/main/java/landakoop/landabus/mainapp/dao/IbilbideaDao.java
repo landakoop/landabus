@@ -37,10 +37,10 @@ public interface IbilbideaDao extends CrudRepository<Ibilbidea,Long> {
 			+ "group by i.ibilbideaID",nativeQuery=true)	
 	Iterable<IbilbideaRest> getIbilbideakBihar();
 	
-	@Query(value="SELECT count(igb.ekintza) as bidaiariak, count(CASE WHEN o.finkoa THEN 1 END) as finkoak,count(CASE WHEN NOT o.finkoa THEN 1 END) as malguak, DATE(igb.timestamp) as data "
+	@Query(value="SELECT count(igb.ekintza) as bidaiariak, count(CASE WHEN o.finkoa THEN 1 END) as finkoak,count(CASE WHEN NOT o.finkoa THEN 1 END) as malguak, DATE(igb.noiz) as data "
 			+ "from ((ibilbidea_geltokia_bidaiaria as igb "
 			+ " join ibilbidea as i on i.ibilbideaID = igb.ibilbideaID) "
 			+ " join ordutegia as o on i.ordutegiaID = o.ordutegiaID) "
-			+ "group by DATE(igb.timestamp)",nativeQuery=true)	
+			+ "group by DATE(igb.noiz)",nativeQuery=true)	
 	List<ErabileraRest> getErabilera();
 }

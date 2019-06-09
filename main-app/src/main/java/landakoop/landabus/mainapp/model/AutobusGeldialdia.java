@@ -52,7 +52,7 @@ public class AutobusGeldialdia {
 	String ekintza;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="timestamp")
+	@Column(name="noiz")
 	@NotNull
 	Date noiz;
 
