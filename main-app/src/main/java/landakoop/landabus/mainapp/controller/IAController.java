@@ -132,15 +132,25 @@ public class IAController {
 
 	@GetMapping("sortuCSV")
 	public int sortuCSV() {	
-		long start = System.currentTimeMillis();
 		List<Geltokia> geltokiak = geltokiaDao.findAll();
 		for(Geltokia g:geltokiak) {
 			taskExecutor.execute(new CSVsortzailea(g.getId(),"igo"));
 			taskExecutor.execute(new CSVsortzailea(g.getId(),"jaitsi"));
 		}
+		return geltokiak.size();
+	}
+	@GetMapping("sortuCSVsinkronoa")
+	public int sortuCSVSinkronoa() {	
+		long start = System.currentTimeMillis();
+		List<Geltokia> geltokiak = geltokiaDao.findAll();
+		for(Geltokia g:geltokiak) {
+			CSVsortzailea sor1 = new CSVsortzailea(g.getId(),"igo");
+			sor1.run();
+			CSVsortzailea sor2 = new CSVsortzailea(g.getId(),"jaitsi");
+			sor2.run();
+		}
 		long end = System.currentTimeMillis();
-		System.out.println("---------------------------------------------------------------- ");
-		System.out.println("DENBORA: " + (end - start));
+		logger.info("CSVak sinkronoki sortzeko exekuzio denbora: {}",(end-start));
 		return geltokiak.size();
 	}
 	
