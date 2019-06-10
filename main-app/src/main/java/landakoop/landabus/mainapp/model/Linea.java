@@ -65,4 +65,19 @@ public class Linea {
 	public void addGeltokia(Geltokia geltokia) {
 		geltokiak.add(geltokia);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) return false;
+		if(!(obj instanceof Geltokia)) return false;
+		Linea l = (Linea) obj;
+		
+		return (l.getId() == id);
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return Long.valueOf(id).hashCode();
+	}
 }

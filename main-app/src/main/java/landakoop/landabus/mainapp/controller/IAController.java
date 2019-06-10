@@ -25,6 +25,8 @@ import landakoop.landabus.mainapp.dao.AutobusGeldialdiaDao;
 import landakoop.landabus.mainapp.dao.EskaeraDao;
 import landakoop.landabus.mainapp.dao.GeltokiaDao;
 import landakoop.landabus.mainapp.dao.IbilbideaDao;
+import landakoop.landabus.mainapp.dao.LineaDao;
+import landakoop.landabus.mainapp.dao.OrdutegiaDao;
 import landakoop.landabus.mainapp.logic.Sender;
 import landakoop.landabus.mainapp.logic.Util;
 import landakoop.landabus.mainapp.model.AurrekoGeltokia;
@@ -56,6 +58,10 @@ public class IAController {
 	GeltokiaDao geltokiaDao;
 	@Autowired
 	EskaeraDao eskaeraDao;
+	@Autowired
+	OrdutegiaDao ordutegiaDao;
+	@Autowired
+	LineaDao lineaDao;
 	
 	@Autowired
 	Sender sender;
@@ -103,15 +109,18 @@ public class IAController {
 		for(Geltokia gel : geltokiaDao.findAllById(emaitza.getLinea())) {
 			linea.addGeltokia(gel);
 		}
+		linea=lineaDao.save(linea);
 		// Ordutegia sortu
 		Ordutegia ordutegia = new Ordutegia();
 		ordutegia.setLinea(linea);
 		ordutegia.setData(eskaerak.get(0).getData());
 		ordutegia.setIrteeraOrdua(emaitza.getIrteeraOrdua());
 		ordutegia.setFinkoa(false);
+	    ordutegia=ordutegiaDao.save(ordutegia);
 		// Ibilbideak sortu
 		Ibilbidea ibilbidea = new Ibilbidea();
 		ibilbidea.setOrdutegia(ordutegia);
+		ibilbidea=ibilbideaDao.save(ibilbidea);
 		logger.info("Malgua sortu da: linea = {}, ibilbidea= {}, ordutegia = {}",linea.getId(),ibilbidea.getId(),ordutegia.getId());
 		//Eskaerak onartu
 		for(Eskaera e : eskaerak) {
@@ -120,6 +129,7 @@ public class IAController {
 			eskaeraDao.save(e);
 			logger.info("Eskaera onartu da: id={}",e.getId());
 		}
+			
 	}
 	
 	public Map<String,String> mapaHutsa(){

@@ -90,4 +90,19 @@ public class Ibilbidea {
 	}
 	
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) return false;
+		if(!(obj instanceof Geltokia)) return false;
+		Ibilbidea i = (Ibilbidea) obj;
+		
+		return (i.getId() == id);
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return Long.valueOf(id).hashCode();
+	}
+	
 }

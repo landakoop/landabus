@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
@@ -35,20 +36,21 @@ import landakoop.landabus.beans.Kontsulta;
 public class LandabusBot extends TelegramLongPollingBot{
 	private static final Logger logger = LoggerFactory.getLogger(LandabusBot.class);
 	static final String[] hilabeteak = {"Urtarrilak","Otsailak","Martxoak","Apirilak","Maiatzak","Ekainak","Uztailak","Abuztuak","Irailak","Urriak","Azaroak","Abenduak"};
-	static final String[] hasiera = {"KONTSULTATU"};
+	static final String[] hasiera = {"ESKATU"};
+	static final String[] atzera = {"ZUZENDU","HASIERA"};
+	static final String[] onartu = {"ESKAERA BIDALI"};
 	static final String[] arrayOrduak = {"05:00","05:30","06:00","06:30","07:00","07:30","08:00","08:30","09:00","09:30","10:00",
 			"10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30",
 			"18:00","18:30","19:00","19:30","20:00","20:30","21:00","21:30","22:00","22:30","23:00","23:30","00:00","00:30"};
-	static final String aurkezpena = "Ordutegien kontsulta edo eskakizun bat egiteko sakatu: <b>KONTSULTATU</b>";
+	static final String aurkezpena = "Linea eskaera bat egiteko sakatu: <b>ESKATU</b>";
 	static final String egunaGaldera = "Hautatu autobusa hartzeko eguna: ";
 	static final String irteeraGaldera = "Non hartu nahi duzu autobusa?";
 	static final String helmugaGaldera = "Nora heldu nahi duzu autobusean?";
 	static final String irteeraOrduGaldera = "Ze ordutatik aurrera irten zaitezke?";
 	static final String helmugaOrduGaldera = "Ze ordutarako egon behar zara helmugan?";
 	static final String balidazioakHuts = "Ez dizut ulertu, erabili teklatuko botoiak";
-	static final String amaieraMezua = "Eskaera bidali da. \n"+"Sakatu <b>HASIERA</b> hasierara itzultzeko.";
-	static final String[] atzera = {"ZUZENDU","HASIERA"};
-	static final String[] onartu = {"ESKAERA BIDALI"};
+	static final String amaieraMezua = "Eskaera bidali da. \n"+"Sakatu <b>ESKATU</b> eskaera bat egiteko.";
+	static final String eskaeraEzeztatua = "Tamalez <b>ez</b> da zure eskaera beteko duen linearik onartu . . .";
 	
 	String[] arrayGeltokiak;
 	GeltokiakJaso geltokiakJaso;
@@ -118,7 +120,7 @@ public class LandabusBot extends TelegramLongPollingBot{
 	public class Eskaera implements Runnable {
 		Message mezua;
 		Long chatID;
-		Kontsulta kontsulta;
+		Kontsulta eskaera;
 		String mezuaTxt;
 		public Eskaera(Message mezua) {
 			this.mezua = mezua;
@@ -127,78 +129,85 @@ public class LandabusBot extends TelegramLongPollingBot{
 		}
 		@Override
 		public void run() {
-			kontsulta = eskaerak.get(chatID);
-			if(kontsulta == null) {
-			    kontsulta = new Kontsulta();
-				eskaerak.put(chatID, kontsulta);
+			/*Map<String, String> linea = new LinkedHashMap<String, String>();
+			linea.put("05:45", "Arrasate");
+			linea.put("06:00", "Bergara");
+			linea.put("06:15", "Eskoriatza");
+			notifikatuOnarpena(chatID,linea);*/
+			
+			eskaera = eskaerak.get(chatID);
+			if(eskaera == null) {
+			    eskaera = new Kontsulta();
+				eskaerak.put(chatID, eskaera);
 			}
-			synchronized(kontsulta) {
-				if(!inputBalidazioa(mezuaTxt,kontsulta.getStage())) {
-					try {
-						execute(mezuaBidali(mezua,balidazioakHuts, kontsulta.getStage()));
-					} catch (TelegramApiException e) {
-						logger.error("Errorea mezua bidaltzean.Id={}, Stage={}, Ex={}",chatID,kontsulta.getStage(),e.getClass());
-					}
-					return;
+			synchronized(eskaera) {
+				if(!inputBalidazioa(mezuaTxt,eskaera.getStage())) {
+				try {
+					execute(mezuaBidali(mezua,balidazioakHuts, eskaera.getStage()));
+				} catch (TelegramApiException e) {
+					logger.error("Errorea mezua bidaltzean.Id={}, Stage={}, Ex={}",chatID,eskaera.getStage(),e.getClass());
 				}
+				return;
+				}
+
 				System.out.println(mezuaTxt);
 				
-				if(mezuaTxt.equals("/start")) kontsulta.setStage(Stage.HASIERA);
-				else if(mezuaTxt.equals("ZUZENDU")) kontsulta.previousStage();
-				else if(mezuaTxt.equals("HASIERA")) kontsulta.setStage(Stage.HASIERA);
+				if(mezuaTxt.equals("/start")) eskaera.setStage(Stage.HASIERA);
+				else if(mezuaTxt.equals("ZUZENDU")) eskaera.previousStage();
+				else if(mezuaTxt.equals("HASIERA")) eskaera.setStage(Stage.HASIERA);
 				
 				try {
-					switch(kontsulta.getStage()) {
+					switch(eskaera.getStage()) {
 					case HASIERA: 
-						kontsulta.nextStage();
-						execute(mezuaBidali(mezua,aurkezpena, kontsulta.getStage()));
+						eskaera.nextStage();
+						execute(mezuaBidali(mezua,aurkezpena, eskaera.getStage()));
 						logger.info("Hasiera orria. id={}",chatID);
 						break;
-					case KONTSULTATU:
-						kontsulta.nextStage();
-						execute(mezuaBidali(mezua,egunaGaldera, kontsulta.getStage()));
+					case ESKATU:
+						eskaera.nextStage();
+						execute(mezuaBidali(mezua,egunaGaldera, eskaera.getStage()));
 						logger.info("Kontsultako lehenengo galdetegia (egutegia) bidalita \"{}\" erabiltzaileari", mezua.getChatId());	
 						break;
 					case EGUTEGIA: 
 						if(!mezuaTxt.equals(atzera[0]))
-							kontsulta.setData(strToDate(mezuaTxt));
-						kontsulta.nextStage();
-						execute(mezuaBidali(mezua,irteeraGaldera,kontsulta.getStage()));
+							eskaera.setData(strToDate(mezuaTxt));
+						eskaera.nextStage();
+						execute(mezuaBidali(mezua,irteeraGaldera,eskaera.getStage()));
 						logger.info("Kontsultako bigarren galdetegia (irteera geltokia) bidalita \"{}\" erabiltzaileari", mezua.getChatId());
 						break;
 					case GELTOKIA_IRTEERA:
 						if(!mezuaTxt.equals(atzera[0]))
-							kontsulta.setIrteera(strToGeltokia(mezuaTxt));
-						kontsulta.nextStage();
-						execute(mezuaBidali(mezua,helmugaGaldera,kontsulta.getStage()));
+							eskaera.setIrteera(strToGeltokia(mezuaTxt));
+						eskaera.nextStage();
+						execute(mezuaBidali(mezua,helmugaGaldera,eskaera.getStage()));
 						logger.info("Kontsultako hirugarren galdetegia (helmuga geltokia) bidalita \"{}\" erabiltzaileari", mezua.getChatId());
 						break;
 					case GELTOKIA_HELMUGA: 
 						if(!mezuaTxt.equals(atzera[0]))
-							kontsulta.setHelmuga(strToGeltokia(mezuaTxt));
-						kontsulta.nextStage();
-						execute(mezuaBidali(mezua,irteeraOrduGaldera,kontsulta.getStage()));
+							eskaera.setHelmuga(strToGeltokia(mezuaTxt));
+						eskaera.nextStage();
+						execute(mezuaBidali(mezua,irteeraOrduGaldera,eskaera.getStage()));
 						logger.info("Kontsultako laugarren galdetegia (irteera ordua) bidalita \"{}\" erabiltzaileari", mezua.getChatId());
 						break;
 					case ORDUA_IRTEERA:
 						if(!mezuaTxt.equals(atzera[0]))
-							kontsulta.setIrteeraOrdua(orduakMap.get(mezuaTxt));
-						kontsulta.nextStage();
-						execute(mezuaBidali(mezua,helmugaOrduGaldera,kontsulta.getStage()));
+							eskaera.setIrteeraOrdua(orduakMap.get(mezuaTxt));
+						eskaera.nextStage();
+						execute(mezuaBidali(mezua,helmugaOrduGaldera,eskaera.getStage()));
 						logger.info("Kontsultako bostgarren galdetegia (irteera helmuga) bidalita \"{}\" erabiltzaileari", mezua.getChatId());
 						break;
 					case ORDUA_HELMUGA:
 						if(!mezuaTxt.equals(atzera[0]))
-							kontsulta.setHelmugaOrdua(orduakMap.get(mezuaTxt));
-						kontsulta.nextStage();
-						execute(mezuaBidali(mezua,kontsulta.toString(),kontsulta.getStage()));
+							eskaera.setHelmugaOrdua(orduakMap.get(mezuaTxt));
+						eskaera.nextStage();
+						execute(mezuaBidali(mezua,eskaera.toString(),eskaera.getStage()));
 						logger.info("Kontsultaren konfirmazioa bidalita \"{}\" erabiltzaileari", mezua.getChatId());
 						break;
 					case KONFIRMAZIOA:
 						KontsultaIgorlea igorle = new KontsultaIgorlea();
-						igorle.receiveMessage(kontsulta);
-						kontsulta.nextStage();
-						execute(mezuaBidali(mezua,amaieraMezua,kontsulta.getStage()));
+						igorle.receiveMessage(eskaera);
+						eskaera.setStage(Stage.ESKATU);
+						execute(mezuaBidali(mezua,amaieraMezua,eskaera.getStage()));
 						break;
 					default: 
 						SendMessage response = new SendMessage();
@@ -211,29 +220,66 @@ public class LandabusBot extends TelegramLongPollingBot{
 						break;
 					}
 				}catch (TelegramApiException e) {
-					logger.error("Errorea mezua bidaltzean.Id={}, Stage={}, Ex={}",chatID,kontsulta.getStage(),e.getClass());
+					logger.error("Errorea mezua bidaltzean.Id={}, Stage={}, Ex={}",chatID,eskaera.getStage(),e.getClass());
 				}
 			}		
 		}
 	}
 	
+	public void notifikatuOnarpena(long chatId, Map<String,String> linea) {
+		SendMessage mezua = new SendMessage();
+		mezua.setChatId(chatId);
+		mezua.setText(lineaToString(linea));
+		mezua.enableHtml(true);
+		mezua.setParseMode("HTML");
+		try {
+			execute(mezua);
+		} catch (TelegramApiException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void notifikatuEzezkoa(long chatId) {
+		SendMessage mezua = new SendMessage();
+		mezua.setChatId(chatId);
+		mezua.setText(eskaeraEzeztatua);
+		mezua.enableHtml(true);
+		mezua.setParseMode("HTML");
+		try {
+			execute(mezua);
+		} catch (TelegramApiException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static String lineaToString(Map<String, String> lineaMap) {
+		String linea = new String();
+		for(Entry<String,String> entry: lineaMap.entrySet()) linea = linea+" --> "+entry.getValue()+": "+entry.getKey()+"\n";
+		return "Zure eskaera <b>onartua</b> izan da.\n"+"<b>LINEA: </b>\n"+linea;
+	}
+	
 	public boolean inputBalidazioa(String mezua, Stage stage) {
-		if(mezua.matches("ZUZENDU|HASIERA|/start")) return true;
-		switch(stage) {
-		case EGUTEGIA:
-			return Arrays.asList(hurrengoEgunak()).contains(mezua);
-		case GELTOKIA_IRTEERA:
-		case GELTOKIA_HELMUGA:
-			return Arrays.asList(arrayGeltokiak).contains(mezua);
-		case ORDUA_IRTEERA:
-		case ORDUA_HELMUGA:
-			return mezua.matches("[0-9][0-9]:[0-9][0-9]");
-		case KONTSULTATU:
-			return mezua.equals("KONTSULTATU");
-		case KONFIRMAZIOA:
-			return mezua.equals("ESKAERA BIDALI");
-		default:
-			break;
+		try{
+			if(mezua.matches("ZUZENDU|HASIERA|/start")) return true;
+			switch(stage) {
+			case EGUTEGIA:
+				return Arrays.asList(hurrengoEgunak()).contains(mezua);
+			case GELTOKIA_IRTEERA:
+			case GELTOKIA_HELMUGA:
+				return Arrays.asList(arrayGeltokiak).contains(mezua);
+			case ORDUA_IRTEERA:
+			case ORDUA_HELMUGA:
+				return mezua.matches("[0-9][0-9]:[0-9][0-9]");
+			case ESKATU:
+				return mezua.equals("ESKATU");
+			case KONFIRMAZIOA:
+				return mezua.equals("ESKAERA BIDALI");
+			default:
+				break;
+			}
+		}catch(NullPointerException e) {
+			logger.error("Null pointer exception");
+			return false;
 		}
 		return true;
 	}
@@ -275,7 +321,8 @@ public class LandabusBot extends TelegramLongPollingBot{
         
         switch(stage) {
         case HASIERA: 
-        case KONTSULTATU:
+        case AMAIERA:
+        case ESKATU:
         	str = hasiera;
          	break;
         case EGUTEGIA: 
@@ -294,8 +341,6 @@ public class LandabusBot extends TelegramLongPollingBot{
         	str = onartu;
         	keyboard.add(erramintaBotoiak());
         	break;
-        case AMAIERA:
-        	return amaieraPanela();
         }
 		for(String geltokia: str) {
 			KeyboardRow keyboardRow = new KeyboardRow();
@@ -323,6 +368,7 @@ public class LandabusBot extends TelegramLongPollingBot{
 		return replyKeyboardMarkup;
 	}
 	
+	@SuppressWarnings("unused")
 	private static ReplyKeyboardMarkup amaieraPanela() {
 		ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
