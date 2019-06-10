@@ -70,12 +70,6 @@ public class Kontsulta {
 	public void previousStage() {
 		stage = stage.aurrekoa();
 	}
-
-	/*@Override
-	public String toString() {
-		return "Kontsulta [stage=" + stage + ", chatId=" + chatId + ", irteera=" + irteera + ", helmuga=" + helmuga
-				+ ", irteeraOrdua=" + irteeraOrdua + ", helmugaOrdua=" + helmugaOrdua + ", data=" + data + "]";
-	}*/
 	
 	@Override
 	@SuppressWarnings("deprecation")
