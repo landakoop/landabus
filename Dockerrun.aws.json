@@ -67,7 +67,7 @@
             "command": ["java", "-jar", "/usr/src/app/datu-jasotzailea.jar"],
             "memory": 512,
             "image": "openjdk:8-jre-slim",
-            "essential": false
+            "essential": false,
             "mountPoints": [
                 {
                     "sourceVolume": "datu-jasotzailea",
