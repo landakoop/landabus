@@ -16,13 +16,12 @@ public interface GeltokiaDao extends CrudRepository<Geltokia,Long>{
 	List<Geltokia> findAll();
 	long count();
 	
-	@Query(value="SELECT g.geltokiaID, g.izena, g.x, g.y, count(e.eskaeraID) as eskaerak "
-			+ "from ((((ibilbidea as i join ordutegia o on i.ordutegiaID = o.ordutegiaID) "
+	@Query(value="SELECT g.geltokiaID, g.izena, g.x, g.y, lg.posizioa "
+			+ "from (((ibilbidea as i join ordutegia o on i.ordutegiaID = o.ordutegiaID) "
 			+ " join linea_geltokiak as lg on lg.lineaID = o.lineaID)"
-			+ " join geltokia as g on lg.geltokiaID = g.geltokiaID)"
-			+ " left join eskaera as e on e.ibilbideaID = i.ibilbideaID) "
+			+ " join geltokia as g on lg.geltokiaID = g.geltokiaID) "
 			+ "where i.ibilbideaID=?1 "
-			+ "group by g.geltokiaID" ,nativeQuery=true)	
+			+ "order by lg.posizioa" ,nativeQuery=true)	
 	List<GeltokiaRest> getGeltokiak(long ibilbideaID);
 	
 	@Query(value="SELECT g.geltokiaID, g.izena "

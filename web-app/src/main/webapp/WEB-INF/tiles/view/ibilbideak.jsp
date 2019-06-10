@@ -14,21 +14,19 @@
 		<h2 class="blokea__titulua">Mapa</h2>
 		<div class="ibilbideak-mapa__element">
 			<c:forEach var = "i" begin = "0" end = "6">
-         		<div id="<c:out value="${i}"/>" class="workstations">
+         		<div id="<c:out value="${i}"/>" class="ibilbideak-mapa__element__ilara">
          			<c:forEach var = "j" begin = "0" end = "6">
-         				<div id="<c:out value="${j}"/>_5-<c:out value="${i}"/>_5" class="workstation"></div>
-         				<div id="<c:out value="${j+1}"/>-<c:out value="${i}"/>_5" class="workstation"></div>
+         				<div id="<c:out value="${j}"/>_5-<c:out value="${i}"/>_5" class="ibilbideak-mapa__element__zutabea"></div>
+         				<div id="<c:out value="${j+1}"/>-<c:out value="${i}"/>_5" class="ibilbideak-mapa__element__zutabea"></div>
          			</c:forEach>
             	</div>
-            	<div id="<c:out value="${i}"/>.5" class="workstations">
+            	<div id="<c:out value="${i}"/>.5" class="ibilbideak-mapa__element__ilara">
          			<c:forEach var = "j" begin = "0" end = "6">
-         				<div id="<c:out value="${j}"/>_5-<c:out value="${i+1}"/>" class="workstation"></div>
-         				<div id="<c:out value="${j+1}"/>-<c:out value="${i+1}"/>" class="workstation"></div>
+         				<div id="<c:out value="${j}"/>_5-<c:out value="${i+1}"/>" class="ibilbideak-mapa__element__zutabea"></div>
+         				<div id="<c:out value="${j+1}"/>-<c:out value="${i+1}"/>" class="ibilbideak-mapa__element__zutabea"></div>
          			</c:forEach>
             	</div>
       		</c:forEach>
-      		<canvas width="1920px" height="1080px" id="background"></canvas>
-      		<canvas width="1920px" height="1080px" id="background1"></canvas>
 		</div>
 	</div>
 	

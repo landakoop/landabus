@@ -6,27 +6,15 @@ $(document).ready(() => {
 			posizioa = result[index].x + "-" + result[index].y;
 			posizioa = posizioa.replace(".", "_");
 			$("#" + posizioa).append("<div><span id='" + posizioa + "_dot' class='dot'></span>"
-					+ "<span id='geltoki-izena'>" + result[index].izena) + "</span></div>";
+					+ "<span class='geltoki-izena'>" + result[index].izena) + "</span></div>";
 		});
 	});
 	
-	var linea = $("#background").get(0).getContext('2d');
-	var linea1 = $("#background1").get(0).getContext('2d');
-	drawLine($("#1-3"), $("#3-2"));
-	drawLine1($("#1-3"), $("#3-1"));
-	
-	function drawLine(from, to) {
+	function drawLine(linea, from, to) {
 		linea.beginPath();
-		linea.moveTo(from.position().left+57, from.position().top+25);
-		linea.lineTo(to.position().left+57, to.position().top+25);
+		linea.moveTo(from.position().left+from.width(), from.position().top+from.height());
+		linea.lineTo(to.position().left+to.width(), to.position().top+to.height());
 		linea.stroke();
-	}
-	
-	function drawLine1(from, to) {
-		linea1.beginPath();
-		linea1.moveTo(from.position().left+57, from.position().top+25);
-		linea1.lineTo(to.position().left+57, to.position().top+25);
-		linea1.stroke();
 	}
 	
 	function orduaFormatter(cell,formatterParams,onRendered) {		
@@ -76,14 +64,32 @@ $(document).ready(() => {
 	    	url = "http://localhost:8080/api/geltokia/list2?ibilbideaID="+row.getData().ibilbideaID;
 	    	
 	    	$(".dot").each(function() {
-	    		$(this).css("background-color", "#668cff");
+	    		$(this).css("background-color", $("*").css("--secondary-bg-color"));
+	    	});
+	    	
+	    	$(".line").each(function() {
+	    		$(this).remove();
 	    	});
 	    	
 	    	$.getJSON(url, function(result) {
-	    		$(result).each(function(index) {	    			
-	    			posizioa = "#" + result[index].x + "-" + result[index].y + "_dot";
+	    		$(result).each(function(index) {
+	    			posizioa = "#" + result[index].x + "-" + result[index].y;
 	    			posizioa = posizioa.replace(".", "_");
-	    			$(posizioa).css("background-color", "#023c88");
+	    			$(posizioa+"_dot").css("background-color", $("*").css("--selected-bg-color"));
+	    			
+	    			if ((result.length - 1) > index) {
+	    				posizioa2 = "#" + result[index+1].x + "-" + result[index+1].y;
+	    				posizioa2 = posizioa2.replace(".", "_");
+	    				
+	    				var newCanvas = $('<canvas/>', { id: 'line'+index, 'class': 'line',
+	    					Height: $(window).height(), Width: $(window).width()});
+	    				$(".ibilbideak-mapa__element").append(newCanvas);
+	    				
+	    				linea = newCanvas.get(0).getContext('2d');	    				
+	    				from = $(posizioa);
+	    				to = $(posizioa2);
+	    				drawLine(linea, from, to);
+	    			}
 	    		});
 	    	});
 			

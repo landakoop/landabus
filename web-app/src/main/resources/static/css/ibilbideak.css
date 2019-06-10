@@ -45,20 +45,20 @@
 	margin: 1em;
 }
 
-.workstation {
+.ibilbideak-mapa__element__ilara {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-grow: 1;
+}
+
+.ibilbideak-mapa__element__zutabea {
 	display: flex;
 	justify-content: flex-end;
 	align-items: flex-end;
     position: relative;
     height: 1.61em;
-    flex-grow: 1;
-}
-
-.workstations {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: nowrap;
     flex-grow: 1;
 }
 
@@ -76,13 +76,12 @@
     background-color: var(--secondary-bg-color);
 }
 
-#geltoki-izena {
+.geltoki-izena {
 	position: absolute;
 	right: .75rem;
 }
 
-#background,
-#background1 {
+.line {
 	position:absolute;
 	top:0;
 	left:0;
