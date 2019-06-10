@@ -1,5 +1,5 @@
 <aside class="aside">
-  <a id="aside__hasiera" class="aside__element aside__element--selected" href="/#">Hasiera </a>
+  <a id="aside__hasiera" class="aside__element" href="/#">Hasiera </a>
   <a id="aside__ibilbideak" class="aside__element" href="/ibilbideak">Ibilbideak </a>
   <a id="aside__historikoa" class="aside__element" href="/historikoak">Historikoa</a>
   <a id="aside__administrazioa" class="aside__element" href="/administrazioa">Administrazioa</a>

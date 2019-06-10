@@ -21,7 +21,7 @@ public class AutobusaController {
 	public boolean getEskuragarritasuna(@RequestParam("irteeraOrdua") int irteeraOrdua,
 			                            @RequestParam("helmugaOrdua") int helmugaOrdua) {	
 		int autobusOkupatuak = ordutegiaDao.autobusOkupatuak(irteeraOrdua, helmugaOrdua);
-		logger.info("{} - {} tartean okupatutako autobusak:",irteeraOrdua,helmugaOrdua,autobusOkupatuak);
+		//logger.info("{} - {} tartean okupatutako autobusak:",irteeraOrdua,helmugaOrdua,autobusOkupatuak);
 		return (autobusOkupatuak < 2);
 	}
 	

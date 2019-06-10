@@ -1,4 +1,22 @@
 $(document).ready(() => {
+	url = "http://localhost:8080/api/geltokia/list";
+	
+	$.getJSON(url, function(result) {
+		$(result).each(function( index ) {	    			
+			posizioa = result[index].x + "-" + result[index].y;
+			posizioa = posizioa.replace(".", "_");
+			$("#" + posizioa).append("<div><span id='" + posizioa + "_dot' class='dot'></span>"
+					+ "<span class='geltoki-izena'>" + result[index].izena) + "</span></div>";
+		});
+	});
+	
+	function drawLine(linea, from, to) {
+		linea.beginPath();
+		linea.moveTo(from.position().left+from.width(), from.position().top+from.height());
+		linea.lineTo(to.position().left+to.width(), to.position().top+to.height());
+		linea.stroke();
+	}
+	
 	function orduaFormatter(cell,formatterParams,onRendered) {		
 		return orduaFormatua(cell.getValue());
 	}
@@ -45,22 +63,48 @@ $(document).ready(() => {
 	    rowClick:function(e, row){
 	    	url = "http://localhost:8080/api/geltokia/list2?ibilbideaID="+row.getData().ibilbideaID;
 	    	
-	    	$.getJSON(url, function(result) {    		    
-	    		console.log(result[0].izena);
-    		});	    	
-	    	$("#1-2").append("<span id='rb" + "0'" + " class='dot'></span>");
+	    	$(".dot").each(function() {
+	    		$(this).css("background-color", $("*").css("--secondary-bg-color"));
+	    	});
+	    	
+	    	$(".line").each(function() {
+	    		$(this).remove();
+	    	});
+	    	
+	    	$.getJSON(url, function(result) {
+	    		$(result).each(function(index) {
+	    			posizioa = "#" + result[index].x + "-" + result[index].y;
+	    			posizioa = posizioa.replace(".", "_");
+	    			$(posizioa+"_dot").css("background-color", $("*").css("--selected-bg-color"));
+	    			
+	    			if ((result.length - 1) > index) {
+	    				posizioa2 = "#" + result[index+1].x + "-" + result[index+1].y;
+	    				posizioa2 = posizioa2.replace(".", "_");
+	    				
+	    				var newCanvas = $('<canvas/>', { id: 'line'+index, 'class': 'line',
+	    					Height: $(window).height(), Width: $(window).width()});
+	    				$(".ibilbideak-mapa__element").append(newCanvas);
+	    				
+	    				linea = newCanvas.get(0).getContext('2d');	    				
+	    				from = $(posizioa);
+	    				to = $(posizioa2);
+	    				drawLine(linea, from, to);
+	    			}
+	    		});
+	    	});
+			
 	    	geltokiak.replaceData(url);
 	    },
 	});
 	
 	const geltokiak = new Tabulator(".ibilbideak-eskaerak__taula", {
-	    ajaxURL: "http://localhost:8080/api/geltokia/list2?ibilbideaID=2",
+	    ajaxURL: "http://localhost:8080/api/geltokia/list2?ibilbideaID=1",
 	    ajaxConfig:"GET",
 	    layout: "fitColumns",
 	    tooltips: true,
 	    addRowPos: "top",
 	    pagination: "local",
-	    paginationSize: 5,
+	    paginationSize: 10,
 	    columns: [
 	        {title: "ID", field: "geltokiaID", align: "center", width: 50},
 	        {title: "Izena", field: "izena"},

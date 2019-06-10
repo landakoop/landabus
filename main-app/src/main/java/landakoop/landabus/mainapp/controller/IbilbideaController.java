@@ -27,13 +27,13 @@ public class IbilbideaController {
 	
 	@GetMapping("list-gaur")
 	public List<IbilbideaRest> getOrderListGaur(){
-		List<IbilbideaRest> ibilbideak =  (List<IbilbideaRest>) ibilbideaDao.getIbilbideakGaur();
+		List<IbilbideaRest> ibilbideak =  (List<IbilbideaRest>) ibilbideaDao.getIbilbideakEguna(0);
 		return ibilbideak;
 	}
 	
 	@GetMapping("list-bihar")
 	public List<IbilbideaRest> getOrderListBihar(){
-		List<IbilbideaRest> ibilbideak =  (List<IbilbideaRest>) ibilbideaDao.getIbilbideakBihar();
+		List<IbilbideaRest> ibilbideak =  (List<IbilbideaRest>) ibilbideaDao.getIbilbideakEguna(1);
 		return ibilbideak;
 	}
 	
