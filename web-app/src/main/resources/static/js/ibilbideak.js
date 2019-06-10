@@ -108,10 +108,10 @@ $(document).ready(() => {
 	    columns: [
 	        {title: "ID", field: "geltokiaID", align: "center", width: 50},
 	        {title: "Izena", field: "izena"},
-	        {title: "Igo", field: "igo"},
-	        {title: "Jaitsi", field: "jaitsi"},
-	        {title: "Eskaerak", field: "eskaerak"},
-	        {title: "Ordua", field: "helmugaOrdua"},
+	        {title: "Igo", field: "igo", align: "center"},
+	        {title: "Jaitsi", field: "jaitsi", align: "center"},
+	        {title: "Eskaerak", field: "eskaerak", align: "center"},
+	        {title: "Ordua", field: "ordua", align: "center",formatter:orduaFormatter},
 	    ],
 	});
 	

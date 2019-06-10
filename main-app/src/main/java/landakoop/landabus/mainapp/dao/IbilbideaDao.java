@@ -17,10 +17,10 @@ public interface IbilbideaDao extends CrudRepository<Ibilbidea,Long> {
 	@Query(value="select i.ibilbideaID,o.irteeraOrdua,o.helmugaOrdua, o.finkoa, "
 			+ "(select count(lg.geltokiaID) as geldialdiak from linea_geltokiak as lg where lineaID=o.lineaID) as geldialdiak, "
 			+ "(select g1.izena from (geltokia g1 join linea_geltokiak lg on g1.geltokiaID=lg.geltokiaID) "
-			+ "                 where lg.posizioa=(select max(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
+			+ "                 where lg.posizioa=(select min(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
 			+ "                       and lineaID=o.lineaID) as irteera, "
 			+ "(select g2.izena from (geltokia g2 join linea_geltokiak lg on g2.geltokiaID=lg.geltokiaID) "
-			+ "                 where lg.posizioa=(select min(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
+			+ "                 where lg.posizioa=(select max(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
 			+ "                       and lineaID=o.lineaID) as helmuga "
 			+ "from (ibilbidea as i join ordutegia as o on i.ordutegiaID= o.ordutegiaID)",nativeQuery=true)	
 	Iterable<IbilbideaRest> getIbilbideak();
@@ -28,10 +28,10 @@ public interface IbilbideaDao extends CrudRepository<Ibilbidea,Long> {
 	@Query(value="select i.ibilbideaID,o.irteeraOrdua,o.helmugaOrdua, o.finkoa, "
 			+ "(select count(lg.geltokiaID) as geldialdiak from linea_geltokiak as lg where lineaID=o.lineaID) as geldialdiak, "
 			+ "(select g1.izena from (geltokia g1 join linea_geltokiak lg on g1.geltokiaID=lg.geltokiaID) "
-			+ "                 where lg.posizioa=(select max(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
+			+ "                 where lg.posizioa=(select min(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
 			+ "                       and lineaID=o.lineaID) as irteera, "
 			+ "(select g2.izena from (geltokia g2 join linea_geltokiak lg on g2.geltokiaID=lg.geltokiaID) "
-			+ "                 where lg.posizioa=(select min(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
+			+ "                 where lg.posizioa=(select max(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
 			+ "                       and lineaID=o.lineaID) as helmuga "
 			+ "from (ibilbidea as i join ordutegia as o on i.ordutegiaID= o.ordutegiaID) "
 			+ "where ISNULL(o.data) OR o.data = (CURDATE() + ?1)",nativeQuery=true)	

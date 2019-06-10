@@ -5,7 +5,8 @@ public interface GeltokiaRest {
 	String getIzena();
 	double getX();
 	double getY();
+	Integer getOrdua();
 	/*Integer getIgo();
 	Integer getJaitsi();*/
-	Integer eskaerak();
+	Integer getEskaerak();
 }
