@@ -6,6 +6,6 @@ public interface IbilbideaRest {
 	int getHelmugaOrdua();
 	int getGeldialdiak();
 	boolean getFinkoa();
-	/*String getIrteera();
-	String getAmaiera();*/
+	String getIrteera();
+	String getHelmuga();
 }

@@ -14,28 +14,29 @@ import landakoop.landabus.mainapp.model.rest.IbilbideaRest;
 public interface IbilbideaDao extends CrudRepository<Ibilbidea,Long> {
 	Iterable<Ibilbidea> findAll();
 	
-	@Query(value="SELECT i.ibilbideaID, o.irteeraOrdua, o.helmugaOrdua, count(lg.geltokiaID) as geldialdiak, o.finkoa "
-			+ "from (((ibilbidea as i join ordutegia as o on i.ordutegiaID = o.ordutegiaID) "
-			+ "join linea_geltokiak as lg on lg.lineaID = o.lineaID) "
-			+ "join geltokia as g on g.geltokiaId = lg.geltokiaID)"
-			+ "group by i.ibilbideaID",nativeQuery=true)	
+	@Query(value="select i.ibilbideaID,o.irteeraOrdua,o.helmugaOrdua, o.finkoa, "
+			+ "(select count(lg.geltokiaID) as geldialdiak from linea_geltokiak as lg where lineaID=o.lineaID) as geldialdiak, "
+			+ "(select g1.izena from (geltokia g1 join linea_geltokiak lg on g1.geltokiaID=lg.geltokiaID) "
+			+ "                 where lg.posizioa=(select max(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
+			+ "                       and lineaID=o.lineaID) as irteera, "
+			+ "(select g2.izena from (geltokia g2 join linea_geltokiak lg on g2.geltokiaID=lg.geltokiaID) "
+			+ "                 where lg.posizioa=(select min(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
+			+ "                       and lineaID=o.lineaID) as helmuga "
+			+ "from (ibilbidea as i join ordutegia as o on i.ordutegiaID= o.ordutegiaID)",nativeQuery=true)	
 	Iterable<IbilbideaRest> getIbilbideak();
 
-	@Query(value="SELECT i.ibilbideaID, o.irteeraOrdua, o.helmugaOrdua, count(lg.geltokiaID) as geldialdiak, o.finkoa "
-			+ "from (((ibilbidea as i join ordutegia as o on i.ordutegiaID = o.ordutegiaID) "
-			+ "join linea_geltokiak as lg on lg.lineaID = o.lineaID) "
-			+ "join geltokia as g on g.geltokiaId = lg.geltokiaID)"
-			+ "where ISNULL(o.data) OR o.data = CURDATE() "
-			+ "group by i.ibilbideaID",nativeQuery=true)	
-	Iterable<IbilbideaRest> getIbilbideakGaur();
+	@Query(value="select i.ibilbideaID,o.irteeraOrdua,o.helmugaOrdua, o.finkoa, "
+			+ "(select count(lg.geltokiaID) as geldialdiak from linea_geltokiak as lg where lineaID=o.lineaID) as geldialdiak, "
+			+ "(select g1.izena from (geltokia g1 join linea_geltokiak lg on g1.geltokiaID=lg.geltokiaID) "
+			+ "                 where lg.posizioa=(select max(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
+			+ "                       and lineaID=o.lineaID) as irteera, "
+			+ "(select g2.izena from (geltokia g2 join linea_geltokiak lg on g2.geltokiaID=lg.geltokiaID) "
+			+ "                 where lg.posizioa=(select min(posizioa) from linea_geltokiak where lineaID=o.lineaID) "
+			+ "                       and lineaID=o.lineaID) as helmuga "
+			+ "from (ibilbidea as i join ordutegia as o on i.ordutegiaID= o.ordutegiaID) "
+			+ "where ISNULL(o.data) OR o.data = (CURDATE() + ?1)",nativeQuery=true)	
+	Iterable<IbilbideaRest> getIbilbideakEguna(int eguna);
 	
-	@Query(value="SELECT i.ibilbideaID, o.irteeraOrdua, o.helmugaOrdua, count(lg.geltokiaID) as geldialdiak, o.finkoa "
-			+ "from (((ibilbidea as i join ordutegia as o on i.ordutegiaID = o.ordutegiaID) "
-			+ "join linea_geltokiak as lg on lg.lineaID = o.lineaID) "
-			+ "join geltokia as g on g.geltokiaId = lg.geltokiaID)"
-			+ "where ISNULL(o.data) OR o.data = (CURDATE()+1) "
-			+ "group by i.ibilbideaID",nativeQuery=true)	
-	Iterable<IbilbideaRest> getIbilbideakBihar();
 	
 	@Query(value="SELECT count(igb.ekintza) as bidaiariak, count(CASE WHEN o.finkoa THEN 1 END) as finkoak,count(CASE WHEN NOT o.finkoa THEN 1 END) as malguak, DATE(igb.noiz) as data "
 			+ "from ((ibilbidea_geltokia_bidaiaria as igb "
