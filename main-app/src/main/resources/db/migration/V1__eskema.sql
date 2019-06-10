@@ -98,3 +98,14 @@ CREATE TABLE ibilbidea_geltokia_bidaiaria (
  CONSTRAINT ibilbidea_geltokia_bidaiaria_ibilbidea_fk FOREIGN KEY(ibilbideaID) REFERENCES ibilbidea(ibilbideaID),
  CONSTRAINT ibilbidea_geltokia_bidaiaria_geltokia_fk FOREIGN KEY(geltokiaID) REFERENCES geltokia(geltokiaID)
 );
+
+CREATE TABLE ibilbidea_geltokia_predikzioa (
+ id                INT NOT NULL AUTO_INCREMENT,
+ ibilbideaID       INT,
+ geltokiaID        TINYINT,
+ igo               INT,
+ jaitsi            INT,
+ CONSTRAINT ibilbidea_geltokia_predikzioa_pk PRIMARY KEY(id),
+ CONSTRAINT ibilbidea_geltokia_predikzioa_ibilbidea_fk FOREIGN KEY(ibilbideaID) REFERENCES ibilbidea(ibilbideaID),
+ CONSTRAINT ibilbidea_geltokia_predikzioa_geltokia_fk FOREIGN KEY(geltokiaID) REFERENCES geltokia(geltokiaID)
+);
