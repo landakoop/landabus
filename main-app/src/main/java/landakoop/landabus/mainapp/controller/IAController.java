@@ -100,9 +100,9 @@ public class IAController {
 					params.put("hilabetea",String.valueOf(date.getMonth()));
 					params.put("eguraldia",ibilbidea.getEguraldia());
 					params.putAll(geltokiak);
-					String obj =  sender.makeGet("http://ml:8000/predict", params);
+					Integer obj =  sender.makeGet("http://ml:8000/predict", params);
 					if(obj != null) {
-						logger.error(obj+"********************************");
+						logger.error(obj.getClass()+"********************************");
 						geltokiak.put("x" + ++nGeltokiak, "true");
 						//logger.error("Rek erantzuna NULL. params={}",params);
 					}
@@ -185,6 +185,7 @@ public class IAController {
 		}
 		return geltokiak.size();
 	}
+	
 	@GetMapping("sortuCSVsinkronoa")
 	public int sortuCSVSinkronoa() {	
 		long start = System.currentTimeMillis();

@@ -37,4 +37,5 @@ public interface GeltokiaDao extends CrudRepository<Geltokia,Long>{
 			+ "as lg right join geltokia as g on lg.geltokiaID = g.geltokiaID "
 			+ "where lg.lineaID is null", nativeQuery=true)
 	List<GeltokiaRest2> getGeltokiakEzLinea(long lineaID);
+	
 }

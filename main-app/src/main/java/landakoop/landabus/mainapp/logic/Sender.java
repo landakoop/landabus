@@ -13,8 +13,8 @@ public class Sender {
 	@Autowired
 	Logger logger;
 	
-	public String makeGet(String url,Map<String,?> params) {
-		String obj = null;
+	public Integer makeGet(String url,Map<String,?> params) {
+		Integer obj = null;
 		try {
 			url = url.concat("?");
 			for(String s : params.keySet()) {
@@ -23,7 +23,7 @@ public class Sender {
 			}
 			
 			RestTemplate restTemplate = new RestTemplate();
-			obj = restTemplate.getForObject(url, String.class,params);
+			obj = restTemplate.getForObject(url, Integer.class,params);
 			
 			//logger.info("Eskaera egin da, url={} params = {}",url,params);
 		}catch(RestClientException e) {
