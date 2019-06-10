@@ -142,13 +142,14 @@ public class LandabusBot extends TelegramLongPollingBot{
 			}
 			synchronized(eskaera) {
 				if(!inputBalidazioa(mezuaTxt,eskaera.getStage())) {
-					try {
-						execute(mezuaBidali(mezua,balidazioakHuts, eskaera.getStage()));
-					} catch (TelegramApiException e) {
-						logger.error("Errorea mezua bidaltzean.Id={}, Stage={}, Ex={}",chatID,eskaera.getStage(),e.getClass());
-					}
-					return;
+				try {
+					execute(mezuaBidali(mezua,balidazioakHuts, eskaera.getStage()));
+				} catch (TelegramApiException e) {
+					logger.error("Errorea mezua bidaltzean.Id={}, Stage={}, Ex={}",chatID,eskaera.getStage(),e.getClass());
 				}
+				return;
+				}
+
 				System.out.println(mezuaTxt);
 				
 				if(mezuaTxt.equals("/start")) eskaera.setStage(Stage.HASIERA);
@@ -258,22 +259,27 @@ public class LandabusBot extends TelegramLongPollingBot{
 	}
 	
 	public boolean inputBalidazioa(String mezua, Stage stage) {
-		if(mezua.matches("ZUZENDU|HASIERA|/start")) return true;
-		switch(stage) {
-		case EGUTEGIA:
-			return Arrays.asList(hurrengoEgunak()).contains(mezua);
-		case GELTOKIA_IRTEERA:
-		case GELTOKIA_HELMUGA:
-			return Arrays.asList(arrayGeltokiak).contains(mezua);
-		case ORDUA_IRTEERA:
-		case ORDUA_HELMUGA:
-			return mezua.matches("[0-9][0-9]:[0-9][0-9]");
-		case ESKATU:
-			return mezua.equals("ESKATU");
-		case KONFIRMAZIOA:
-			return mezua.equals("ESKAERA BIDALI");
-		default:
-			break;
+		try{
+			if(mezua.matches("ZUZENDU|HASIERA|/start")) return true;
+			switch(stage) {
+			case EGUTEGIA:
+				return Arrays.asList(hurrengoEgunak()).contains(mezua);
+			case GELTOKIA_IRTEERA:
+			case GELTOKIA_HELMUGA:
+				return Arrays.asList(arrayGeltokiak).contains(mezua);
+			case ORDUA_IRTEERA:
+			case ORDUA_HELMUGA:
+				return mezua.matches("[0-9][0-9]:[0-9][0-9]");
+			case ESKATU:
+				return mezua.equals("ESKATU");
+			case KONFIRMAZIOA:
+				return mezua.equals("ESKAERA BIDALI");
+			default:
+				break;
+			}
+		}catch(NullPointerException e) {
+			logger.error("Null pointer exception");
+			return false;
 		}
 		return true;
 	}
