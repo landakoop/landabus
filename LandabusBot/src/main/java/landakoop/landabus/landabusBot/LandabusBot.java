@@ -230,6 +230,7 @@ public class LandabusBot extends TelegramLongPollingBot{
 		SendMessage mezua = new SendMessage();
 		mezua.setChatId(chatId);
 		mezua.setText(lineaToString(linea));
+		System.out.println(lineaToString(linea));
 		mezua.enableHtml(true);
 		mezua.setParseMode("HTML");
 		try {
@@ -364,18 +365,6 @@ public class LandabusBot extends TelegramLongPollingBot{
         	keyboardRow.add(str[1+i]);
         	keyboard.add(keyboardRow);
         }
-        replyKeyboardMarkup.setKeyboard(keyboard);
-		return replyKeyboardMarkup;
-	}
-	
-	@SuppressWarnings("unused")
-	private static ReplyKeyboardMarkup amaieraPanela() {
-		ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);		
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        keyboard.add(erramintaBotoiak());
         replyKeyboardMarkup.setKeyboard(keyboard);
 		return replyKeyboardMarkup;
 	}

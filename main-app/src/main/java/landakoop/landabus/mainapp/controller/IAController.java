@@ -3,8 +3,11 @@ package landakoop.landabus.mainapp.controller;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,11 +18,15 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import landakoop.landabus.mainapp.dao.AutobusGeldialdiaDao;
 import landakoop.landabus.mainapp.dao.EskaeraDao;
@@ -31,6 +38,7 @@ import landakoop.landabus.mainapp.logic.Sender;
 import landakoop.landabus.mainapp.logic.Util;
 import landakoop.landabus.mainapp.model.AurrekoGeltokia;
 import landakoop.landabus.mainapp.model.BilaketaEmaitza;
+import landakoop.landabus.mainapp.model.Emaitza;
 import landakoop.landabus.mainapp.model.Eskaera;
 import landakoop.landabus.mainapp.model.GeldialdiEkintza;
 import landakoop.landabus.mainapp.model.Geltokia;
@@ -43,6 +51,9 @@ import landakoop.landabus.mainapp.model.Ordutegia;
 public class IAController {
 	@Value("${ia.path}")
 	private String IApath;
+	
+	/*@Value("${COM_PROTOCOL}://${TELEGRAM_HOST}:${TELEGRAM_PORT}")
+	String url;*/
 	
 	@Autowired
 	private Logger logger;
@@ -71,6 +82,7 @@ public class IAController {
 	
 	private static String[] ekintzak = {"igo","jaitsi"};
 	
+	@SuppressWarnings("deprecation")
 	@GetMapping("run")
 	public void runIA(){
 		Date date = new Date();
@@ -123,13 +135,37 @@ public class IAController {
 		ibilbidea=ibilbideaDao.save(ibilbidea);
 		logger.info("Malgua sortu da: linea = {}, ibilbidea= {}, ordutegia = {}",linea.getId(),ibilbidea.getId(),ordutegia.getId());
 		//Eskaerak onartu
+		List<Long> onartuenIDak = new ArrayList<>();
 		for(Eskaera e : eskaerak) {
 			e.setOnartua(true);
 			e.setIbilbidea(ibilbidea);
 			eskaeraDao.save(e);
 			logger.info("Eskaera onartu da: id={}",e.getId());
+			onartuenIDak.add(e.getChatId());
 		}
+		
+		Util util = new Util();
+		Emaitza bidalketa = new Emaitza();
+		bidalketa.setListId(onartuenIDak);
+		bidalketa.setLinea(util.getLinea(ibilbidea.getId()));
+
+		try {
+			sendPost(bidalketa);
+		} catch (Exception e1) {
+			logger.error("Ezin izan dira onartutako lineak bidali");
+		}
+	}
+	
+	public void sendPost(Emaitza emaitza) throws URISyntaxException{
+		RestTemplate restTemplate = new RestTemplate();
+		//System.out.println(url);
+		URI uri = new URI("http://telegram-bot:8082"+"/telegram/emaitza/onartuakPostFromJson");		
+		System.out.println(uri.toString());
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);			
 			
+		HttpEntity<Emaitza> requestBody = new HttpEntity<>(emaitza, headers);
+		restTemplate.postForEntity(uri, requestBody, Emaitza.class);		
 	}
 	
 	public Map<String,String> mapaHutsa(){
@@ -189,6 +225,7 @@ public class IAController {
 			}
 		}
 		
+		@SuppressWarnings("deprecation")
 		public void idatziGorputza(PrintWriter out) {
 			List<GeldialdiEkintza> ekintzak = autobusGeldialdiaDao.getGeldialdiaEkintzak(ekintza,geltokiaID);
 			for(GeldialdiEkintza ek : ekintzak) {
