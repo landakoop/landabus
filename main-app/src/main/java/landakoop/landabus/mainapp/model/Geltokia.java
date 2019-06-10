@@ -27,10 +27,10 @@ public class Geltokia {
 	String izena;
 	
 	@Column(name="x")
-	float x;
+	double x;
 	
 	@Column(name="y")
-	float y;
+	double y;
 	
 	@OneToMany(mappedBy = "geltokia", cascade=CascadeType.ALL)
 	@JsonIgnore
@@ -60,19 +60,19 @@ public class Geltokia {
 		this.autobusGeldialdia = autobusGeldialdia;
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(float x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(float y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 

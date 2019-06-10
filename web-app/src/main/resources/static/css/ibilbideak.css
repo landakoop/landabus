@@ -50,8 +50,7 @@
 	justify-content: flex-end;
 	align-items: flex-end;
     position: relative;
-    height: 2.25em;
-    border: 1px solid var(--secondary-bg-color);
+    height: 1.61em;
     flex-grow: 1;
 }
 
@@ -74,10 +73,18 @@
     position: absolute;
     right: -.75rem;
     bottom: -.8rem;
-}
-
-#l-rb0,
-#rb0 {
     background-color: var(--secondary-bg-color);
 }
 
+#geltoki-izena {
+	position: absolute;
+	right: .75rem;
+}
+
+#background,
+#background1 {
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:-1;
+}

@@ -14,6 +14,7 @@ import landakoop.landabus.mainapp.dao.GeltokiaDao;
 import landakoop.landabus.mainapp.model.Distantzia;
 import landakoop.landabus.mainapp.model.Geltokia;
 import landakoop.landabus.mainapp.model.rest.GeltokiaRest;
+import landakoop.landabus.mainapp.model.rest.GeltokiaRest2;
 
 @CrossOrigin(origins="http://localhost:8081")
 @RestController
@@ -35,13 +36,13 @@ public class GeltokiaController {
 	}
 	
 	@GetMapping("list3")
-	public List<Geltokia> getGeltokiakLinea(@RequestParam long lineaID){
-		return (List<Geltokia>) geltokiaDao.getGeltokiakLinea(lineaID);
+	public List<GeltokiaRest2> getGeltokiakLinea(@RequestParam long lineaID){
+		return (List<GeltokiaRest2>) geltokiaDao.getGeltokiakLinea(lineaID);
 	}
 	
 	@GetMapping("list4")
-	public List<Geltokia> getGeltokiakEzLinea(@RequestParam long lineaID){
-		return (List<Geltokia>) geltokiaDao.getGeltokiakEzLinea(lineaID);
+	public List<GeltokiaRest2> getGeltokiakEzLinea(@RequestParam long lineaID){
+		return (List<GeltokiaRest2>) geltokiaDao.getGeltokiakEzLinea(lineaID);
 	}
 	
 	@GetMapping("distantziak")
