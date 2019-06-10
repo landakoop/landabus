@@ -18,6 +18,7 @@ public class EmaitzaJaso {
 
 	@PostMapping(path = "onartuakPostFromJson", consumes = "application/json")
 	private void onartuakPostFromJson(@RequestBody List<Emaitza> onartuak) {
+		System.out.println("Posta egin da");
 		int i = 0;
 		for(Long chatId: onartuak.get(i).getListId()) {
 			bot.notifikatuOnarpena(chatId, onartuak.get(i).getLinea());

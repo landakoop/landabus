@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import landakoop.landabus.mainapp.model.AurrekoGeltokia;
 import landakoop.landabus.mainapp.model.Eskaera;
 
 @Transactional
@@ -16,9 +15,6 @@ public interface EskaeraDao extends CrudRepository<Eskaera,Long>{
 	List<Eskaera> findAll();
 	
 	List<Eskaera> findAllById(Iterable<Long> id);
-
-	
-
 
 	@Query(value="SELECT (count(CASE WHEN onartua=1 THEN 1 END)/count(*))"
 			+ "from eskaera "

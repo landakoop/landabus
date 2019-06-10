@@ -30,30 +30,27 @@ public class EskaeraController {
 	}
 	
 	@PostMapping(path = "postFromJson", consumes = "application/json")
-	public void postFromJson(@RequestBody Eskaera jasotakoEskaerak){
+	public void postFromJson(@RequestBody Eskaera jasotakoEskaera){
 		Eskaera eskaera = new Eskaera();
 		
-		eskaera.setHelmuga(jasotakoEskaerak.getHelmuga());
-		eskaera.setIrteera(jasotakoEskaerak.getIrteera());
-		eskaera.setHelmugaOrdua(jasotakoEskaerak.getHelmugaOrdua());
-		eskaera.setIrteeraOrdua(jasotakoEskaerak.getIrteeraOrdua());
-		eskaera.setChatId(jasotakoEskaerak.getChatId());
-		eskaera.setData(jasotakoEskaerak.getData());
-
+		eskaera.setHelmuga(jasotakoEskaera.getHelmuga());
+		eskaera.setIrteera(jasotakoEskaera.getIrteera());
+		eskaera.setHelmugaOrdua(jasotakoEskaera.getHelmugaOrdua());
+		eskaera.setIrteeraOrdua(jasotakoEskaera.getIrteeraOrdua());
+		eskaera.setChatId(jasotakoEskaera.getChatId());
+		eskaera.setData(jasotakoEskaera.getData());
 		
 		Erabiltzailea erabiltzailea = new Erabiltzailea();
 		try {
-			//erabiltzailea = erabiltzaileaDao.findByTelegramID(String.valueOf(eskaera.getChatId()));
+			erabiltzailea = erabiltzaileaDao.findByTelegramID(String.valueOf(eskaera.getChatId()));
 			eskaera.setErabiltzailea(erabiltzailea);
 			System.out.println("ERABILTZAILEA EXISTITZEN ZEN");
 		}catch(NullPointerException e) {
-			//erabiltzailea.setTelegramID(String.valueOf(jasotakoEskaerak.getChatId()));
+			erabiltzailea.setTelegramID(String.valueOf(jasotakoEskaera.getChatId()));
 			eskaera.setErabiltzailea(erabiltzailea);
 			System.out.println("ERABILTZAILE BERRIA SORTUA: "+erabiltzailea.getTelegramID());
 		}
-	
 		eskaeraDao.save(eskaera);
-		
 	}
 	
 	@PostMapping(path = "postFromXml", consumes = "application/xml")
