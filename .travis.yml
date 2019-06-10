@@ -7,7 +7,7 @@ cache:
 script:
   - mvn clean install dependency-check:aggregate -DskipTests
   - sonar-scanner -D sonar.host.url=$SONAR_HOST_URL -D sonar.login=$SONAR_TOKEN -X
-  - zip landabus.zip "Dockerrun.aws.json" "main-app/target/main-app.jar" "web-app/target/web-app.war"
+  - zip landabus.zip "Dockerrun.aws.json" "main-app/target/main-app.jar" "web-app/target/web-app.war" "LandabusBot/target/telegram-bot.jar" "datu-jasotzailea/target/datu-jasotzailea.jar"
 deploy:
   provider: elasticbeanstalk
   skip_cleanup: true

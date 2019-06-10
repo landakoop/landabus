@@ -12,6 +12,18 @@
             "host": {
                 "sourcePath": "/var/app/current/web-app/target"
             }
+        },
+        {
+            "name": "datu-jasotzailea",
+            "host": {
+                "sourcePath": "/var/app/current/datu-jasotzailea/target"
+            }
+        },
+        {
+            "name": "telegram-bot",
+            "host": {
+                "sourcePath": "/var/app/current/LandabusBot/target"
+            }
         }
     ],
     "containerDefinitions": [
@@ -43,6 +55,38 @@
             "mountPoints": [
                 {
                     "sourceVolume": "web-app",
+                    "containerPath": "/usr/src/app"
+                }
+            ],
+            "links": [
+                "main-app"
+            ]
+        },
+        {
+            "name": "datu-jasotzailea",
+            "command": ["java", "-jar", "/usr/src/app/datu-jasotzailea.jar"],
+            "memory": 512,
+            "image": "openjdk:8-jre-slim",
+            "essential": false
+            "mountPoints": [
+                {
+                    "sourceVolume": "datu-jasotzailea",
+                    "containerPath": "/usr/src/app"
+                }
+            ],
+            "links": [
+                "main-app"
+            ]
+        },
+        {
+            "name": "telegram-bot",
+            "command": ["java", "-jar", "/usr/src/app/telegram-bot.jar"],
+            "memory": 512,
+            "image": "openjdk:8-jre-slim",
+            "essential": false,
+            "mountPoints": [
+                {
+                    "sourceVolume": "telegram-bot",
                     "containerPath": "/usr/src/app"
                 }
             ],
