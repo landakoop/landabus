@@ -131,8 +131,5 @@ while(nrow(dataset)>1){
        body=list(linea=resultDef, eskaerak=onartuak,irteeraOrdua=irtOrdua),
        encode="json")
 }
+POST("http://telegram-bot:8082/telegram/emaitza/onartuakPostFromJson",body=dataset,encode="json")
 }
-
-#POST("",body=dataset,encode="json")
-
-
