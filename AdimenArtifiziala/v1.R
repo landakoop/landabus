@@ -108,7 +108,7 @@ library(httr)
 eskaerak <- fromJSON(getURL("http://localhost:8080/api/eskaera/list"))
 distantziak <- fromJSON(getURL("http://localhost:8080/api/geltokia/distantziak"))
 dataset<-data.frame(do.call("rbind",eskaerak))
-dataset<-head(dataset,2)
+dataset<-head(dataset,4)
 while(nrow(dataset)>1){
   geltokiak<-NULL
   for(i in 1:nrow(dataset)){
@@ -117,21 +117,22 @@ while(nrow(dataset)>1){
   }
   geltokiak<-unique(c(dataset$irteera,dataset$helmuga))
   print(length(geltokiak))
-  result <- ga(type="permutation",  fitness=fitnessRuta, gelt=geltokiak, eskaerak=dataset, lower=1, upper=length(geltokiak), popSize = 50, maxiter = 500,
-               run = 50, pmutation = 0.2)
+  result <- ga(type="permutation",  fitness=fitnessRuta, gelt=geltokiak, eskaerak=dataset, lower=1, upper=length(geltokiak), popSize = 100, maxiter = 500,
+               run = 50, pmutation = 0.2, parallel = 4)
   resultDef<-geltokiak[order(summary(result)$solution[1,])]
   print(resultDef)
   ordutegiak<-ordutegiOnenaKalkulatu(dataset,pasatzeOrduakKalkulatu(resultDef,distantziak),resultDef)
   print(ordutegiak)
   onartuak<- ordutegiak[[3]]
-  if(nrow(onartuak)=0) break
+  if(length(onartuak)==0) break
   dataset<-dataset[!(c(dataset$id %in% onartuak)),]
   irtOrdua<-ordutegiak[[1]]
   POST("http://localhost:8080/api/ia/bilaketaEmaitza", 
        body=list(linea=resultDef, eskaerak=onartuak,irteeraOrdua=irtOrdua),
        encode="json")
-  
+}
 }
 
-}
+#POST("",body=dataset,encode="json")
+
 
