@@ -1,7 +1,11 @@
 package landakoop.landabus.mainapp.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -10,6 +14,11 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="linea_geltokiak")
 public class LineaGeltokiak {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="lineaGeltokiakID")
+	long id;
+	
 	@ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(name = "lineaID")
 	@NotNull
@@ -45,5 +54,13 @@ public class LineaGeltokiak {
 
 	public void setGeltokia(Geltokia geltokia) {
 		this.geltokia = geltokia;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }

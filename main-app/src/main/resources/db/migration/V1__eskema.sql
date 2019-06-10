@@ -60,9 +60,11 @@ CREATE TABLE ibilbidea (
 );
 
 CREATE TABLE linea_geltokiak (
+ lineaGeltokiakID  INT NOT NULL AUTO_INCREMENT,
  lineaID           INT,
  geltokiaID        TINYINT,
  posizioa          TINYINT,
+ CONSTRAINT linea_geltokiak_pk PRIMARY KEY(lineaGeltokiakID),
  CONSTRAINT linea_geltokiak_linea_fk FOREIGN KEY(lineaID) REFERENCES linea(lineaID),
  CONSTRAINT linea_geltokiak_geltokia_fk FOREIGN KEY(geltokiaID) REFERENCES geltokia(geltokiaID)
 );

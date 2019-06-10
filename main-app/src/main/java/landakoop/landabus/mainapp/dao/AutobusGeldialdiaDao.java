@@ -13,7 +13,7 @@ import landakoop.landabus.mainapp.model.GeldialdiEkintza;
 @Service
 public interface AutobusGeldialdiaDao extends CrudRepository<AutobusGeldialdia,Long> {
 	Iterable<AutobusGeldialdia> findAll();
-	@Query(value="select count(*) as kopurua, min(g.timestamp) as data, o.lineaID as linea, i.eguraldia as eguraldia "
+	@Query(value="select count(*) as kopurua, min(g.noiz) as data, o.lineaID as linea, i.eguraldia as eguraldia "
 			+ "from ((ibilbidea as i join ibilbidea_geltokia_bidaiaria as g on i.ibilbideaID = g.ibilbideaID)"
 			+ " join ordutegia o on o.ordutegiaID=i.ordutegiaID) "
 			+ "where g.ekintza=?1 and g.geltokiaID=?2 "
