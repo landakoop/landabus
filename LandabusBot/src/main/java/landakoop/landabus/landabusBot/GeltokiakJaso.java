@@ -52,7 +52,7 @@ public class GeltokiakJaso {
 	
 	private List<Geltokia>  eskaeraEgin() throws URISyntaxException {
 		RestTemplate restTemplate = new RestTemplate();
-		URI uri = new URI(url +"/api/geltokia/list");
+		URI uri = new URI("http://main-app:8080/api/geltokia/list");
 		return Arrays.asList(restTemplate.getForObject(uri, Geltokia[].class));
 	}
 
