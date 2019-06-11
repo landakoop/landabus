@@ -100,7 +100,7 @@ public class IAController {
 					params.put("hilabetea",String.valueOf(date.getMonth()));
 					params.put("eguraldia",ibilbidea.getEguraldia());
 					params.putAll(geltokiak);
-					Integer obj =  sender.makeGet("http://ml:8000/predict", params);
+					String obj =  sender.makeGet("http://ml:8000/predict", params);
 					if(obj != null) {
 						logger.error(obj.getClass()+"********************************");
 						geltokiak.put("x" + ++nGeltokiak, "true");
