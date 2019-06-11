@@ -2,6 +2,8 @@ package landakoop.landabus.datusimuladorea;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +21,7 @@ import com.rabbitmq.client.ConnectionFactory;
 public class Publisher {
 	Logger logger = LoggerFactory.getLogger("Datu simuladorea");
 	Properties p = new Properties();
-	private static final String EXCHANGE_NAME = "spring-boot-exchange";
+	private static final String EXCHANGE_NAME = "autobusak";
     ConnectionFactory factory;
     List<AutobusGeldialdia> listaAutobusGeldialdia;
     Random random;
@@ -41,6 +43,11 @@ public class Publisher {
 		factory.setPort(Integer.parseInt(p.getProperty("RABBITMQ_PORT")));
 		factory.setUsername(p.getProperty("RABBITMQ_USER"));
 		factory.setPassword(p.getProperty("RABBITMQ_PASSWORD"));
+		try {
+			factory.useSslProtocol();
+		} catch (KeyManagementException | NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void createRandom() {
