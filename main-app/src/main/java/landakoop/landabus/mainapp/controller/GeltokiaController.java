@@ -16,7 +16,7 @@ import landakoop.landabus.mainapp.model.Geltokia;
 import landakoop.landabus.mainapp.model.rest.GeltokiaRest;
 import landakoop.landabus.mainapp.model.rest.GeltokiaRest2;
 
-@CrossOrigin(origins="http://localhost:8081")
+@CrossOrigin(origins= {"http://localhost:8081","https://landabus.galaipa.eus"})
 @RestController
 @RequestMapping("/api/geltokia")
 public class GeltokiaController {

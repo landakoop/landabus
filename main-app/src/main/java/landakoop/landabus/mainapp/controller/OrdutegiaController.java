@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import landakoop.landabus.mainapp.dao.OrdutegiaDao;
 import landakoop.landabus.mainapp.model.Ordutegia;
 
-@CrossOrigin()
+@CrossOrigin(origins= {"http://localhost:8081","https://landabus.galaipa.eus"})
 @RestController
 @RequestMapping("/api/ordutegia")
 public class OrdutegiaController {

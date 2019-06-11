@@ -1,5 +1,5 @@
 $(document).ready(() => {
-	url = "http://localhost:8080/api/geltokia/list";
+	url = "/api/geltokia/list";
 	
 	$.getJSON(url, function(result) {
 		$(result).each(function( index ) {	    			
@@ -32,7 +32,7 @@ $(document).ready(() => {
 	}
 	
 	const ibilbideak = new Tabulator(".ibilbideak-zerrenda__taula", {
-	    ajaxURL: "http://localhost:8080/api/ibilbidea/list-gaur",
+	    ajaxURL: "/api/ibilbidea/list-gaur",
 	    ajaxConfig:"GET",
 	    layout: "fitColumns",
 	    tooltips: true,
@@ -61,7 +61,7 @@ $(document).ready(() => {
 	        {title: "Geldialdi kop", field: "geldialdiak", align: "center",headerSort:false},
 	    ],
 	    rowClick:function(e, row){
-	    	url = "http://localhost:8080/api/geltokia/list2?ibilbideaID="+row.getData().ibilbideaID;
+	    	url = "/api/geltokia/list2?ibilbideaID="+row.getData().ibilbideaID;
 	    	
 	    	$(".dot").each(function() {
 	    		$(this).css("background-color", $("*").css("--secondary-bg-color"));
@@ -98,7 +98,7 @@ $(document).ready(() => {
 	});
 	
 	const geltokiak = new Tabulator(".ibilbideak-eskaerak__taula", {
-	    ajaxURL: "http://localhost:8080/api/geltokia/list2?ibilbideaID=1",
+	    ajaxURL: "/api/geltokia/list2?ibilbideaID=1",
 	    ajaxConfig:"GET",
 	    layout: "fitColumns",
 	    tooltips: true,
@@ -116,21 +116,21 @@ $(document).ready(() => {
 	});
 	
 	$("#ibilbideak-toolbar__gaur").click(function(){
-		ibilbideak.replaceData("http://localhost:8080/api/ibilbidea/list-gaur");
+		ibilbideak.replaceData("/api/ibilbidea/list-gaur");
 		select("#ibilbideak-toolbar__gaur");
 		deselect("#ibilbideak-toolbar__bihar");
 		deselect("#ibilbideak-toolbar__denak");
 	});
 	
 	$("#ibilbideak-toolbar__bihar").click(function(){
-		ibilbideak.replaceData("http://localhost:8080/api/ibilbidea/list-bihar");
+		ibilbideak.replaceData("/api/ibilbidea/list-bihar");
 		select("#ibilbideak-toolbar__bihar");
 		deselect("#ibilbideak-toolbar__gaur");
 		deselect("#ibilbideak-toolbar__denak");
 	});
 	
 	$("#ibilbideak-toolbar__denak").click(function(){
-		ibilbideak.replaceData("http://localhost:8080/api/ibilbidea/list");
+		ibilbideak.replaceData("/api/ibilbidea/list");
 		select("#ibilbideak-toolbar__denak");
 		deselect("#ibilbideak-toolbar__bihar");
 		deselect("#ibilbideak-toolbar__gaur");

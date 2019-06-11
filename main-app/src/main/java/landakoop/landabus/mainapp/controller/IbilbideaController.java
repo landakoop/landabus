@@ -12,7 +12,7 @@ import landakoop.landabus.mainapp.dao.IbilbideaDao;
 import landakoop.landabus.mainapp.model.rest.ErabileraRest;
 import landakoop.landabus.mainapp.model.rest.IbilbideaRest;
 
-@CrossOrigin(origins="http://localhost:8081")
+@CrossOrigin(origins= {"http://localhost:8081","https://landabus.galaipa.eus"})
 @RestController
 @RequestMapping("/api/ibilbidea")
 public class IbilbideaController {

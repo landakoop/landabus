@@ -39,7 +39,7 @@ $(document).ready(() => {
 	}
 	
 	const lineak = new Tabulator(".administrazioa-lineak__taula", {
-	    ajaxURL: "http://localhost:8080/api/linea/",
+	    ajaxURL: "/api/linea/",
 	    ajaxConfig:"GET",
 	    layout: "fitColumns",
 	    tooltips: true,
@@ -57,14 +57,14 @@ $(document).ready(() => {
 	    ],
 	    rowClick:function(e, row){
 	    	$("#administrazioa-toolbar__geltokiaInput").val(row.getData().izena);
-	    	geltokiak.replaceData("http://localhost:8080/api/geltokia/list4?lineaID="+row.getData().id);
-	    	aukeratutakoak.replaceData("http://localhost:8080/api/geltokia/list3?lineaID="+row.getData().id);
-	    	ordutegiak.replaceData("http://localhost:8080/api/linea/ordutegiak?lineaID="+row.getData().id);
+	    	geltokiak.replaceData("/api/geltokia/list4?lineaID="+row.getData().id);
+	    	aukeratutakoak.replaceData("/api/geltokia/list3?lineaID="+row.getData().id);
+	    	ordutegiak.replaceData("/api/linea/ordutegiak?lineaID="+row.getData().id);
 	    }
 	});
 	
 	const geltokiak = new Tabulator(".administrazioa-geltokiak__taula", {
-	    ajaxURL: "http://localhost:8080/api/geltokia/list4?lineaID=1",
+	    ajaxURL: "/api/geltokia/list4?lineaID=1",
 	    ajaxConfig:"GET",
 	    layout: "fitColumns",
 	    tooltips: true,
@@ -90,7 +90,7 @@ $(document).ready(() => {
 	});
 	
 	const aukeratutakoak = new Tabulator(".administrazioa-aukeratutakoak__taula", {
-	    ajaxURL: "http://localhost:8080/api/geltokia/list3?lineaID=1",
+	    ajaxURL: "/api/geltokia/list3?lineaID=1",
 	    ajaxConfig:"GET",
 	    layout: "fitColumns",
 	    tooltips: true,
@@ -116,7 +116,7 @@ $(document).ready(() => {
 	});
 	
 	const ordutegiak = new Tabulator(".administrazioa-ordutegiak__taula", {
-	    ajaxURL: "http://localhost:8080/api/linea/ordutegiak?lineaID=1",
+	    ajaxURL: "/api/linea/ordutegiak?lineaID=1",
 	    ajaxConfig:"GET",
 	    layout: "fitColumns",
 	    tooltips: true,
@@ -148,7 +148,7 @@ $(document).ready(() => {
 		if (lineaIzena == "") return;
 		
 		$.ajax({
-			url: 'http://localhost:8080/api/linea/',
+			url: '/api/linea/',
 			type: 'PUT',
 			contentType: "application/x-www-form-urlencoded",
 			data: { "izena": lineaIzena },
@@ -156,10 +156,10 @@ $(document).ready(() => {
 				lineaId = response;
 				
 				setTimeout(function(){
-					lineak.replaceData("http://localhost:8080/api/linea/");
-					geltokiak.replaceData("http://localhost:8080/api/geltokia/list4?lineaID=1");
-			    	aukeratutakoak.replaceData("http://localhost:8080/api/geltokia/list3?lineaID=1");
-			    	ordutegiak.replaceData("http://localhost:8080/api/linea/ordutegiak?lineaID=1");
+					lineak.replaceData("/api/linea/");
+					geltokiak.replaceData("/api/geltokia/list4?lineaID=1");
+			    	aukeratutakoak.replaceData("/api/geltokia/list3?lineaID=1");
+			    	ordutegiak.replaceData("/api/linea/ordutegiak?lineaID=1");
 				}, 500);
 			}
 		});		
@@ -171,7 +171,7 @@ $(document).ready(() => {
 		if (lineaIzena == "") return;
 		
 		$.ajax({
-			  url: 'http://localhost:8080/api/linea/',
+			  url: '/api/linea/',
 			  type: 'PUT',
 			  contentType: "application/x-www-form-urlencoded",
 			  data: { "id": lineaId, "izena": lineaIzena }
@@ -183,15 +183,15 @@ $(document).ready(() => {
     		if(index != 0) geltokiakUrl = geltokiakUrl + ",";
     		geltokiakUrl = geltokiakUrl + value.id;
 		});
-		url = "http://localhost:8080/api/linea/gehituGeltokiak" + lineakUrl + geltokiakUrl;
+		url = "/api/linea/gehituGeltokiak" + lineakUrl + geltokiakUrl;
 		console.log(url);
 		$.post(url);
 		
 		setTimeout(function(){
-			lineak.replaceData("http://localhost:8080/api/linea/");
-			geltokiak.replaceData("http://localhost:8080/api/geltokia/list4?lineaID=1");
-	    	aukeratutakoak.replaceData("http://localhost:8080/api/geltokia/list3?lineaID=1");
-	    	ordutegiak.replaceData("http://localhost:8080/api/linea/ordutegiak?lineaID=1");
+			lineak.replaceData("/api/linea/");
+			geltokiak.replaceData("/api/geltokia/list4?lineaID=1");
+	    	aukeratutakoak.replaceData("/api/geltokia/list3?lineaID=1");
+	    	ordutegiak.replaceData("/api/linea/ordutegiak?lineaID=1");
 		}, 500);
 		
 	});
@@ -214,14 +214,14 @@ $(document).ready(() => {
 		}
 		
 		$.ajax({
-			  url: 'http://localhost:8080/api/ordutegia/',
+			  url: '/api/ordutegia/',
 			  type: 'PUT',
 			  contentType: "application/x-www-form-urlencoded",
 			  data: data
 		});
 		
 		setTimeout(function(){
-	    	ordutegiak.replaceData("http://localhost:8080/api/linea/ordutegiak?lineaID="+lineaId);
+	    	ordutegiak.replaceData("/api/linea/ordutegiak?lineaID="+lineaId);
 		}, 500);
 	});
 	
@@ -244,14 +244,14 @@ $(document).ready(() => {
 		}
 		
 		$.ajax({
-			  url: 'http://localhost:8080/api/ordutegia/',
+			  url: '/api/ordutegia/',
 			  type: 'PUT',
 			  contentType: "application/x-www-form-urlencoded",
 			  data: data
 		});
 		
 		setTimeout(function(){
-	    	ordutegiak.replaceData("http://localhost:8080/api/linea/ordutegiak?lineaID="+lineaId);
+	    	ordutegiak.replaceData("/api/linea/ordutegiak?lineaID="+lineaId);
 		}, 500);
 	});
 	
