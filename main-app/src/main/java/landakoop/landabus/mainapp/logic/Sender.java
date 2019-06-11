@@ -12,23 +12,26 @@ import org.springframework.web.client.RestTemplate;
 public class Sender {
 	@Autowired
 	Logger logger;
-	
-	public Integer makeGet(String url,Map<String,?> params) {
-		Integer obj = null;
+
+
+	public String makeGet(String url,Map<String,?> params) {
+		Object obj = null;
+
 		try {
 			url = url.concat("?");
 			for(String s : params.keySet()) {
 				if(!url.endsWith("?")) url = url.concat("&");
 				url = url.concat(s + "={"+ s + "}");
 			}
-			
 			RestTemplate restTemplate = new RestTemplate();
-			obj = restTemplate.getForObject(url, Integer.class,params);
-			
+
+			obj = restTemplate.getForObject(url, Object.class,params);
+			logger.error(obj.toString());
+
 			//logger.info("Eskaera egin da, url={} params = {}",url,params);
 		}catch(RestClientException e) {
 			logger.error("Ezin izan da get eskaera egin, url={} params = {} except = {}",url,params,e.getClass());
 		}
-		return obj;
+		return "aaaaa";
 	}
 }
