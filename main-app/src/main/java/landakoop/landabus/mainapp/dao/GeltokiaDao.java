@@ -19,10 +19,12 @@ public interface GeltokiaDao extends CrudRepository<Geltokia,Long>{
 	@Query(value="SELECT g.geltokiaID, g.izena, g.x, g.y, lg.posizioa,"
 			+ "          (select count(*) from eskaera where ibilbideaID=i.ibilbideaID) as eskaerak, "
 			+ "          (select (ifnull(sum((select denbora from distantzia where geltokiaA=(select geltokiaID from linea_geltokiak where posizioa=lg2.posizioa-1 and lineaID=lg.lineaID) "
-			+ "                                                            and geltokiaB=lg2.geltokiaID)),0)+o.irteeraOrdua) from linea_geltokiak lg2 where posizioa <= lg.posizioa and lineaID=lg.lineaID) as ordua "
+			+ "                                                            and geltokiaB=lg2.geltokiaID)),0)+o.irteeraOrdua) from linea_geltokiak lg2 where posizioa <= lg.posizioa and lineaID=lg.lineaID) as ordua, "
+			+ "(select sum(igo) from ibilbidea_geltokia_predikzioa where ibilbideaID=i.ibilbideaID and geltokiaID=g.geltokiaID) as igo, "
+			+ "(select sum(jaitsi) from ibilbidea_geltokia_predikzioa where ibilbideaID=i.ibilbideaID and geltokiaID=g.geltokiaID) as jaitsi "
 			+ "from (((ibilbidea as i join ordutegia o on i.ordutegiaID = o.ordutegiaID) "
-			+ " join linea_geltokiak as lg on lg.lineaID = o.lineaID)"
-			+ " join geltokia as g on lg.geltokiaID = g.geltokiaID) "
+			+ "join linea_geltokiak as lg on lg.lineaID = o.lineaID) "
+			+ "join geltokia as g on lg.geltokiaID = g.geltokiaID) "
 			+ "where i.ibilbideaID=?1 "
 			+ "order by lg.posizioa" ,nativeQuery=true)	
 	List<GeltokiaRest> getGeltokiak(long ibilbideaID);

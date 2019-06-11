@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import landakoop.landabus.mainapp.model.AurrekoGeltokia;
 import landakoop.landabus.mainapp.model.AutobusGeldialdia;
 import landakoop.landabus.mainapp.model.GeldialdiEkintza;
+import landakoop.landabus.mainapp.model.rest.AutobusGeldialdiaRest;
+import landakoop.landabus.mainapp.model.rest.PredikzioaRest;
 
 @Service
 public interface AutobusGeldialdiaDao extends CrudRepository<AutobusGeldialdia,Long> {
@@ -32,5 +34,18 @@ public interface AutobusGeldialdiaDao extends CrudRepository<AutobusGeldialdia,L
 			+ "where g.geltokiaID <> ?2 "
 			+ "order by g.geltokiaID", nativeQuery=true)
 	List<AurrekoGeltokia> getAurrekoGeltokiakIgo(long lineaID,long geltokiaID);
+	
+	@Query(value="SELECT date(noiz) as data, count(ekintza) as igo "
+			+ "from ibilbidea_geltokia_bidaiaria "
+			+ "where ekintza='igo' "
+			+ "group by data "
+			+ "order by data", nativeQuery=true)
+	List<AutobusGeldialdiaRest> getGeldialdiErreala();
+	
+	@Query(value="SELECT data, sum(igo) as igo "
+			+ "from ibilbidea_geltokia_predikzioa "
+			+ "group by data "
+			+ "order by data", nativeQuery=true)
+	List<PredikzioaRest> getGeldialdiAurreikuspena();
 	
 }

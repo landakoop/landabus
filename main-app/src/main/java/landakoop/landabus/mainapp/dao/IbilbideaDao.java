@@ -42,6 +42,7 @@ public interface IbilbideaDao extends CrudRepository<Ibilbidea,Long> {
 			+ "from ((ibilbidea_geltokia_bidaiaria as igb "
 			+ " join ibilbidea as i on i.ibilbideaID = igb.ibilbideaID) "
 			+ " join ordutegia as o on i.ordutegiaID = o.ordutegiaID) "
-			+ "group by DATE(igb.noiz)",nativeQuery=true)	
+			+ "group by DATE(igb.noiz) "
+			+ "order by data",nativeQuery=true)	
 	List<ErabileraRest> getErabilera();
 }

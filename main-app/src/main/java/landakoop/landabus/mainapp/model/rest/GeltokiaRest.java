@@ -6,8 +6,7 @@ public interface GeltokiaRest {
 	Double getX();
 	Double getY();
 	Integer getOrdua();
-	Integer getPosizioa();
-	/*Integer getIgo();
-	Integer getJaitsi();*/
+	Integer getIgo();
+	Integer getJaitsi();
 	Integer getEskaerak();
 }

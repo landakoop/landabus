@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+@CrossOrigin
 @Entity
 @Table(name="linea_geltokiak")
 public class LineaGeltokiak {
@@ -62,5 +65,36 @@ public class LineaGeltokiak {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((geltokia == null) ? 0 : geltokia.hashCode());
+		result = prime * result + ((linea == null) ? 0 : linea.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LineaGeltokiak other = (LineaGeltokiak) obj;
+		if (geltokia == null) {
+			if (other.geltokia != null)
+				return false;
+		} else if (!geltokia.equals(other.geltokia))
+			return false;
+		if (linea == null) {
+			if (other.linea != null)
+				return false;
+		} else if (!linea.equals(other.linea))
+			return false;
+		return true;
 	}
 }

@@ -81,7 +81,7 @@ $(document).ready(() => {
         movableRowsSender: "delete",
         movableRowsConnectedTables: ".administrazioa-aukeratutakoak__taula",
 	    columns: [
-	        {title: "ID", field: "id", align: "center", width: 50},
+	        {title: "ID", field: "geltokiaId", align: "center", width: 50},
 	        {title: "Izena", field: "izena"},
 	    ],
 	    rowClick:function(e, row){
@@ -107,7 +107,7 @@ $(document).ready(() => {
         movableRowsSender: "delete",
         movableRowsConnectedTables: ".administrazioa-geltokiak__taula",
         columns: [
-	        {title: "ID", field: "id", align: "center", width: 50},
+	        {title: "ID", field: "geltokiaId", align: "center", width: 50},
 	        {title: "Izena", field: "izena"},
 	    ],
 	    rowClick:function(e, row){
@@ -181,7 +181,7 @@ $(document).ready(() => {
 		geltokiakUrl = "&geltokiak=";
 		$.each(aukeratutakoak.getData(), function( index, value ) {
     		if(index != 0) geltokiakUrl = geltokiakUrl + ",";
-    		geltokiakUrl = geltokiakUrl + value.id;
+    		geltokiakUrl = geltokiakUrl + value.geltokiaId;
 		});
 		url = "/api/linea/gehituGeltokiak" + lineakUrl + geltokiakUrl;
 		console.log(url);

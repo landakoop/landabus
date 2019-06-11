@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import landakoop.landabus.mainapp.dao.GeltokiaDao;
 import landakoop.landabus.mainapp.dao.LineaDao;
+import landakoop.landabus.mainapp.dao.LineaGeltokiakDao;
 import landakoop.landabus.mainapp.dao.OrdutegiaDao;
 import landakoop.landabus.mainapp.model.Geltokia;
 import landakoop.landabus.mainapp.model.Linea;
+import landakoop.landabus.mainapp.model.LineaGeltokiak;
 import landakoop.landabus.mainapp.model.rest.OrdutegiaRest;
 
 @CrossOrigin(origins= {"http://localhost:8081","https://landabus.galaipa.eus"})
@@ -36,6 +38,8 @@ public class LineaController {
 	GeltokiaDao geltokiaDao;
 	@Autowired
 	OrdutegiaDao ordutegiaDao;
+	@Autowired
+	LineaGeltokiakDao lineaGeltokiakDao;
 	
 	@GetMapping("/")
 	public List<Linea> getLineak(){
@@ -66,6 +70,7 @@ public class LineaController {
 	public void gehituGeltokiak(@RequestParam(name="lineaID", required=true) Long lineaID,
 			                       @RequestParam(name="geltokiak", required=true) List<Long> geltokiak,
 			                       HttpServletResponse response) {
+		int i = 1;
 		Optional<Linea> lineaF = lineaDao.findById(lineaID);
 		if(lineaF.isPresent()) {
 			Linea linea = lineaF.get();
@@ -73,12 +78,15 @@ public class LineaController {
 				Optional<Geltokia> geltokiaF = geltokiaDao.findById(geltokiaID);
 				if(geltokiaF.isPresent()){
 					Geltokia geltokia = geltokiaF.get();
-					linea.addGeltokia(geltokia);
+					LineaGeltokiak lineaGeltokiak = new LineaGeltokiak();
+					lineaGeltokiak.setLinea(linea);
+					lineaGeltokiak.setGeltokia(geltokia);
+					lineaGeltokiak.setPosizioa(i++);
+					lineaGeltokiakDao.save(lineaGeltokiak);
 				}else {
 					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				}
 			}
-			lineaDao.save(linea);
 		}else {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}

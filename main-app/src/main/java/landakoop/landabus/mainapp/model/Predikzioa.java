@@ -1,5 +1,7 @@
 package landakoop.landabus.mainapp.model;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -20,9 +24,9 @@ public class Predikzioa {
 	long id;
 	
 	@ManyToOne(cascade=CascadeType.MERGE)
-    @JoinColumn(name = "lineaID")
+    @JoinColumn(name = "ibilbideaID")
 	@NotNull
-    Linea linea;
+    Ibilbidea ibilbidea;
 	
 	@ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(name = "geltokiaID")
@@ -34,6 +38,10 @@ public class Predikzioa {
 	
 	@Column(name="jaitsi")
 	int jaitsi;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="data")
+	Date data;
 
 	public long getId() {
 		return id;
@@ -43,12 +51,12 @@ public class Predikzioa {
 		this.id = id;
 	}
 
-	public Linea getLinea() {
-		return linea;
+	public Ibilbidea getIbilbidea() {
+		return ibilbidea;
 	}
 
-	public void setLinea(Linea linea) {
-		this.linea = linea;
+	public void setIbilbidea(Ibilbidea ibilbidea) {
+		this.ibilbidea = ibilbidea;
 	}
 
 	public Geltokia getGeltokia() {
@@ -73,5 +81,13 @@ public class Predikzioa {
 
 	public void setJaitsi(int jaitsi) {
 		this.jaitsi = jaitsi;
+	}
+
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
 	}
 }

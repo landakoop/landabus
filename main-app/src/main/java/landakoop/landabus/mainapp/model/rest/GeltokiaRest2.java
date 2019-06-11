@@ -1,6 +1,6 @@
 package landakoop.landabus.mainapp.model.rest;
 
 public interface GeltokiaRest2 {
-	long getGeltokiaID();
+	long getGeltokiaId();
 	String getIzena();
 }
