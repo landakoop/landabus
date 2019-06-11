@@ -24,6 +24,12 @@
             "host": {
                 "sourcePath": "/var/app/current/LandabusBot/target"
             }
+        },
+        {
+            "name": "ml",
+            "host": {
+                "sourcePath": "/var/app/current/AdimenArtifizialaApi"
+            }
         }
     ],
     "containerDefinitions": [
@@ -93,6 +99,22 @@
             "mountPoints": [
                 {
                     "sourceVolume": "telegram-bot",
+                    "containerPath": "/usr/src/app"
+                }
+            ],
+            "links": [
+                "main-app"
+            ]
+        },
+        {
+            "name": "ml",
+            "command": ["Plumber.R"],
+            "memory": 312,
+            "image": "landakoop/landabus:ml",
+            "essential": false,
+            "mountPoints": [
+                {
+                    "sourceVolume": "ml",
                     "containerPath": "/usr/src/app"
                 }
             ],

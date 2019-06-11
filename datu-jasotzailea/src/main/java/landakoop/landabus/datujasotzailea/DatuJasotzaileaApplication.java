@@ -8,14 +8,18 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class DatuJasotzaileaApplication {
-	private static final String EXCHANGE_NAME = "spring-boot-exchange";
-	private static final String QUEUE_NAME = "spring-boot";
+	@Value("${EXCHANGE_NAME}")
+	String EXCHANGE_NAME;
+
+	@Value("${QUEUE_NAME}")
+	String QUEUE_NAME;
 
     @Bean
     Queue queue() {
