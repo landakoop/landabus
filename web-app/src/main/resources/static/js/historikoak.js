@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	var xArdatza = [], datuErrealak = [], datuAurreikuspenak = [];
 	
-    $.getJSON('http://localhost:8080/api/ibilbidea/historikoa', function (data) {
+    $.getJSON('/api/ibilbidea/historikoa', function (data) {
     	var names = ['Guztira','Malguak','Finkoak'], 
     		datuak = [], datuak2 = [], datuak3 = [];
     	
@@ -25,18 +25,18 @@ $(document).ready(function() {
     	createTimeSeries(names, datuDenak);
     });
     
-    $.getJSON('http://localhost:8080/api/eskaera/malgutasuna', function (data) {
+    $.getJSON('/api/eskaera/malgutasuna', function (data) {
     	createPieChart(data);
     });
     
-    $.getJSON('http://localhost:8080/api/geldialdia/errealak', function (data) {    	
+    $.getJSON('/api/geldialdia/errealak', function (data) {    	
     	for (var i = 1; i < data.length; i++) {
     		xArdatza.push(data[i].data.toString());
     		datuErrealak.push(data[i].igo);
     	}
     });
     
-    $.getJSON('http://localhost:8080/api/geldialdia/aurreikuspenak', function (data) {    	
+    $.getJSON('/api/geldialdia/aurreikuspenak', function (data) {    	
     	for (var i = 0; i < data.length; i++) {
     		datuAurreikuspenak.push(data[i].igo);
     	}
