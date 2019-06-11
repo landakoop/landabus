@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import landakoop.landabus.mainapp.json.ErabiltzaileaSimpleSerializer;
@@ -37,6 +38,7 @@ public class Eskaera {
 	@JsonSerialize(using = ErabiltzaileaSimpleSerializer.class)
 	Erabiltzailea erabiltzailea;	
 	
+	@JsonIgnore
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name="ibilbideaID")
 	Ibilbidea ibilbidea;	
