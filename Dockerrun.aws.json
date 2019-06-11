@@ -33,6 +33,12 @@
             "memory": 612,
             "image": "openjdk:8-jre-slim",
             "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 8080,
+                    "containerPort": 8080
+                }
+            ],
             "mountPoints": [
                 {
                     "sourceVolume": "main-app",
