@@ -15,6 +15,12 @@ public interface EskaeraDao extends CrudRepository<Eskaera,Long>{
 	//List<Eskaera> findAll();
 	
 	List<Eskaera> findAllById(Iterable<Long> id);
+	
+	@Query(value="SELECT * "
+			+ "from eskaera "
+			+ "where onartua=0 "
+			+ "order by data",nativeQuery=true)
+	List<Eskaera> getEskaerak();
 
 	@Query(value="SELECT (count(CASE WHEN onartua=1 THEN 1 END)/count(*))"
 			+ "from eskaera "

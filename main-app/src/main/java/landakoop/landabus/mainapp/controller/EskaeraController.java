@@ -26,7 +26,7 @@ public class EskaeraController {
 	
 	@GetMapping("list")
 	public  List<Eskaera> getOrderList(){
-		return (List<Eskaera>) eskaeraDao.findAll();
+		return (List<Eskaera>) eskaeraDao.getEskaerak();
 	}
 	
 	@PostMapping(path = "postFromJson", consumes = "application/json")
