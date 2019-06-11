@@ -31,13 +31,13 @@ $(document).ready(function() {
     
     $.getJSON('/api/geldialdia/errealak', function (data) {    	
     	for (var i = 1; i < data.length; i++) {
-    		xArdatza.push(data[i].data.toString());
     		datuErrealak.push(data[i].igo);
     	}
     });
     
     $.getJSON('/api/geldialdia/aurreikuspenak', function (data) {    	
     	for (var i = 0; i < data.length; i++) {
+    		xArdatza.push(data[i].data.toString());
     		datuAurreikuspenak.push(data[i].igo);
     	}
     	
