@@ -220,18 +220,18 @@ INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(4,7,2);
 INSERT INTO linea_geltokiak(lineaID,geltokiaID,posizioa) VALUES(4,8,1);
 
 INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(1,480,561,true);
-INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(2,500,569,true);
+INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(2,500,569,false);
 INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(3,570,593,true);
-INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(3,565,635,true);
+INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(3,565,635,false);
 
 INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(1,900,993,true);
-INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(2,1000,1070,true);
+INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(2,1000,1070,false);
 INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(3,1000,1093,true);
 
 INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(1,1200,1281,true);
-INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(2,1300,1370,true);
+INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(2,1300,1370,false);
 INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(3,1100,1193,true);
-INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(4,1410,1480,true);
+INSERT INTO ordutegia(lineaID,irteeraOrdua,helmugaOrdua,finkoa) values(4,1410,1480,false);
 
 INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (1,"eguzkia",1);
 INSERT INTO ibilbidea(ordutegiaID,eguraldia, autobusaID) VALUES (2,"euria",1);
