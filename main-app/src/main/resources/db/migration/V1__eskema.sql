@@ -92,7 +92,7 @@ CREATE TABLE ibilbidea_geltokia_bidaiaria (
  geltokiaID        TINYINT,
  bidaiariaID       INT,
  ekintza           CHAR(10),
- noiz              TIMESTAMP,
+ noiz         TIMESTAMP,
  CONSTRAINT ibilbidea_geltokia_bidaiaria_pk PRIMARY KEY(id),
  CONSTRAINT ibilbidea_geltokia_bidaiaria_bidaiaria_fk FOREIGN KEY(bidaiariaID) REFERENCES erabiltzailea(erabiltzaileaID),
  CONSTRAINT ibilbidea_geltokia_bidaiaria_ibilbidea_fk FOREIGN KEY(ibilbideaID) REFERENCES ibilbidea(ibilbideaID),
