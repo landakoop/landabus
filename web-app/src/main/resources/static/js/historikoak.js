@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $.getJSON(':8080/api/ibilbidea/historikoa' + i,    function (data) {
+    $.getJSON('/api/ibilbidea/historikoa' + i,    function (data) {
         seriesOptions[i] = {
             name: name,
             data: data
