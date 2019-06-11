@@ -32,7 +32,7 @@ public class GeltokiakJaso {
 				lista = eskaeraEgin();
 				jaso = true;
 			} catch (Exception e) {
-				logger.error("Ezin izan da main-app etik geltoki zerrenda eskuratu. Excep= {} ", e.getClass());
+				logger.error("Ezin izan da main-app etik geltoki zerrenda eskuratu. Excep= {} , URL=", e.getClass(),url);
 				itxaron(10000);
 			}
 		}
