@@ -116,21 +116,21 @@ $(document).ready(() => {
 	});
 	
 	$("#ibilbideak-toolbar__gaur").click(function(){
-		ibilbideak.replaceData("http://localhost:8080/api/ibilbidea/list-gaur");
+		ibilbideak.replaceData("/api/ibilbidea/list-gaur");
 		select("#ibilbideak-toolbar__gaur");
 		deselect("#ibilbideak-toolbar__bihar");
 		deselect("#ibilbideak-toolbar__denak");
 	});
 	
 	$("#ibilbideak-toolbar__bihar").click(function(){
-		ibilbideak.replaceData("http://localhost:8080/api/ibilbidea/list-bihar");
+		ibilbideak.replaceData("/api/ibilbidea/list-bihar");
 		select("#ibilbideak-toolbar__bihar");
 		deselect("#ibilbideak-toolbar__gaur");
 		deselect("#ibilbideak-toolbar__denak");
 	});
 	
 	$("#ibilbideak-toolbar__denak").click(function(){
-		ibilbideak.replaceData("http://localhost:8080/api/ibilbidea/list");
+		ibilbideak.replaceData("/api/ibilbidea/list");
 		select("#ibilbideak-toolbar__denak");
 		deselect("#ibilbideak-toolbar__bihar");
 		deselect("#ibilbideak-toolbar__gaur");
