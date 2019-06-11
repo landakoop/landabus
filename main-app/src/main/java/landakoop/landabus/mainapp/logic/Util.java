@@ -52,10 +52,11 @@ public class Util {
 	public Map<String,String> getLinea(long ibilbideaID){
 		Map<String,String> mapa = new LinkedHashMap<>();
 		List<GeltokiaRest> listGeltokiak = new ArrayList<>();
+		System.out.println(geltokiaDao);
 		listGeltokiak = geltokiaDao.getGeltokiak(ibilbideaID);
-		
 		for(GeltokiaRest geltokia:listGeltokiak) {
 			mapa.put(intOrduaToString(geltokia.getOrdua()),geltokia.getIzena());
+			System.out.println(geltokia.getOrdua()+":"+geltokia.getIzena());
 		}
 
 		return mapa;

@@ -12,7 +12,7 @@ import landakoop.landabus.mainapp.model.Eskaera;
 
 @Transactional
 public interface EskaeraDao extends CrudRepository<Eskaera,Long>{
-	List<Eskaera> findAll();
+	//List<Eskaera> findAll();
 	
 	List<Eskaera> findAllById(Iterable<Long> id);
 

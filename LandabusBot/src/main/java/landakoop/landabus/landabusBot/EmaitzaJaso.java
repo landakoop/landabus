@@ -1,7 +1,5 @@
 package landakoop.landabus.landabusBot;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,21 +15,18 @@ public class EmaitzaJaso {
 	public EmaitzaJaso() {}
 
 	@PostMapping(path = "onartuakPostFromJson", consumes = "application/json")
-	private void onartuakPostFromJson(@RequestBody List<Emaitza> onartuak) {
+	private void onartuakPostFromJson(@RequestBody Emaitza onartuak) {
 		System.out.println("Posta egin da");
-		int i = 0;
-		for(Long chatId: onartuak.get(i).getListId()) {
-			bot.notifikatuOnarpena(chatId, onartuak.get(i).getLinea());
-			i++;
+		for(Long chatId: onartuak.getListId()) {
+			bot.notifikatuOnarpena(chatId, onartuak.getLinea());
 		}
 	}
 
 	@PostMapping(path = "ezeztatuakPostFromJson", consumes = "application/json")
-	private void ezeztatuakPostFromJson(@RequestBody List<Emaitza> ezeztatuak) {
-		int i = 0;
-		for(Long chatId: ezeztatuak.get(i).getListId()) {
+	private void ezeztatuakPostFromJson(@RequestBody Emaitza ezeztatuak) {
+
+		for(Long chatId: ezeztatuak.getListId()) {
 			bot.notifikatuEzezkoa(chatId);
-			i++;
 		}
 	}
 

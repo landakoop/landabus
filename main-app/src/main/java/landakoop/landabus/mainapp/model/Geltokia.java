@@ -27,10 +27,10 @@ public class Geltokia {
 	String izena;
 	
 	@Column(name="x")
-	double x;
+	Double x;
 	
 	@Column(name="y")
-	double y;
+	Double y;
 	
 	@OneToMany(mappedBy = "geltokia", cascade=CascadeType.ALL)
 	@JsonIgnore
@@ -60,19 +60,19 @@ public class Geltokia {
 		this.autobusGeldialdia = autobusGeldialdia;
 	}
 
-	public double getX() {
+	public Double getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(Double x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public Double getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(Double y) {
 		this.y = y;
 	}
 

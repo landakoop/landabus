@@ -28,6 +28,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import landakoop.landabus.beans.Geltokia;
 import landakoop.landabus.beans.Kontsulta;
@@ -77,6 +78,7 @@ public class LandabusBot extends TelegramLongPollingBot{
 	public String getBotUsername() {
 		return username;
 	}
+	
 	@PostConstruct
 	public void start() {
 		logger.info("username: {}, token: {}", username, token);
@@ -229,6 +231,7 @@ public class LandabusBot extends TelegramLongPollingBot{
 	public void notifikatuOnarpena(long chatId, Map<String,String> linea) {
 		SendMessage mezua = new SendMessage();
 		mezua.setChatId(chatId);
+		System.out.println(chatId);
 		mezua.setText(lineaToString(linea));
 		System.out.println(lineaToString(linea));
 		mezua.enableHtml(true);
@@ -236,8 +239,8 @@ public class LandabusBot extends TelegramLongPollingBot{
 		try {
 			execute(mezua);
 		} catch (TelegramApiException e) {
-			e.printStackTrace();
-		}
+			return;
+		} 
 	}
 	
 	public void notifikatuEzezkoa(long chatId) {
@@ -249,13 +252,16 @@ public class LandabusBot extends TelegramLongPollingBot{
 		try {
 			execute(mezua);
 		} catch (TelegramApiException e) {
-			e.printStackTrace();
+			return;
 		}
 	}
 	
 	public static String lineaToString(Map<String, String> lineaMap) {
 		String linea = new String();
-		for(Entry<String,String> entry: lineaMap.entrySet()) linea = linea+" --> "+entry.getValue()+": "+entry.getKey()+"\n";
+		for(Entry<String,String> entry: lineaMap.entrySet()) {
+			System.out.println(entry.getValue()+": "+entry.getKey());
+			linea = linea+" --> "+entry.getValue()+": "+entry.getKey()+"\n";
+		}
 		return "Zure eskaera <b>onartua</b> izan da.\n"+"<b>LINEA: </b>\n"+linea;
 	}
 	

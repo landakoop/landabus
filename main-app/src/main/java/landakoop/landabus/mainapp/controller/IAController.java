@@ -144,7 +144,6 @@ public class IAController {
 			onartuenIDak.add(e.getChatId());
 		}
 		
-		Util util = new Util();
 		Emaitza bidalketa = new Emaitza();
 		bidalketa.setListId(onartuenIDak);
 		bidalketa.setLinea(util.getLinea(ibilbidea.getId()));
