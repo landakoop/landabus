@@ -17,9 +17,9 @@ import landakoop.landabus.beans.Geltokia;
 @Component
 public class GeltokiakJaso {
 	private static final Logger logger = LoggerFactory.getLogger(GeltokiakJaso.class);
-	
-	@Value("${mainapp.protocol}"+"://"+"${mainapp.host}"+":"+"${mainapp.port}") 
-	String url;
+	private static final String url = "http://main-app:8080";
+	/*@Value("${mainapp.protocol}"+"://"+"${mainapp.host}"+":"+"${mainapp.port}") 
+	String url;*/
 	
 	List<Geltokia> lista;
 	
@@ -52,7 +52,7 @@ public class GeltokiakJaso {
 	
 	private List<Geltokia>  eskaeraEgin() throws URISyntaxException {
 		RestTemplate restTemplate = new RestTemplate();
-		URI uri = new URI("http://main-app:8080/api/geltokia/list");
+		URI uri = new URI(url + "/api/geltokia/list");
 		return Arrays.asList(restTemplate.getForObject(uri, Geltokia[].class));
 	}
 
