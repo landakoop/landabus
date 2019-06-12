@@ -40,7 +40,7 @@ $(document).ready(() => {
 	    pagination: "local",
 	    paginationSize: 15,
 	    height:"100%",
-	    groupBy: "mota",
+	    groupBy: "finkoa",
 	    selectable:1,
 	    dataLoaded:function(){
 	        this.selectRow(1);
