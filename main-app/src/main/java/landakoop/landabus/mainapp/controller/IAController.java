@@ -122,16 +122,16 @@ public class IAController {
 		Linea linea = new Linea();
 		linea.setIzena("Malgua- ");
 		linea=lineaDao.save(linea);
+		
 		int pos = 0;
-		for(Geltokia gel : geltokiaDao.findAllById(emaitza.getLinea())) {
+		for(long geltokiaID : emaitza.getLinea()) {
+			Optional<Geltokia> gelt = geltokiaDao.findById(geltokiaID);
 			LineaGeltokiak lineaGeltokia = new LineaGeltokiak();
 			lineaGeltokia.setLinea(linea);
-			lineaGeltokia.setGeltokia(gel);
+			lineaGeltokia.setGeltokia(gelt.get());
 			lineaGeltokia.setPosizioa(++pos);
 			lineaGeltokiakDao.save(lineaGeltokia);
-			//linea.addGeltokia(gel);
-		}
-		
+		}		
 		// Ordutegia sortu
 		Ordutegia ordutegia = new Ordutegia();
 		ordutegia.setLinea(linea);
