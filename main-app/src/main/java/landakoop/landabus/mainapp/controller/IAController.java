@@ -121,6 +121,7 @@ public class IAController {
 		//Linea sortu
 		Linea linea = new Linea();
 		linea.setIzena("Malgua- ");
+		linea=lineaDao.save(linea);
 		int pos = 0;
 		for(Geltokia gel : geltokiaDao.findAllById(emaitza.getLinea())) {
 			LineaGeltokiak lineaGeltokia = new LineaGeltokiak();
@@ -128,9 +129,9 @@ public class IAController {
 			lineaGeltokia.setGeltokia(gel);
 			lineaGeltokia.setPosizioa(++pos);
 			lineaGeltokiakDao.save(lineaGeltokia);
-			linea.addGeltokia(gel);
+			//linea.addGeltokia(gel);
 		}
-		linea=lineaDao.save(linea);
+		
 		// Ordutegia sortu
 		Ordutegia ordutegia = new Ordutegia();
 		ordutegia.setLinea(linea);
