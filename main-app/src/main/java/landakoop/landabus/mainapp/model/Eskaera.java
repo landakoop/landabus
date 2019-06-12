@@ -164,4 +164,11 @@ public class Eskaera {
 		// TODO Auto-generated method stub
 		return Long.valueOf(id).hashCode();
 	}
+
+	@Override
+	public String toString() {
+		return "Eskaera [id=" + id + ", chatId=" + chatId + ", erabiltzailea=" + erabiltzailea + ", ibilbidea="
+				+ ibilbidea + ", irteera=" + irteera + ", helmuga=" + helmuga + ", onartua=" + onartua
+				+ ", irteeraOrdua=" + irteeraOrdua + ", data=" + data + ", helmugaOrdua=" + helmugaOrdua + "]";
+	}
 }
