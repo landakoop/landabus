@@ -33,6 +33,7 @@ import landakoop.landabus.mainapp.dao.EskaeraDao;
 import landakoop.landabus.mainapp.dao.GeltokiaDao;
 import landakoop.landabus.mainapp.dao.IbilbideaDao;
 import landakoop.landabus.mainapp.dao.LineaDao;
+import landakoop.landabus.mainapp.dao.LineaGeltokiakDao;
 import landakoop.landabus.mainapp.dao.OrdutegiaDao;
 import landakoop.landabus.mainapp.logic.Sender;
 import landakoop.landabus.mainapp.logic.Util;
@@ -44,6 +45,7 @@ import landakoop.landabus.mainapp.model.GeldialdiEkintza;
 import landakoop.landabus.mainapp.model.Geltokia;
 import landakoop.landabus.mainapp.model.Ibilbidea;
 import landakoop.landabus.mainapp.model.Linea;
+import landakoop.landabus.mainapp.model.LineaGeltokiak;
 import landakoop.landabus.mainapp.model.Ordutegia;
 
 @RestController
@@ -73,7 +75,8 @@ public class IAController {
 	OrdutegiaDao ordutegiaDao;
 	@Autowired
 	LineaDao lineaDao;
-	
+	@Autowired
+	LineaGeltokiakDao lineaGeltokiakDao;
 	@Autowired
 	Sender sender;
 	
@@ -118,10 +121,17 @@ public class IAController {
 		//Linea sortu
 		Linea linea = new Linea();
 		linea.setIzena("Malgua- ");
-		for(Geltokia gel : geltokiaDao.findAllById(emaitza.getLinea())) {
-			linea.addGeltokia(gel);
-		}
 		linea=lineaDao.save(linea);
+		
+		int pos = 0;
+		for(long geltokiaID : emaitza.getLinea()) {
+			Optional<Geltokia> gelt = geltokiaDao.findById(geltokiaID);
+			LineaGeltokiak lineaGeltokia = new LineaGeltokiak();
+			lineaGeltokia.setLinea(linea);
+			lineaGeltokia.setGeltokia(gelt.get());
+			lineaGeltokia.setPosizioa(++pos);
+			lineaGeltokiakDao.save(lineaGeltokia);
+		}		
 		// Ordutegia sortu
 		Ordutegia ordutegia = new Ordutegia();
 		ordutegia.setLinea(linea);

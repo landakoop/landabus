@@ -208,6 +208,7 @@ public class LandabusBot extends TelegramLongPollingBot{
 					case KONFIRMAZIOA:
 						KontsultaIgorlea igorle = new KontsultaIgorlea();
 						igorle.receiveMessage(eskaera);
+						
 						eskaera.setStage(Stage.ESKATU);
 						execute(mezuaBidali(mezua,amaieraMezua,eskaera.getStage()));
 						break;

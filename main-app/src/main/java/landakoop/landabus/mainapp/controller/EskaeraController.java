@@ -1,6 +1,7 @@
 package landakoop.landabus.mainapp.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import landakoop.landabus.mainapp.dao.ErabiltzaileaDao;
 import landakoop.landabus.mainapp.dao.EskaeraDao;
+import landakoop.landabus.mainapp.dao.GeltokiaDao;
 import landakoop.landabus.mainapp.model.Erabiltzailea;
 import landakoop.landabus.mainapp.model.Eskaera;
+import landakoop.landabus.mainapp.model.Geltokia;
 
 
 @RestController
@@ -20,6 +23,9 @@ import landakoop.landabus.mainapp.model.Eskaera;
 public class EskaeraController {
 	@Autowired
 	EskaeraDao eskaeraDao;
+	
+	@Autowired
+	GeltokiaDao geltokiaDao;
 	
 	@Autowired
 	ErabiltzaileaDao erabiltzaileaDao;
@@ -31,26 +37,21 @@ public class EskaeraController {
 	
 	@PostMapping(path = "postFromJson", consumes = "application/json")
 	public void postFromJson(@RequestBody Eskaera jasotakoEskaera){
-		Eskaera eskaera = new Eskaera();
+		Optional<Geltokia> geltokiaA = geltokiaDao.findById(jasotakoEskaera.getIrteera().getId());
+		Optional<Geltokia> geltokiaB = geltokiaDao.findById(jasotakoEskaera.getHelmuga().getId());
+		jasotakoEskaera.setIrteera(geltokiaA.get());
+		jasotakoEskaera.setHelmuga(geltokiaB.get());
 		
-		eskaera.setHelmuga(jasotakoEskaera.getHelmuga());
-		eskaera.setIrteera(jasotakoEskaera.getIrteera());
-		eskaera.setHelmugaOrdua(jasotakoEskaera.getHelmugaOrdua());
-		eskaera.setIrteeraOrdua(jasotakoEskaera.getIrteeraOrdua());
-		eskaera.setChatId(jasotakoEskaera.getChatId());
-		eskaera.setData(jasotakoEskaera.getData());
-		
-		Erabiltzailea erabiltzailea = new Erabiltzailea();
-		try {
-			erabiltzailea = erabiltzaileaDao.findByTelegramID(String.valueOf(eskaera.getChatId()));
-			eskaera.setErabiltzailea(erabiltzailea);
-			System.out.println("ERABILTZAILEA EXISTITZEN ZEN");
-		}catch(NullPointerException e) {
+		Erabiltzailea erabiltzailea = erabiltzaileaDao.findByTelegramID(String.valueOf(jasotakoEskaera.getChatId()));
+		if(erabiltzailea == null) {
+			erabiltzailea = new Erabiltzailea();
 			erabiltzailea.setTelegramID(String.valueOf(jasotakoEskaera.getChatId()));
-			eskaera.setErabiltzailea(erabiltzailea);
-			System.out.println("ERABILTZAILE BERRIA SORTUA: "+erabiltzailea.getTelegramID());
+			System.out.println("Erabiltzaile berria");
 		}
-		eskaeraDao.save(eskaera);
+		jasotakoEskaera.setErabiltzailea(erabiltzailea);
+		
+		System.out.println(jasotakoEskaera);
+		eskaeraDao.save(jasotakoEskaera);
 	}
 	
 	@PostMapping(path = "postFromXml", consumes = "application/xml")

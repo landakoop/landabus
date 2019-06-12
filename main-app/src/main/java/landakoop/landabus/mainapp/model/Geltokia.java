@@ -75,6 +75,7 @@ public class Geltokia {
 	public void setY(Double y) {
 		this.y = y;
 	}
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -90,5 +91,10 @@ public class Geltokia {
 		// TODO Auto-generated method stub
 		return Long.valueOf(id).hashCode();
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Geltokia [id=" + id + ", izena=" + izena + ", x=" + x + ", y=" + y + ", autobusGeldialdia="
+				+ autobusGeldialdia + "]";
+	}
 }
